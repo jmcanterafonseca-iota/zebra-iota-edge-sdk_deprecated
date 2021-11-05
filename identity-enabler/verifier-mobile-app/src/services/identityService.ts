@@ -169,7 +169,7 @@ export class IdentityService {
     console.log('Verified (credential)', IssuerDoc.verifyData(signedVc));
 
     // Check the validation status of the Verifiable Credential
-    const validation = await this.getClient().checkCredential(svcJson);
+    const validation = await this.getClient().checkCredential(JSON.stringify(svcJson));
     console.log('Credential Validation', validation.verified);
 
     if (validation.verified && IssuerDoc.verifyData(signedVc)) {
