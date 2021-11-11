@@ -1,8 +1,17 @@
-<script>
-	import { flattenObj } from '../lib/helpers';
+<script lang="ts">
+    import { flattenObj } from "@zebra-iota-edge-sdk/common";
 
     export let object;
 </script>
+
+<ul>
+    {#each Object.entries(flattenObj(object)) as entry}
+        <li>
+            <p>{entry[0].split(".").pop()}</p>
+            <span class="cut-text">{entry[1]}</span>
+        </li>
+    {/each}
+</ul>
 
 <style>
     ul {
@@ -31,7 +40,7 @@
     }
 
     li > p {
-        font-family: 'Proxima Nova', sans-serif;
+        font-family: "Proxima Nova", sans-serif;
         font-weight: 400;
         font-size: 2.8vw;
         line-height: 4vw;
@@ -42,7 +51,7 @@
     }
 
     li > span {
-        font-family: 'Proxima Nova', sans-serif;
+        font-family: "Proxima Nova", sans-serif;
         font-weight: 600;
         font-size: 2vh;
         line-height: 3.4vh;
@@ -53,12 +62,3 @@
         word-wrap: break-word;
     }
 </style>
-
-<ul>
-    {#each Object.entries(flattenObj(object)) as entry}
-        <li>
-            <p>{entry[0].split('.').pop()}</p>
-            <span class="cut-text">{entry[1]}</span>
-        </li>
-    {/each}
-</ul>

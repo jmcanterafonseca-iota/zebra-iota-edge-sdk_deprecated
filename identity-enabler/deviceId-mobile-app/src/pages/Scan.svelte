@@ -1,20 +1,15 @@
-<script>
-    import { navigate } from 'svelte-routing';
-    import { fly } from 'svelte/transition';
-    import { Plugins } from '@capacitor/core';
-
-    import { ServiceFactory } from '../factories/serviceFactory';
-    import { error } from '../lib/store';
-    import { parse } from '../lib/helpers';
-    import { __ANDROID__ } from '../lib/platforms';
-
-    import Scanner from '../components/Scanner.svelte';
-    import InvalidCredential from '../components/InvalidCredential.svelte';
-    import FullScreenLoader from '../components/FullScreenLoader.svelte';
+<script lang="ts">
+    import { navigate } from "svelte-routing";
+    import { fly } from "svelte/transition";
+    import { Plugins } from "@capacitor/core";
+    import { ServiceFactory, error, parse, __ANDROID__, IdentityService } from "@zebra-iota-edge-sdk/common";
+    import Scanner from "../components/Scanner.svelte";
+    import InvalidCredential from "../components/InvalidCredential.svelte";
+    import FullScreenLoader from "../components/FullScreenLoader.svelte";
 
     const { Toast } = Plugins;
 
-    let VP = '';
+    let VP = "";
     let invalid = false;
     let loading = false;
 
@@ -27,39 +22,57 @@
 
             if (!VP) return showAlert();
 
-            const identityService = ServiceFactory.get('identity');
-            const verificationResult = await identityService.verifyVerifiablePresentation(VP);
-    
+            const identityService = ServiceFactory.get<IdentityService>("identity");
+            const verificationResult = await identityService.verifyVerifiablePresentation(VP as any);
+
             if (verificationResult) {
                 showToast();
                 loading = false;
-                navigate('credential', { state: { credential: VP, save: true }});
+                navigate("credential", { state: { credential: VP, save: true } });
             } else {
                 loading = false;
                 showAlert();
-                error.set('Invalid Data Matrix');
+                error.set("Invalid Data Matrix");
             }
         } catch (err) {
             console.error(err);
-        };
+        }
     }
 
     async function showToast() {
         await Toast.show({
-            text: 'Credential verified!',
-            options: 'center'
+            text: "Credential verified!",
+            position: "center"
         });
     }
 
     function showAlert() {
         invalid = true;
         loading = false;
-	}
+    }
 
     function goBack() {
-        navigate('home');
+        navigate("home");
     }
 </script>
+
+<main transition:fly={{ y: 200, duration: 500 }}>
+    {#if loading}
+        <FullScreenLoader label="Verifying Credential..." />
+    {/if}
+
+    {#if invalid && !loading}
+        <InvalidCredential />
+    {/if}
+
+    {#if !invalid && !loading}
+        <header class:ios={__ANDROID__}>
+            <img on:click={goBack} src="../assets/chevron-left.svg" alt="back" />
+            <p>Scanner</p>
+        </header>
+        <Scanner on:message={handleScannerData} />
+    {/if}
+</main>
 
 <style>
     main {
@@ -68,7 +81,7 @@
     }
 
     header {
-        background: linear-gradient(90deg, #00FFFF 0%, #0099FF 100%);
+        background: linear-gradient(90deg, #00ffff 0%, #0099ff 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -91,7 +104,7 @@
         text-align: center;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-family: 'Proxima Nova', sans-serif;
+        font-family: "Proxima Nova", sans-serif;
         font-weight: 600;
         font-size: 5vw;
         line-height: 5vw;
@@ -100,21 +113,3 @@
         margin: 0;
     }
 </style>
-
-<main transition:fly="{{ y: 200, duration: 500 }}">
-    {#if loading}
-		<FullScreenLoader label="Verifying Credential..." />
-	{/if}
-
-    {#if invalid && !loading}
-		<InvalidCredential />
-	{/if}
-
-    {#if !invalid && !loading}
-    <header class:ios="{__ANDROID__}">
-        <img on:click="{goBack}" src="../assets/chevron-left.svg" alt="back" />
-        <p>Scanner</p>
-    </header>
-    <Scanner on:message="{handleScannerData}" />
-    {/if}
-</main>

@@ -54,25 +54,33 @@ export class IdentityService {
      */
     async createIdentity(): Promise<Identity> {
         // Initialize the Library - Is cached after first initialization
+        console.log("init start");
         await IotaIdentity.init();
+        console.log("init ok");
         const client = this.getClient();
+        console.log("cli ok");
 
         // Generate a new keypair and DID document
         const key = new KeyPair(KeyType.Ed25519);
         const doc = new Document(key, client.network().toString());
+        console.log("key,doc ok");
 
         // Add a Merkle Key Collection method for Bob, so compromised keys can be revoked.
         const keys = new KeyCollection(KeyType.Ed25519, 8);
         const method = VerificationMethod.createMerkleKey(Digest.Sha256, doc.id, keys, "key-collection");
+        console.log("keysmeth ok");
 
         // Add to the DID Document as a general-purpose verification method
         doc.insertMethod(method, "VerificationMethod");
+        console.log("ins ok");
 
         // Signing
         doc.sign(key);
+        console.log("sign ok");
 
         // Publish
         await client.publishDocument(doc);
+        console.log("pub ok");
         return {
             didDoc: JSON.stringify(doc.toJSON()),
             publicAuthKey: key.public,

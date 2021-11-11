@@ -1,6 +1,13 @@
-<script>
-    export let text = '';
+<script lang="ts">
+    export let text = "";
 </script>
+
+<div class="container">
+    <img class="logo" src="../assets/logo.svg" alt="logo" />
+    <header>
+        <pre>{text}</pre>
+    </header>
+</div>
 
 <style>
     .container {
@@ -18,7 +25,7 @@
     }
 
     header > pre {
-        font-family: 'Proxima Nova', sans-serif;
+        font-family: "Proxima Nova", sans-serif;
         font-weight: 700;
         font-size: 3.5vh;
         line-height: 4.4vh;
@@ -29,10 +36,3 @@
         color: #131f37;
     }
 </style>
-
-<div class="container">
-    <img class="logo" src="../assets/logo.svg" alt="logo" />
-    <header>
-        <pre>{text}</pre>
-    </header>
-</div>

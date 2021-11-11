@@ -1,25 +1,38 @@
-<script>
-    import Button from '../components/Button.svelte';
-    import Header from '../components/Header.svelte';
+<script lang="ts">
+    import Button from "../components/Button.svelte";
+    import Header from "../components/Header.svelte";
     import { navigate } from "svelte-routing";
 
-    const info = 
-        {
-            header: 'Create and store device digital identity',
-            content:
-                'Share device credentials and immunity status safely and privately using IOTA’s Identity solution.',
-            footer: 'Next'
-        };
+    const info = {
+        header: "Create and store device digital identity",
+        content: "Share device credentials and immunity status safely and privately using IOTA’s Identity solution.",
+        footer: "Next"
+    };
 
     function onNext() {
-        navigate('name');
+        navigate("name");
     }
 </script>
+
+<main id="wrapper">
+    <div class="headerContainer">
+        <Header text={info.header} />
+    </div>
+    <div class="contentContainer">
+        <div class="content">
+            <img src="../assets/landing-1.png" alt="landing-1" />
+            <p class="info">{info.content}</p>
+        </div>
+    </div>
+    <footer class="footerContainer">
+        <Button style="background: #00A7FF; color: white;" label={info.footer} onClick={onNext} />
+    </footer>
+</main>
 
 <style>
     main {
         height: 100%;
-        background: #F8F8F8;
+        background: #f8f8f8;
         flex-direction: column;
         display: flex;
         flex: 1;
@@ -40,7 +53,7 @@
     }
 
     .info {
-        font-family: 'Proxima Nova', sans-serif;
+        font-family: "Proxima Nova", sans-serif;
         font-style: normal;
         font-weight: 400;
         font-size: 2.08vh;
@@ -66,18 +79,3 @@
         margin-top: 7.5vh;
     }
 </style>
-
-<main id="wrapper">
-    <div class="headerContainer">
-        <Header text="{info.header}" />
-    </div>
-    <div class="contentContainer">
-        <div class="content">
-            <img src="../assets/landing-1.png" alt="landing-1" />
-            <p class="info">{info.content}</p>
-        </div>
-    </div>
-    <footer class="footerContainer">
-        <Button style="background: #00A7FF; color: white;" label="{info.footer}" onClick="{onNext}" />
-    </footer>
-</main>

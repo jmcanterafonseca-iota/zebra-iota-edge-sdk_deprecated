@@ -2,6 +2,7 @@ coverage/**
 dist/**
 docs/**
 es/**
+src/assets/**
 node_modules/**
 typings/**
 *.md

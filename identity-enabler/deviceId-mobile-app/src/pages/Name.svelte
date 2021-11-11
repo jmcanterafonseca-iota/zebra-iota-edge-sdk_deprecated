@@ -1,39 +1,45 @@
-<script>
-    import { Plugins } from '@capacitor/core';
+<script lang="ts">
+    import { Plugins } from "@capacitor/core";
     import { navigate } from "svelte-routing";
+    import Button from "../components/Button.svelte";
+    import TextField from "../components/TextField.svelte";
+    import Header from "../components/Header.svelte";
+    import FullScreenLoader from "../components/FullScreenLoader.svelte";
+    import {
+        ServiceFactory,
+        account,
+        error,
+        hasSetupAccount,
+        __WEB__,
+        IdentityService
+    } from "@zebra-iota-edge-sdk/common";
 
-    import Button from '../components/Button.svelte';
-    import TextField from '../components/TextField.svelte';
-    import Header from '../components/Header.svelte';
-	import FullScreenLoader from '../components/FullScreenLoader.svelte';
-
-    import { ServiceFactory } from '../factories/serviceFactory';
-	import { account, error, hasSetupAccount } from '../lib/store';
-    
     const { Keyboard } = Plugins;
 
-    let name = '';
+    let name = "";
     let isKeyboardActive = false;
-	let loading = false;
+    let loading = false;
 
     let background;
     let keyboardHeight;
 
-    Keyboard.addListener('keyboardWillShow', (info) => {
-        keyboardHeight = info.keyboardHeight;
-        isKeyboardActive = true;
-    });
+    if (!__WEB__) {
+        Keyboard.addListener("keyboardWillShow", info => {
+            keyboardHeight = info.keyboardHeight;
+            isKeyboardActive = true;
+        });
 
-    Keyboard.addListener('keyboardWillHide', () => {
-        isKeyboardActive = false;
-    });
+        Keyboard.addListener("keyboardWillHide", () => {
+            isKeyboardActive = false;
+        });
+    }
 
-    function handleOuterClick() {
+    function handleOuterClick(event: MouseEvent) {
         if (event.target === background) {
             event.preventDefault();
 
             if (document.activeElement) {
-                document.activeElement.blur();
+                // document.activeElement.blur();
             }
         }
     }
@@ -43,7 +49,9 @@
             return;
         }
 
-        Keyboard.hide();
+        if (!__WEB__) {
+            await Keyboard.hide();
+        }
 
         error.set(null);
 
@@ -52,25 +60,54 @@
         loading = true;
 
         try {
-            const identityService = ServiceFactory.get('identity');
+            const identityService = ServiceFactory.get<IdentityService>("identity");
             const identity = await identityService.createIdentity();
-            await identityService.storeIdentity('did', identity);
-            console.log('Identity', identity)
+            await identityService.storeIdentity("did", identity);
+            console.log("Identity", identity);
             loading = false;
             hasSetupAccount.set(true);
 
-            navigate('home');
+            navigate("home");
         } catch (err) {
-            error.set('Error creating identity. Please try again.');
+            console.error(err);
+            error.set("Error creating identity. Please try again.");
             loading = false;
         }
     }
 </script>
 
+<main bind:this={background} on:click={handleOuterClick}>
+    {#if loading}
+        <FullScreenLoader label="Creating Identity..." />
+    {:else}
+        <div class="headerContainer">
+            <Header
+                text="Set the name of
+                            the device"
+            />
+        </div>
+
+        <div class="contentContainer">
+            <img class={isKeyboardActive ? "active" : "inactive"} src="../assets/landing-2.png" alt="set-name" />
+            <TextField bind:value={name} placeholder="Device name" />
+        </div>
+
+        <footer>
+            <Button
+                style="background: #00A7FF; color: white; height: 64px;"
+                loadingText={"Generating identity"}
+                disabled={name.length === 0}
+                label="Next"
+                onClick={save}
+            />
+        </footer>
+    {/if}
+</main>
+
 <style>
     main {
         height: 100%;
-        background-color: #F8F8F8;
+        background-color: #f8f8f8;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -117,32 +154,3 @@
         bottom: 0;
     }
 </style>
-
-<main
-    bind:this="{background}"
-    on:click="{handleOuterClick}"
->
-    {#if loading}
-        <FullScreenLoader label="Creating Identity..." />
-    {:else}
-        <div class="headerContainer">
-            <Header text="Set the name of
-                            the device" />
-        </div>
-
-        <div class="contentContainer">
-            <img class="{isKeyboardActive ? "active" : "inactive"}" src="../assets/landing-2.png" alt="set-name" />
-            <TextField bind:value="{name}" placeholder="Device name" />
-        </div>
-
-        <footer>
-            <Button
-                style="background: #00A7FF; color: white; height: 64px;" 
-                loadingText="{'Generating identity'}"
-                disabled="{name.length === 0}"
-                label="Next"
-                onClick="{save}"
-            />
-        </footer>
-    {/if}
-</main>

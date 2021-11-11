@@ -1,0 +1,15 @@
+coverage/**
+dist/**
+docs/**
+es/**
+node_modules/**
+typings/**
+src/assets/**
+*.md
+*.html
+package-lock.json
+rollup.config.json
+tsconfig.json
+tsconfig.eslint.json
+jest.config.js
+.eslintrc.js
