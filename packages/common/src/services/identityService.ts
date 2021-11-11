@@ -1,9 +1,9 @@
-import Keychain from '../lib/keychain';
-import { SchemaNames, DIDMapping } from '../schemas';
-import { parse } from '../lib/helpers';
-import type { InternalCredentialDataModel } from '../lib/store';
-import type { Identity, IdentityConfig, VerifiableCredentialEnrichment } from '../models/types/identity';
-import * as IotaIdentity from '@iota/identity-wasm/web';
+import { KeyChainAdapter } from "../lib/keychain";
+import { SchemaNames, DIDMapping } from "../schemas";
+import { parse } from "../lib/helpers";
+import type { InternalCredentialDataModel } from "../lib/store";
+import type { Identity, IdentityConfig, VerifiableCredentialEnrichment } from "../models/types/identity";
+import * as IotaIdentity from "@iota/identity-wasm/web";
 
 const {
     Client,
@@ -16,7 +16,7 @@ const {
     Network,
     VerificationMethod,
     VerifiableCredential,
-    VerifiablePresentation,
+    VerifiablePresentation
 } = IotaIdentity;
 
 export class IdentityService {
@@ -41,7 +41,7 @@ export class IdentityService {
             cfg.setNode(this.config.node);
             this.client = Client.fromConfig(cfg);
         }
-    
+
         return this.client;
     }
 
@@ -63,15 +63,10 @@ export class IdentityService {
 
         // Add a Merkle Key Collection method for Bob, so compromised keys can be revoked.
         const keys = new KeyCollection(KeyType.Ed25519, 8);
-        const method = VerificationMethod.createMerkleKey(
-            Digest.Sha256,
-            doc.id,
-            keys,
-            'key-collection'
-        );
+        const method = VerificationMethod.createMerkleKey(Digest.Sha256, doc.id, keys, "key-collection");
 
         // Add to the DID Document as a general-purpose verification method
-        doc.insertMethod(method, 'VerificationMethod');
+        doc.insertMethod(method, "VerificationMethod");
 
         // Signing
         doc.sign(key);
@@ -85,9 +80,9 @@ export class IdentityService {
             doc,
             key,
             keys,
-            method,
+            method
         };
-    };
+    }
 
     /**
      * Stores identity in keychain
@@ -100,8 +95,8 @@ export class IdentityService {
      * @returns {Promise}
      */
     storeIdentity(identifier: string, identity: Identity): Promise<{ value: boolean }> {
-        return Keychain.set(identifier, JSON.stringify(identity));
-    };
+        return KeyChainAdapter.set(identifier, JSON.stringify(identity));
+    }
 
     /**
      * Stores identity in keychain
@@ -112,20 +107,20 @@ export class IdentityService {
      *
      * @returns {Promise}
      */
-    retrieveIdentity(identifier = 'did'): Promise<Identity> {
-        return Keychain.get(identifier)
-            .then((data) => parse(data.value))
+    retrieveIdentity(identifier = "did"): Promise<Identity> {
+        return KeyChainAdapter.get(identifier)
+            .then(data => parse(data.value))
             .catch(() => null);
-    };
+    }
 
     retrieveCredentials(ids: string[]): Promise<InternalCredentialDataModel[]> {
-        return Promise.all(ids.map((id) => Keychain.get(id) ))
-            .then((data) => data.map((entry) => parse(entry.value) ))
-            .catch((e) => {
+        return Promise.all(ids.map(id => KeyChainAdapter.get(id)))
+            .then(data => data.map(entry => parse(entry.value)))
+            .catch(e => {
                 console.error(e);
                 return [];
             });
-    };
+    }
 
     /**
      * Creates credential
@@ -155,15 +150,15 @@ export class IdentityService {
         // Prepare a credential subject
         const credentialSubject = {
             id: IssuerDidDoc.id.toString(),
-            ...data,
+            ...data
         };
 
         // Issue an unsigned credential
         const unsignedVc = VerifiableCredential.extend({
-            id: 'http://example.com/credentials/3732',
+            id: "http://example.com/credentials/3732",
             type: schemaName,
             issuer: IssuerDidDoc.id.toString(),
-            credentialSubject,
+            credentialSubject
         });
 
         // Sign the credential with User's Merkle Key Collection method
@@ -171,13 +166,13 @@ export class IdentityService {
             method: IssuerMethod.id.toString(),
             public: IssuerKeys.public(0),
             private: IssuerKeys.private(0),
-            proof: IssuerKeys.merkleProof(Digest.Sha256, 0),
+            proof: IssuerKeys.merkleProof(Digest.Sha256, 0)
         });
 
         // Ensure the credential signature is valid
         const svcJson = signedVc.toJSON();
-        console.log("Verifiable Credential JSON", svcJson)
-        console.log("Verified (credential)", IssuerDoc.verifyData(signedVc))
+        console.log("Verifiable Credential JSON", svcJson);
+        console.log("Verified (credential)", IssuerDoc.verifyData(signedVc));
 
         // Check the validation status of the Verifiable Credential
         const validation = await this.getClient().checkCredential(JSON.stringify(svcJson));
@@ -188,7 +183,7 @@ export class IdentityService {
         } else {
             return null;
         }
-    };
+    }
 
     /**
      * Stores credential in keychain
@@ -201,8 +196,8 @@ export class IdentityService {
      * @returns {Promise}
      */
     storeCredential(credentialId: string, credential: InternalCredentialDataModel): Promise<{ value: boolean }> {
-        return Keychain.set(credentialId, JSON.stringify(credential));
-    };
+        return KeyChainAdapter.set(credentialId, JSON.stringify(credential));
+    }
 
     /**
      * Remove credential from keychain
@@ -214,8 +209,8 @@ export class IdentityService {
      * @returns {Promise}
      */
     removeCredential(credentialId: string): Promise<{ value: boolean }> {
-        return Keychain.remove(credentialId);
-    };
+        return KeyChainAdapter.remove(credentialId);
+    }
 
     /**
      * Retrieves credential from keychain
@@ -227,12 +222,10 @@ export class IdentityService {
      * @returns {Promise}
      */
     retrieveCredential(credentialId: string): Promise<IotaIdentity.VerifiableCredential> {
-        return Keychain.get(credentialId)
-            .then( async (data) =>
-                parse(data.value)
-            )
+        return KeyChainAdapter.get(credentialId)
+            .then(async data => parse(data.value))
             .catch(() => null);
-    };
+    }
 
     /**
      * Creates verifiable presentations for provided schema names
@@ -247,7 +240,7 @@ export class IdentityService {
      */
     async createVerifiablePresentation(
         issuer: Identity,
-        signedVc : IotaIdentity.VerifiableCredential,
+        signedVc: IotaIdentity.VerifiableCredential
     ): Promise<IotaIdentity.VerifiablePresentation> {
         //Initialize the Library - Is cached after first initialization
         await IotaIdentity.init();
@@ -264,58 +257,54 @@ export class IdentityService {
             method: IssuerMethod.id.toString(),
             public: IssuerKeys.public(0),
             private: IssuerKeys.private(0),
-            proof: IssuerKeys.merkleProof(Digest.Sha256, 0),
+            proof: IssuerKeys.merkleProof(Digest.Sha256, 0)
         });
 
         return signedVp.toJSON();
-    };
+    }
 
-    async verifyVerifiablePresentation(
-        presentation: IotaIdentity.VerifiablePresentation
-    ): Promise<boolean> {
+    async verifyVerifiablePresentation(presentation: IotaIdentity.VerifiablePresentation): Promise<boolean> {
         //Initialize the Library - Is cached after first initialization
         await IotaIdentity.init();
         try {
             //Create from VP
             const verifiablePresentation = VerifiablePresentation.fromJSON(presentation);
-            const result = await this.getClient().checkPresentation(
-                JSON.stringify(verifiablePresentation.toJSON())
-            );
+            const result = await this.getClient().checkPresentation(JSON.stringify(verifiablePresentation.toJSON()));
             return result?.verified;
         } catch (err) {
             console.error("Error during VP Check: " + err);
             return false;
         }
-    };
+    }
 
     enrichCredential(credential: any): VerifiableCredentialEnrichment {
         const override = DIDMapping[credential.issuer];
         const enrichment = {
-            issuerLabel: override?.issuerLabel ?? 'iota', // credential.issuer
-            logo: override?.logo ?? 'personal',
+            issuerLabel: override?.issuerLabel ?? "iota", // credential.issuer
+            logo: override?.logo ?? "personal",
             credentialLabel: credential?.type?.[1],
-            theme: override?.theme ?? '#550000',
+            theme: override?.theme ?? "#550000"
         };
         return enrichment;
-    };
+    }
 
     prepareCredentialForDisplay(credential: any): any {
         // TODO: deep copy
         const copy = { ...credential, credentialSubject: { ...credential.credentialSubject } };
         // TODO: typing
-        if ((copy.credentialSubject).DID) {
-            delete (copy.credentialSubject).DID;
+        if (copy.credentialSubject.DID) {
+            delete copy.credentialSubject.DID;
         }
         return copy;
-    };
+    }
     preparePresentationForDisplay(presentation: any): any {
         // TODO: deep copy
         const copy = { ...presentation, verifiableCredential: presentation.verifiableCredential };
 
         // removes DID entry of presentation array
         copy.verifiableCredential = copy.verifiableCredential.filter(
-            (credential) => !(Object.keys(credential.credentialSubject).length === 1 && credential.credentialSubject)
+            credential => !(Object.keys(credential.credentialSubject).length === 1 && credential.credentialSubject)
         );
         return copy;
-    };
+    }
 }

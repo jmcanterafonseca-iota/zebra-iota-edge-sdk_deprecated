@@ -1,0 +1,11 @@
+{
+    "name": "@zebra-iota-edge-sdk/monorepo",
+    "author": {
+        "name": "Severin Skillman",
+        "email": "severin.skillman@iota.org"
+    },
+    "workspaces": [
+        "./packages/*",
+        "./identity-enabler/*"
+    ]
+}

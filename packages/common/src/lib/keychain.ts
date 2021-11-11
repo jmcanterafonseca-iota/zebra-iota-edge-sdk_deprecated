@@ -1,12 +1,12 @@
-import 'capacitor-secure-storage-plugin';
-import { Plugins } from '@capacitor/core';
+import "capacitor-secure-storage-plugin";
+import { Plugins } from "@capacitor/core";
 
 const { SecureStoragePlugin } = Plugins;
 
 /**
  * Keychain adapter
  */
-export default {
+export const KeyChainAdapter = {
     get(key: string): Promise<{ value: string }> {
         return SecureStoragePlugin.get({ key });
     },
@@ -18,5 +18,5 @@ export default {
     },
     clear(): Promise<{ value: boolean }> {
         return SecureStoragePlugin.clear();
-    },
+    }
 };
