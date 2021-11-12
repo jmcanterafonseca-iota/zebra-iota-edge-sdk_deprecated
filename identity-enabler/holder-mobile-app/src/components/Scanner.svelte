@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { Plugins } from "@capacitor/core";
     import { createEventDispatcher, onMount } from "svelte";
     import { BrowserMultiFormatReader } from "@zxing/library";
@@ -24,7 +24,7 @@
                 const result = await reader.decodeFromImage(img);
                 if (result) {
                     console.log("result", result);
-                    dispatch("message", result.text);
+                    dispatch("message", result.getText());
 
                     camera.stop();
                     camera = null;

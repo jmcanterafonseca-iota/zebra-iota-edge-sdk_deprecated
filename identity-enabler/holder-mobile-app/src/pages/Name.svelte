@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { Plugins } from "@capacitor/core";
     import { flip } from "svelte/animate";
     import { navigate } from "svelte-routing";
@@ -6,7 +6,14 @@
     import TextField from "../components/TextField.svelte";
     import Header from "../components/Header.svelte";
     import FullScreenLoader from "../components/FullScreenLoader.svelte";
-    import { ServiceFactory, account, error, hasSetupAccount } from "@zebra-iota-edge-sdk/common";
+    import {
+        ServiceFactory,
+        account,
+        error,
+        hasSetupAccount,
+        IdentityService,
+        __WEB__
+    } from "@zebra-iota-edge-sdk/common";
 
     const { Keyboard } = Plugins;
 
@@ -17,21 +24,23 @@
     let background;
     let keyboardHeight;
 
-    Keyboard.addListener("keyboardWillShow", info => {
-        keyboardHeight = info.keyboardHeight;
-        isKeyboardActive = true;
-    });
+    if (!__WEB__) {
+        Keyboard.addListener("keyboardWillShow", info => {
+            keyboardHeight = info.keyboardHeight;
+            isKeyboardActive = true;
+        });
 
-    Keyboard.addListener("keyboardWillHide", () => {
-        isKeyboardActive = false;
-    });
+        Keyboard.addListener("keyboardWillHide", () => {
+            isKeyboardActive = false;
+        });
+    }
 
-    function handleOuterClick() {
+    function handleOuterClick(event: MouseEvent) {
         if (event.target === background) {
             event.preventDefault();
 
             if (document.activeElement) {
-                document.activeElement.blur();
+                // document.activeElement.blur();
             }
         }
     }
@@ -41,7 +50,9 @@
             return;
         }
 
-        Keyboard.hide();
+        if (!__WEB__) {
+            Keyboard.hide();
+        }
 
         error.set(null);
 
@@ -50,7 +61,7 @@
         loading = true;
 
         try {
-            const identityService = ServiceFactory.get("identity");
+            const identityService = ServiceFactory.get<IdentityService>("identity");
             const identity = await identityService.createIdentity();
             await identityService.storeIdentity("did", identity);
             console.log("Identity", identity);

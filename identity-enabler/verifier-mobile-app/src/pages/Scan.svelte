@@ -1,15 +1,15 @@
-<script>
+<script lang="ts">
     import { navigate } from "svelte-routing";
     import { fly } from "svelte/transition";
     import { Plugins } from "@capacitor/core";
-    import { ServiceFactory, error, updateStorage, __ANDROID__, parse } from "@zebra-iota-edge-sdk/common";
+    import { ServiceFactory, error, updateStorage, __ANDROID__, parse, IdentityService } from "@zebra-iota-edge-sdk/common";
     import Scanner from "../components/Scanner.svelte";
     import InvalidCredential from "../components/InvalidCredential.svelte";
     import FullScreenLoader from "../components/FullScreenLoader.svelte";
 
     const { Toast } = Plugins;
 
-    let VP = "";
+    let VP;
     let invalid = false;
     let loading = false;
 
@@ -22,11 +22,11 @@
 
             if (!VP) return showAlert();
 
-            const identityService = ServiceFactory.get("identity");
-            const verificationResult = await identityService.verifyVerifiablePresentation(VP);
+            const identityService = ServiceFactory.get<IdentityService>("identity");
+            const verificationResult = await identityService.verifyVerifiablePresentation(VP as any);
 
             if (verificationResult) {
-                await updateStorage("credentials", {
+                updateStorage("credentials", {
                     [VP.verifiableCredential.type[1].split(/\b/)[0].toLowerCase()]: VP.verifiableCredential
                 });
                 showToast();
@@ -45,7 +45,7 @@
     async function showToast() {
         await Toast.show({
             text: "Credential verified!",
-            options: "center"
+            position: "center"
         });
     }
 

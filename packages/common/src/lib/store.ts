@@ -8,24 +8,23 @@ import type { IdentityService } from "../services/identityService";
 // init();
 const identityService = ServiceFactory.get<IdentityService>("identity");
 
-export const updateStorage = async (key, value) => {
+export const updateStorage = (key, value) => {
     try {
         let stored = {};
         let updated = {};
         if (localStorage.getItem(key)) {
-            stored = JSON.parse(await localStorage.getItem(key));
+            stored = JSON.parse(localStorage.getItem(key));
             updated = { ...stored, ...value };
         } else {
-            updated = [value];
+            updated = value;
         }
-        await localStorage.setItem(key, JSON.stringify(updated));
-        return;
+        localStorage.setItem(key, JSON.stringify(updated));
     } catch (err) {
         console.error(err);
     }
 };
 
-export const getFromStorage = async key => {
+export const getFromStorage = key => {
     try {
         const json = localStorage.getItem(key);
         if (json) {

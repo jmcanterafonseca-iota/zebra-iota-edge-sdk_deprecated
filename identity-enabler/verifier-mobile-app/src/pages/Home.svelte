@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { Plugins } from "@capacitor/core";
     import { onMount } from "svelte";
     import { navigate } from "svelte-routing";
@@ -16,17 +16,17 @@
     let expired = false;
     let showTutorial = false;
     let showCredential = false;
-    let localCredentials = {};
+    let localCredentials = [];
     let credentialItem = {};
     let loading = false;
 
     onMount(async () => {
-        App.addListener("backButton", function () {}, false);
+        App.addListener("backButton", function () {});
         setTimeout(async () => {
             try {
                 loading = true;
-                localCredentials = await getFromStorage("credentials");
-                localCredentials = Object.values(localCredentials)?.filter(data => data);
+                localCredentials = getFromStorage("credentials");
+                localCredentials = Object.values(localCredentials)?.filter(data => data) ?? [];
                 console.log("onMount", localCredentials);
                 isEmpty = Object.values(localCredentials).every(x => x === null || x === "");
                 loading = false;
@@ -65,12 +65,8 @@
                     blood: ""
                 })
             );
-            localCredentials = {
-                personal: "",
-                health: "",
-                blood: ""
-            };
-            isEmpty = Object.values(localCredentials).every(x => x === null || x === "");
+            localCredentials = [];
+            isEmpty = true;
         }
     }
 </script>

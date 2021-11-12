@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     export let onClick;
     export let heading;
     export let subheading;

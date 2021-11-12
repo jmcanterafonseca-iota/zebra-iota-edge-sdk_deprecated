@@ -1,15 +1,15 @@
-<script>
+<script lang="ts">
     import { onMount } from "svelte";
     import { Plugins } from "@capacitor/core";
     import FullScreenLoader from "../components/FullScreenLoader.svelte";
     import Markdown from "../components/Markdown.svelte";
-    import { getMarkdownContent } from "@zebra-iota-edge-sdk/common";
+    import { getMarkdownContent, error } from "@zebra-iota-edge-sdk/common";
     import { TUTORIAL_BASE_URL } from "../config";
 
     const { App } = Plugins;
 
     export let page = "";
-    export let showTutorial = Boolean;
+    export let showTutorial: boolean | undefined;
 
     let loading = true;
     let code = "";

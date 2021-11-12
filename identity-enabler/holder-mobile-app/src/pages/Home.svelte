@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { Plugins } from "@capacitor/core";
     import { onMount } from "svelte";
     import { slide } from "svelte/transition";
@@ -15,7 +15,8 @@
         generateRandomId,
         updateStorage,
         getFromStorage,
-        account
+        account,
+        IdentityService
     } from "@zebra-iota-edge-sdk/common";
 
     let showTutorial = false;
@@ -26,14 +27,14 @@
     let localCredentials = [];
 
     onMount(async () => {
-        App.addListener("backButton", function () {}, false);
+        App.addListener("backButton", function () {});
         setTimeout(async () => {
             try {
-                const creds = await getFromStorage("credentials");
-                localCredentials = Object.values(creds)?.filter(data => data) ?? [];
+                const creds = getFromStorage("credentials");
+                localCredentials = creds ? Object.values(creds)?.filter(data => data) ?? [] : [];
                 console.log("onMount", localCredentials);
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
         }, 0);
     });
@@ -44,11 +45,18 @@
         }
         loading = true;
         try {
-            const identityService = ServiceFactory.get("identity");
+            const identityService = ServiceFactory.get<IdentityService>("identity");
             const storedIdentity = await identityService.retrieveIdentity();
-            const credentials = await getFromStorage("credentials");
-            const nonEmpty = Object.values(credentials)?.filter(data => data);
-            const credentialKey = Object.keys(credentials)?.[nonEmpty.length];
+            const credentials = getFromStorage("credentials") || {};
+            const existingCreds = Object.keys(credentials).filter(k => !!credentials[k]);
+            const notYetGenerated = ["personal", "health", "blood"].filter(k => !existingCreds.includes(k));
+            const credentialKey = notYetGenerated[0];
+
+            if (!credentialKey) {
+                loading = false;
+                return;
+            }
+
             let schema;
             let payload = {};
             switch (credentialKey) {
@@ -91,13 +99,13 @@
                 enrichment
             };
             console.log("new credential", credential);
-            await updateStorage("credentials", { [credentialKey]: credential });
-            localCredentials.push(credential);
+            updateStorage("credentials", { [credentialKey]: credential });
+            localCredentials = localCredentials.concat([credential]);
 
             loading = false;
         } catch (err) {
             loading = false;
-            console.log(err);
+            console.error(err);
             showAlert();
         }
     }

@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
     import { Link } from "svelte-routing";
     import { onMount } from "svelte";
-    import { error, ServiceFactory } from "@zebra-iota-edge-sdk/common";
+    import { error, IdentityService, ServiceFactory } from "@zebra-iota-edge-sdk/common";
     import Spinner from "../components/Spinner.svelte";
 
     let identityJSON = "";
@@ -9,7 +9,7 @@
 
     onMount(() => {
         setTimeout(async () => {
-            const identityService = ServiceFactory.get("identity");
+            const identityService = ServiceFactory.get<IdentityService>("identity");
 
             error.set(null);
 

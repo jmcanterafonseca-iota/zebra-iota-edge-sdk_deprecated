@@ -1,7 +1,6 @@
-<script>
+<script lang="ts">
     import { Router, Route } from "svelte-routing";
     import { onMount } from "svelte";
-
     import Home from "./pages/Home.svelte";
     import CreateIdentity from "./pages/CreateIdentity.svelte";
     import CreateCredential from "./pages/CreateCredential.svelte";
@@ -18,7 +17,7 @@
     import Content from "./components/modal/Content.svelte";
     import Modal from "./components/modal/Index.svelte";
 
-    import { KeyChainAdapter, ServiceFactory, hasSetupAccount } from "@zebra-iota-edge-sdk/common";
+    import { KeyChainAdapter, ServiceFactory, hasSetupAccount, IdentityService } from "@zebra-iota-edge-sdk/common";
 
     let url = window.location.pathname;
     let displayHome = false;
@@ -28,7 +27,7 @@
             return KeyChainAdapter.clear();
         }
 
-        const identityService = ServiceFactory.get("identity");
+        const identityService = ServiceFactory.get<IdentityService>("identity");
         const storedIdentity = await identityService.retrieveIdentity();
 
         if (storedIdentity) {

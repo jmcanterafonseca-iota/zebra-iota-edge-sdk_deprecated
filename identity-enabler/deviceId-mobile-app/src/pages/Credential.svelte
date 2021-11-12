@@ -24,7 +24,7 @@
     }
 
     async function onSaveCredential() {
-        await updateStorage("credentials", {
+        updateStorage("credentials", {
             [credential.verifiableCredential.type[1].split(/\b/)[0].toLowerCase()]: credential
         });
         navigate("home");

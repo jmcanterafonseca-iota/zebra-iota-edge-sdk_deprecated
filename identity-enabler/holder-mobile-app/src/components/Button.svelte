@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
     import Spinner from "./Spinner.svelte";
 
-    export let label;
+    export let label: string | undefined = undefined;
     export let onClick;
-    export let disabled = false;
-    export let loading = false;
+    export let disabled: boolean | undefined = false;
+    export let loading: boolean | undefined = false;
 </script>
 
 <button style={$$props.style} class:disabled on:click={onClick}>

@@ -59,16 +59,16 @@ export default {
 		}),
 		copy({
 			targets: [{
-				src: 'node_modules/@iota/identity-wasm/web/identity_wasm_bg.wasm',
+				src: '../../node_modules/@iota/identity-wasm/web/identity_wasm_bg.wasm',
 				dest: 'public',
 				rename: 'identity_wasm_bg.wasm'
 			},{
-				src: './src/assets/*', 
+				src: '../../node_modules/@zebra-iota-edge-sdk/common/dist/assets/**',
 				dest: 'public/assets' 
 			}]
 		}),
 		wasm({
-		  	sync: ['node_modules/@iota/identity-wasm/web/identity_wasm_bg.wasm', 'identity_wasm_bg.wasm'],
+		  	sync: ['../../node_modules/@iota/identity-wasm/web/identity_wasm_bg.wasm', 'identity_wasm_bg.wasm'],
 		}),
 		json(),
 		string({

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from "svelte";
     import { Plugins } from "@capacitor/core";
 
@@ -6,7 +6,7 @@
 
     const { App } = Plugins;
 
-    export let showJSON = Boolean;
+    export let showJSON: boolean;
     export let code = "";
 
     onMount(async () => {

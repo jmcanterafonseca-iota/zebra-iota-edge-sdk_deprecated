@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { flattenObj } from "@zebra-iota-edge-sdk/common";
 
     export let object;

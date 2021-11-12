@@ -224,7 +224,7 @@ export async function getMarkdownContent(url): Promise<string> {
 /**
  * check if Credential is expired
  */
-export function isExpired(date: Date): Boolean {
+export function isExpired(date: Date): boolean {
     const expiryDate = addDaysToDate(date, 30);
     const today = new Date();
 

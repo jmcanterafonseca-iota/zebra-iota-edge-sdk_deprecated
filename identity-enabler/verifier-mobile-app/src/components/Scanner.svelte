@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
     import { Plugins } from "@capacitor/core";
     import { createEventDispatcher, onMount } from "svelte";
-    import { BrowserMultiFormatReader } from "@zxing/library";
+    import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
     import { __ANDROID__, __WEB__ } from "@zebra-iota-edge-sdk/common";
 
     const dispatch = createEventDispatcher();
@@ -16,12 +16,12 @@
     const startScan = async () => {
         BarcodeScanner.hideBackground(); // make background of WebView transparent
         if (await checkPermission()) {
-            result = await BarcodeScanner.startScan({ targetedFormats: ["DATA_MATRIX"] });
-        }
+            const result = await BarcodeScanner.startScan({ targetedFormats: ["DATA_MATRIX"] });
 
-        if (result.hasContent) {
-            console.log("result", result.content);
-            dispatch("message", result.content);
+            if (result.hasContent) {
+                console.log("result", result.content);
+                dispatch("message", result.content);
+            }
         }
     };
 
@@ -50,7 +50,7 @@
         codeReader?.decodeFromVideoDevice(undefined, "video", (result, err) => {
             if (result) {
                 console.log(result);
-                dispatch("message", result.text);
+                dispatch("message", result.getText());
                 codeReader.reset();
             }
             if (err && !(err instanceof NotFoundException)) {
@@ -71,7 +71,7 @@
                 const result = await reader.decodeFromImage(img);
                 if (result) {
                     console.log("result", result);
-                    dispatch("message", result.text);
+                    dispatch("message", result.getText());
 
                     camera.stop();
                     camera = null;

@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
     import { navigate } from "svelte-routing";
     import { beforeUpdate } from "svelte";
     import { Plugins } from "@capacitor/core";
-    import { updateStorage, error, ServiceFactory, generateRandomId, SchemaNames } from "@zebra-iota-edge-sdk/common";
+    import { updateStorage, error, ServiceFactory, generateRandomId, SchemaNames, IdentityService } from "@zebra-iota-edge-sdk/common";
     import FullScreenLoader from "../components/FullScreenLoader.svelte";
     import Button from "../components/Button.svelte";
     import ObjectList from "../components/ObjectList.svelte";
@@ -17,7 +17,7 @@
 
     async function createCredential() {
         loading = true;
-        const identityService = ServiceFactory.get("identity");
+        const identityService = ServiceFactory.get<IdentityService>("identity");
         error.set(null);
         try {
             const storedIdentity = await identityService.retrieveIdentity();
@@ -46,7 +46,7 @@
                 enrichment
             };
             console.log("new credential", credential);
-            await updateStorage("credentials", { ["organization"]: credential });
+            updateStorage("credentials", { ["organization"]: credential });
             loading = false;
             navigate("createPresentation", { state: { credential } });
         } catch (err) {

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { Link } from "svelte-routing";
     import { onMount } from "svelte";
     import { error, storedCredentials, ServiceFactory, SchemaNames } from "@zebra-iota-edge-sdk/common";
@@ -9,7 +9,7 @@
 
     onMount(() => {
         setTimeout(async () => {
-            const identityService = ServiceFactory.get("identity");
+            const identityService = ServiceFactory.get<IdentityService>("identity");
 
             error.set(null);
 

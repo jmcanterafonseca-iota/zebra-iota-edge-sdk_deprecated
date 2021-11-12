@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onDestroy, getContext } from "svelte";
     import { modalStatus } from "@zebra-iota-edge-sdk/common";
     import Share from "./Share.svelte";

@@ -1,15 +1,15 @@
-<script>
+<script lang="ts">
     import { getContext } from "svelte";
     import { navigate } from "svelte-routing";
     import { Plugins } from "@capacitor/core";
     import Button from "../Button.svelte";
-    import { ServiceFactory } from "@zebra-iota-edge-sdk/common";
+    import { IdentityService, ServiceFactory } from "@zebra-iota-edge-sdk/common";
 
     const { close } = getContext("simple-modal");
     const { Share } = Plugins;
 
     const credential = window.history.state.credential;
-    const identityService = ServiceFactory.get("identity");
+    const identityService = ServiceFactory.get<IdentityService>("identity");
 
     function share() {
         navigate("createPresentation", { state: { credential } });

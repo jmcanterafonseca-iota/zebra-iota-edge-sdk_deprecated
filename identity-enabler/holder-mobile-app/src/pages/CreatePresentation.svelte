@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
     import { navigate } from "svelte-routing";
     import { onMount, beforeUpdate } from "svelte";
     import { Plugins } from "@capacitor/core";
     import bwipjs from "bwip-js";
-    import { error, ServiceFactory } from "@zebra-iota-edge-sdk/common";
+    import { error, IdentityService, ServiceFactory } from "@zebra-iota-edge-sdk/common";
     import FullScreenLoader from "../components/FullScreenLoader.svelte";
     import Button from "../components/Button.svelte";
     import DevInfo from "./DevInfo.svelte";
@@ -17,7 +17,7 @@
     let showTutorial = false;
 
     const credential = window.history.state.credential;
-    const identityService = ServiceFactory.get("identity");
+    const identityService = ServiceFactory.get<IdentityService>("identity");
     const preparedCredentialDocument = identityService.prepareCredentialForDisplay(credential.credentialDocument);
 
     function createMatrix(content) {
@@ -35,10 +35,9 @@
     }
 
     const addDaysToDate = (date, days) => {
-        let dateOptions = { year: "numeric", month: "long", day: "numeric" };
         let res = new Date(date);
         res.setDate(res.getDate() + days);
-        return res.toLocaleDateString("en-US", dateOptions);
+        return res.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
     };
 
     onMount(() => {

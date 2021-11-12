@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { navigate } from "svelte-routing";
     import { beforeUpdate } from "svelte";
     import { fly } from "svelte/transition";
@@ -6,14 +6,14 @@
     import Button from "../components/Button.svelte";
     import ObjectList from "../components/ObjectList.svelte";
     import DevInfo from "./DevInfo.svelte";
-    import { modalStatus, ServiceFactory } from "@zebra-iota-edge-sdk/common";
+    import { IdentityService, modalStatus, ServiceFactory } from "@zebra-iota-edge-sdk/common";
 
     const { App } = Plugins;
 
     let showTutorial = false;
 
     const credential = window.history.state.credential;
-    const identityService = ServiceFactory.get("identity");
+    const identityService = ServiceFactory.get<IdentityService>("identity");
     const preparedCredentialDocument = identityService.prepareCredentialForDisplay(credential.credentialDocument);
 
     function share() {

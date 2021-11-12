@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { navigate } from "svelte-routing";
     import { fly } from "svelte/transition";
 

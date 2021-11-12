@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { beforeUpdate } from "svelte";
     import { fly } from "svelte/transition";
     import { Plugins } from "@capacitor/core";
@@ -11,8 +11,8 @@
 
     let showTutorial = false;
     export let showCredential;
-    export let localCredential = {};
-    export let localCredentials = {};
+    export let localCredential: any = {};
+    export let localCredentials = [];
     export let isEmpty;
     export let expired;
 
@@ -22,13 +22,13 @@
             message: "Are you sure you want to delete the credential?"
         });
         if (confirmRet.value) {
-            await updateStorage("credentials", {
+            updateStorage("credentials", {
                 [localCredential.type[1].split(/\b/)[0].toLowerCase()]: ""
             });
             localCredentials = localCredentials.filter(credential => {
                 return credential.type[1] !== localCredential.type[1];
             });
-            isEmpty = Object.values(localCredentials).every(x => x === null || x === "");
+            isEmpty = localCredentials.every(x => x === null || x === "");
             showCredential = false;
         }
     }
