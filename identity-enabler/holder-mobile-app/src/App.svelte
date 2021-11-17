@@ -2,12 +2,9 @@
     import router from "page";
     import { onMount } from "svelte";
     import Home from "./pages/Home.svelte";
-    import CreateIdentity from "./pages/CreateIdentity.svelte";
-    import CreateCredential from "./pages/CreateCredential.svelte";
     import CreatePresentation from "./pages/CreatePresentation.svelte";
     import Landing from "./pages/Landing.svelte";
     import Name from "./pages/Name.svelte";
-    import Menu from "./pages/Menu.svelte";
     import PresentationJSON from "./pages/PresentationJSON.svelte";
     import DataMatrix from "./pages/DataMatrix.svelte";
     import Credential from "./pages/Credential.svelte";
@@ -26,7 +23,6 @@
     let page;
 
     router("/home", () => (page = Home));
-    router("/menu", () => (page = Menu));
     router("/landing", () => (page = Landing));
     router("/name", () => (page = Name));
     router("/credential", () => (page = Credential));
@@ -35,8 +31,6 @@
     router("/datamatrix", () => (page = DataMatrix));
     router("/devinfo", () => (page = DevInfo));
     router("/presentationjson", () => (page = PresentationJSON));
-    router("/createIdentity", () => (page = CreateIdentity));
-    router("/createCredential", () => (page = CreateCredential));
     router("/createPresentation", () => (page = CreatePresentation));
 
     // Set up the router to start and actively watch for changes
