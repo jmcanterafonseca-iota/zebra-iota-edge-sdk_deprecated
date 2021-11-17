@@ -1,9 +1,7 @@
 <script lang="ts">
-    import { navigate } from "svelte-routing";
+    import router from "page";
     import { fly } from "svelte/transition";
-    import { parse, __ANDROID__ } from "@zebra-iota-edge-sdk/common";
-    import Scanner from "../components/Scanner.svelte";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
+    import { parse, __ANDROID__, Scanner, FullScreenLoader } from "@zebra-iota-edge-sdk/common/dist";
 
     let claims = "";
     let invalid = false;
@@ -17,7 +15,7 @@
             console.log("claims", claims);
 
             if (claims) {
-                navigate("devicecredential", { state: { claims: claims } });
+                router.replace("/devicecredential", { claims });
             } else {
                 return showAlert();
             }
@@ -32,7 +30,7 @@
     }
 
     function goBack() {
-        navigate("home");
+        router.show("/home");
     }
 </script>
 

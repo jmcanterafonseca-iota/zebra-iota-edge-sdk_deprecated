@@ -1,7 +1,7 @@
 import App from "./App.svelte";
-import { ServiceFactory, IdentityService } from "@zebra-iota-edge-sdk/common";
+import { ServiceFactory, IdentityService } from "@zebra-iota-edge-sdk/common/dist";
 import { IOTA_NODE_URL, DEVNET } from "./config";
-import type { IdentityConfig } from "@zebra-iota-edge-sdk/common";
+import type { IdentityConfig } from "@zebra-iota-edge-sdk/common/dist";
 
 const config: IdentityConfig = {
     node: IOTA_NODE_URL,

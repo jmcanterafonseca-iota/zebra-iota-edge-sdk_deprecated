@@ -1,11 +1,18 @@
 <script lang="ts">
-    import { navigate } from "svelte-routing";
+    import router from "page";
     import { beforeUpdate } from "svelte";
     import { Plugins } from "@capacitor/core";
-    import { updateStorage, error, ServiceFactory, generateRandomId, SchemaNames, IdentityService } from "@zebra-iota-edge-sdk/common";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
-    import Button from "../components/Button.svelte";
-    import ObjectList from "../components/ObjectList.svelte";
+    import {
+        FullScreenLoader,
+        Button,
+        ObjectList,
+        updateStorage,
+        error,
+        ServiceFactory,
+        generateRandomId,
+        SchemaNames,
+        IdentityService
+    } from "@zebra-iota-edge-sdk/common/dist";
     import DevInfo from "./DevInfo.svelte";
 
     const { App } = Plugins;
@@ -48,7 +55,7 @@
             console.log("new credential", credential);
             updateStorage("credentials", { ["organization"]: credential });
             loading = false;
-            navigate("createPresentation", { state: { credential } });
+            router.replace("/createPresentation", { credential });
         } catch (err) {
             error.set("Error creating credential. Please try again.");
             loading = false;
@@ -56,7 +63,7 @@
     }
 
     function goBack() {
-        navigate("home");
+        router.show("/home");
     }
 
     function onClickDev() {

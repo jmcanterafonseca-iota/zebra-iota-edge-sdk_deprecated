@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onDestroy, getContext } from "svelte";
-    import { modalStatus } from "@zebra-iota-edge-sdk/common";
+    import { modalStatus } from "@zebra-iota-edge-sdk/common/dist";
     import Share from "./Share.svelte";
 
     const { open } = getContext("simple-modal");

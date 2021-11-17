@@ -2,13 +2,13 @@
     import { Plugins } from "@capacitor/core";
     import { onMount } from "svelte";
     import { slide } from "svelte/transition";
-    import { navigate } from "svelte-routing";
-    import Button from "../components/Button.svelte";
-    import ListItem from "../components/ListItem.svelte";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
+    import router from "page";
     import DevInfo from "./DevInfo.svelte";
     import { credentialPayload } from "../credentialPayload";
     import {
+        Button,
+        ListItem,
+        FullScreenLoader,
         SchemaNames,
         ServiceFactory,
         getRandomUserData,
@@ -17,7 +17,7 @@
         getFromStorage,
         account,
         IdentityService
-    } from "@zebra-iota-edge-sdk/common";
+    } from "@zebra-iota-edge-sdk/common/dist";
 
     let showTutorial = false;
 
@@ -128,12 +128,12 @@
         });
         if (confirmRet.value) {
             localStorage.clear();
-            navigate("landing");
+            router.show("/landing");
         }
     }
 
     function scan() {
-        navigate("scan");
+        router.show("/scan");
     }
 </script>
 
@@ -161,7 +161,7 @@
             {#each localCredentials as credential}
                 <div transition:slide class="list">
                     <ListItem
-                        onClick={() => navigate("credential", { state: { credential } })}
+                        onClick={() => router.replace("/credential", { credential })}
                         heading={credential.enrichment ? credential.enrichment.issuerLabel : ""}
                         subheading={credential.enrichment ? credential.enrichment.credentialLabel : ""}
                     />

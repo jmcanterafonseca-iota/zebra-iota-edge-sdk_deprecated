@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onDestroy, setContext as baseSetContext } from "svelte";
     import { fly } from "svelte/transition";
-    import { modalStatus } from "@zebra-iota-edge-sdk/common";
+    import { modalStatus } from "../store";
 
     export let key = "simple-modal";
     export let closeOnEsc = true;

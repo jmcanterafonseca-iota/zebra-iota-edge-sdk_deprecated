@@ -1,9 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { Plugins } from "@capacitor/core";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
-    import Markdown from "../components/Markdown.svelte";
-    import { getMarkdownContent, error } from "@zebra-iota-edge-sdk/common";
+    import { getMarkdownContent, FullScreenLoader, Markdown, error } from "@zebra-iota-edge-sdk/common/dist";
     import { TUTORIAL_BASE_URL } from "../config";
 
     const { App } = Plugins;

@@ -2,7 +2,7 @@
     export let onClick;
     export let heading;
     export let subheading;
-    export let icon;
+    export let icon: string | undefined = undefined;
 </script>
 
 <li on:click={onClick}>

@@ -3,10 +3,7 @@
         "outDir": "./dist",
         "moduleResolution": "node",
         "module": "es2020",
-        "lib": [
-            "DOM",
-            "es2020"
-        ],
+        "lib": ["DOM", "es2020"],
         "target": "es2020",
         "importsNotUsedAsValues": "error",
         "isolatedModules": true,

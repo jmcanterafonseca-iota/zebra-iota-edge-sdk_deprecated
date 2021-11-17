@@ -1,12 +1,9 @@
 <script lang="ts">
     import { Plugins } from "@capacitor/core";
     import { onMount } from "svelte";
-    import { navigate } from "svelte-routing";
+    import router from "page";
     import { slide } from "svelte/transition";
-    import { getFromStorage, isExpired } from "@zebra-iota-edge-sdk/common";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
-    import Button from "../components/Button.svelte";
-    import ListItem from "../components/ListItem.svelte";
+    import { getFromStorage, Button, ListItem, FullScreenLoader, isExpired } from "@zebra-iota-edge-sdk/common/dist";
     import DevInfo from "./DevInfo.svelte";
     import Credential from "./Credential.svelte";
 
@@ -38,7 +35,7 @@
     });
 
     function scan() {
-        navigate("scan");
+        router.show("/scan");
     }
 
     function onClickDev() {
@@ -104,7 +101,7 @@
                             onClick={() => onClickCredential(credential)}
                             heading={"IOTA"}
                             subheading={credential.type[1]}
-                            expired={isExpired(credential.issuanceDate)}
+                            icon={isExpired(credential.issuanceDate) ? "expire-small.svg" : "tick.svg"}
                         />
                     </div>
                 {/each}

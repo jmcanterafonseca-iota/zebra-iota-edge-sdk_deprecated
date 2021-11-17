@@ -2,7 +2,7 @@
     import { Plugins } from "@capacitor/core";
     import { createEventDispatcher, onMount } from "svelte";
     import { BrowserMultiFormatReader } from "@zxing/library";
-    import { __ANDROID__, __WEB__ } from "@zebra-iota-edge-sdk/common";
+    import { __ANDROID__, __WEB__ } from "../platforms";
 
     const dispatch = createEventDispatcher();
 
@@ -17,13 +17,12 @@
                 const camCapture = await camera.capture();
                 const img = new Image();
                 img.src = `data:image/jpeg;base64,${camCapture.value}`; // comment For testing
-                // img.src = '../assets/QR.png'; // uncomment to test example QR img
                 console.log("IMG", img);
 
                 const reader = new BrowserMultiFormatReader();
                 const result = await reader.decodeFromImage(img);
                 if (result) {
-                    console.log("result", result);
+                    console.log("result", result.getText());
                     dispatch("message", result.getText());
 
                     camera.stop();

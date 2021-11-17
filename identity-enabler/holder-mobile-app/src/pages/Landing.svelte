@@ -1,8 +1,6 @@
 <script lang="ts">
-    import Button from "../components/Button.svelte";
-    import Header from "../components/Header.svelte";
-    import { landingIndex } from "@zebra-iota-edge-sdk/common";
-    import { navigate } from "svelte-routing";
+    import { landingIndex, Button, Header } from "@zebra-iota-edge-sdk/common/dist";
+    import router from "page";
     import { onMount } from "svelte";
     import Hammer from "hammerjs";
 
@@ -33,7 +31,7 @@
 
     function onNext() {
         if ($landingIndex === info.length - 1) {
-            navigate("name");
+            router.show("/name");
         } else {
             back = false;
             landingIndex.update(x => x + 1);
@@ -80,14 +78,12 @@
         {#each [$landingIndex] as count (count)}
             <div
                 class="content"
-                in:fly={mounted ? { ...getInAnimation(), duration: 400, opacity: 0 } : false}
+                in:fly={mounted ? { ...getInAnimation(), duration: 400, opacity: 0 } : undefined}
                 out:fly={{ ...getOutAnimation(), duration: 400, opacity: 0 }}
             >
                 <img src="../assets/landing-{$landingIndex + 1}.png" alt="landing-{$landingIndex + 1}" />
                 <div class="dots">
-                    {#each Array(3)
-                        .fill()
-                        .map((_, i) => i) as idx}
+                    {#each [0, 1, 2] as idx}
                         <span class:active={idx === $landingIndex} />
                     {/each}
                 </div>

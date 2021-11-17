@@ -2,8 +2,7 @@
     "name": "@zebra-iota-edge-sdk/common",
     "version": "0.1.0",
     "description": "Shared code and assets",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "module": "dist/index.js",
     "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +10,7 @@
         "build": "run-s build:clean build:compile build:copy-files",
         "build:format": "prettier --write ./src/**",
         "build:clean": "rimraf dist/",
-        "build:compile": "tsc",
+        "build:compile": "svelte-kit package",
         "build:copy-files": "copyfiles -u 1 ./src/assets/** ./dist"
     },
     "author": "Severin Skillman",
@@ -19,12 +18,14 @@
         "@capacitor/core": "^2.4.7",
         "@sveltejs/adapter-static": "^1.0.0-next.20",
         "@sveltejs/kit": "^1.0.0-next.180",
+        "svelte-preprocess": "^4.9.8",
         "copyfiles": "^2.4.1",
         "npm-run-all": "^4.1.5",
         "prettier": "^2.2.1",
         "prettier-plugin-svelte": "^2.3.0",
         "rimraf": "^3.0.2",
         "svelte": "^3.38.0",
+        "svelte2tsx": "^0.4.9",
         "typescript": "^4.2.4"
     },
     "dependencies": {

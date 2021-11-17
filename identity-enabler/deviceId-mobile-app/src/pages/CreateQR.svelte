@@ -1,12 +1,10 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { navigate } from "svelte-routing";
+    import router from "page";
     import { fly } from "svelte/transition";
     import { DeviceInfo, Plugins } from "@capacitor/core";
     import bwipjs from "bwip-js";
-    import { IdentityService, ServiceFactory } from "@zebra-iota-edge-sdk/common";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
-    import Button from "../components/Button.svelte";
+    import { IdentityService, FullScreenLoader, Button, ServiceFactory } from "@zebra-iota-edge-sdk/common/dist";
 
     const { Device } = Plugins;
 
@@ -46,11 +44,11 @@
     }
 
     function goBack() {
-        navigate("home");
+        router.show("/home");
     }
 
     function requestCredential() {
-        navigate("requestcredential");
+        router.show("/requestcredential");
     }
 </script>
 

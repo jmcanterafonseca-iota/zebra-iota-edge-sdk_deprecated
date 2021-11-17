@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { flattenObj } from "@zebra-iota-edge-sdk/common";
+    import { flattenObj } from "../helpers";
 
     export let object;
 </script>
@@ -21,7 +21,7 @@
         box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
         list-style-type: none;
         text-align: left;
-        top: 13vh;
+        /* overflow: auto; */
         position: relative;
         z-index: 5;
         margin-bottom: 8.5vh;

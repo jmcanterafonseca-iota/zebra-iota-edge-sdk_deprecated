@@ -1,8 +1,7 @@
 <script lang="ts">
-    import { Link } from "svelte-routing";
     import { onMount } from "svelte";
-    import { error, storedCredentials, ServiceFactory, SchemaNames } from "@zebra-iota-edge-sdk/common";
-    import Spinner from "../components/Spinner.svelte";
+    import { Spinner, error, storedCredentials, ServiceFactory, SchemaNames } from "@zebra-iota-edge-sdk/common/dist";
+    import type { IdentityService } from "@zebra-iota-edge-sdk/common/dist";
 
     let credentialJSON = "";
     let loading = true;
@@ -18,7 +17,7 @@
 
                 const credential = await identityService.createSelfSignedCredential(
                     storedIdentity,
-                    SchemaNames.CONTACT_DETAILS,
+                    SchemaNames.PERSONAL_DATA,
                     {
                         UserContacts: {
                             Email: "email@company.com",
@@ -28,11 +27,14 @@
                 );
 
                 storedCredentials.update(prev =>
-                    [...prev, credential].map(cred => ({
-                        credentialDocument: { ...cred },
-                        metaInformation: { issuer: "iota" },
-                        id: "credentialId"
-                    }))
+                    [...prev, credential].map(cred => {
+                        return {
+                            credentialDocument: { ...cred },
+                            metaInformation: { issuer: "iota", receivedAt: new Date().toISOString() },
+                            id: "credentialId",
+                            enrichment: null
+                        };
+                    })
                 );
 
                 credentialJSON = JSON.stringify(credential, null, 2);
@@ -47,7 +49,7 @@
 </script>
 
 <main>
-    <Link to="/">Back</Link>
+    <a href="/">Back</a>
     <h1>Credential</h1>
     {#if loading}
         <Spinner />

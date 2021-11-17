@@ -2,9 +2,7 @@
     import { beforeUpdate } from "svelte";
     import { fly } from "svelte/transition";
     import { Plugins } from "@capacitor/core";
-    import { updateStorage } from "@zebra-iota-edge-sdk/common";
-    import Button from "../components/Button.svelte";
-    import ObjectList from "../components/ObjectList.svelte";
+    import { updateStorage, Button, ObjectList } from "@zebra-iota-edge-sdk/common/dist";
     import DevInfo from "./DevInfo.svelte";
 
     const { App, Modals } = Plugins;

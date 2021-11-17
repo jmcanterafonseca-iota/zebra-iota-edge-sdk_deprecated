@@ -1,18 +1,18 @@
 <script lang="ts">
     import { Plugins } from "@capacitor/core";
-    import { navigate } from "svelte-routing";
-    import Button from "../components/Button.svelte";
-    import TextField from "../components/TextField.svelte";
-    import Header from "../components/Header.svelte";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
+    import router from "page";
     import {
+        Button,
+        TextField,
+        Header,
+        FullScreenLoader,
         ServiceFactory,
         account,
         error,
         hasSetupAccount,
         __WEB__,
         IdentityService
-    } from "@zebra-iota-edge-sdk/common";
+    } from "@zebra-iota-edge-sdk/common/dist";
 
     const { Keyboard } = Plugins;
 
@@ -67,7 +67,7 @@
             loading = false;
             hasSetupAccount.set(true);
 
-            navigate("home");
+            router.show("/home");
         } catch (err) {
             console.error(err);
             error.set("Error creating identity. Please try again.");

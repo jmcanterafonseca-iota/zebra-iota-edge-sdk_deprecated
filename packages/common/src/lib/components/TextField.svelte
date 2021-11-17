@@ -14,7 +14,6 @@
     }
 
     input {
-        margin: 2.1vh 0 2.1vh 0;
         width: 44.4vh;
         height: 7.48vh;
         border: 1px solid #e2e2e2;

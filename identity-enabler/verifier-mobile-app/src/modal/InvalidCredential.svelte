@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { navigate } from "svelte-routing";
+    import router from "page";
     import { fly } from "svelte/transition";
-    import Button from "../components/Button.svelte";
+    import { Button } from "@zebra-iota-edge-sdk/common/dist";
 
     function goBack() {
-        navigate("home");
+        router.show("/home");
     }
 </script>
 

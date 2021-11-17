@@ -1,8 +1,6 @@
 <script lang="ts">
-    import { Link } from "svelte-routing";
     import { onMount } from "svelte";
-    import { error, IdentityService, ServiceFactory } from "@zebra-iota-edge-sdk/common";
-    import Spinner from "../components/Spinner.svelte";
+    import { Spinner, error, IdentityService, ServiceFactory } from "@zebra-iota-edge-sdk/common/dist";
 
     let identityJSON = "";
     let loading = true;
@@ -29,7 +27,7 @@
 </script>
 
 <main>
-    <Link to="/">Back</Link>
+    <a href="/">Back</a>
     <h1>Identity</h1>
     {#if loading}
         <Spinner />

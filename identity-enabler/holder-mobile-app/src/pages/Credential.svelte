@@ -1,17 +1,16 @@
 <script lang="ts">
-    import { navigate } from "svelte-routing";
+    import router from "page";
     import { beforeUpdate } from "svelte";
     import { fly } from "svelte/transition";
     import { Plugins } from "@capacitor/core";
-    import Button from "../components/Button.svelte";
-    import ObjectList from "../components/ObjectList.svelte";
     import DevInfo from "./DevInfo.svelte";
-    import { IdentityService, modalStatus, ServiceFactory } from "@zebra-iota-edge-sdk/common";
+    import { Button, ObjectList, IdentityService, modalStatus, ServiceFactory } from "@zebra-iota-edge-sdk/common/dist";
 
     const { App } = Plugins;
 
     let showTutorial = false;
 
+    console.log(window.history.state);
     const credential = window.history.state.credential;
     const identityService = ServiceFactory.get<IdentityService>("identity");
     const preparedCredentialDocument = identityService.prepareCredentialForDisplay(credential.credentialDocument);
@@ -25,7 +24,7 @@
     }
 
     function goBack() {
-        navigate("home");
+        router.show("/home");
     }
 
     function onClickDev() {

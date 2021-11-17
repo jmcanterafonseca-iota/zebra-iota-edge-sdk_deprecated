@@ -1,11 +1,17 @@
 <script lang="ts">
-    import { navigate } from "svelte-routing";
+    import router from "page";
     import { fly } from "svelte/transition";
     import { Plugins } from "@capacitor/core";
-    import { ServiceFactory, error, parse, __ANDROID__, IdentityService } from "@zebra-iota-edge-sdk/common";
-    import Scanner from "../components/Scanner.svelte";
-    import InvalidCredential from "../components/InvalidCredential.svelte";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
+    import {
+        Scanner,
+        FullScreenLoader,
+        ServiceFactory,
+        error,
+        parse,
+        __ANDROID__,
+        IdentityService
+    } from "@zebra-iota-edge-sdk/common/dist";
+    import InvalidCredential from "../modal/InvalidCredential.svelte";
 
     const { Toast } = Plugins;
 
@@ -28,7 +34,7 @@
             if (verificationResult) {
                 showToast();
                 loading = false;
-                navigate("credential", { state: { credential: VP, save: true } });
+                router.replace("/credential", { credential: VP, save: true });
             } else {
                 loading = false;
                 showAlert();
@@ -52,7 +58,7 @@
     }
 
     function goBack() {
-        navigate("home");
+        router.show("/home");
     }
 </script>
 

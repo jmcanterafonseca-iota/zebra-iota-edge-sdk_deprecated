@@ -1,12 +1,9 @@
 <script lang="ts">
     import { Plugins } from "@capacitor/core";
     import { onMount } from "svelte";
-    import { navigate } from "svelte-routing";
-    import Button from "../components/Button.svelte";
-    import ListItem from "../components/ListItem.svelte";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
+    import router from "page";
     import DevInfo from "./DevInfo.svelte";
-    import { getFromStorage, account } from "@zebra-iota-edge-sdk/common";
+    import { Button, FullScreenLoader, ListItem, getFromStorage, account } from "@zebra-iota-edge-sdk/common/dist";
 
     let showTutorial = false;
 
@@ -29,7 +26,7 @@
     });
 
     async function createQR() {
-        navigate("createQR", { state: { name: $account.name } });
+        router.replace("/createQR", { name: $account.name });
     }
 
     function onClickDev() {
@@ -43,7 +40,7 @@
         });
         if (confirmRet.value) {
             localStorage.clear();
-            navigate("landing");
+            router.show("/landing");
         }
     }
 </script>
@@ -72,7 +69,7 @@
             {#each localCredentials as credential}
                 <div class="list">
                     <ListItem
-                        onClick={() => navigate("credential", { state: { credential: credential } })}
+                        onClick={() => router.replace("/credential", { credential })}
                         heading={"IOTA"}
                         subheading={credential.verifiableCredential.type[1]}
                         icon="device.svg"

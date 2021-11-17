@@ -1,7 +1,7 @@
-import { KeyChainAdapter } from "../lib/keychain";
+import { KeyChainAdapter } from "../keychain";
 import { SchemaNames, DIDMapping } from "../schemas";
-import { parse } from "../lib/helpers";
-import type { InternalCredentialDataModel } from "../lib/store";
+import { parse } from "../helpers";
+import type { InternalCredentialDataModel } from "../store";
 import type { Identity, IdentityConfig, VerifiableCredentialEnrichment } from "../models/types/identity";
 import * as IotaIdentity from "@iota/identity-wasm/web";
 

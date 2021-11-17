@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Router, Route } from "svelte-routing";
+    import router from "page";
     import { onMount } from "svelte";
     import Home from "./pages/Home.svelte";
     import CreateIdentity from "./pages/CreateIdentity.svelte";
@@ -14,13 +14,33 @@
     import DeviceCredential from "./pages/DeviceCredential.svelte";
     import DevInfo from "./pages/DevInfo.svelte";
     import Scan from "./pages/Scan.svelte";
-    import Content from "./components/modal/Content.svelte";
-    import Modal from "./components/modal/Index.svelte";
+    import {
+        KeyChainAdapter,
+        ServiceFactory,
+        hasSetupAccount,
+        IdentityService,
+        Modal
+    } from "@zebra-iota-edge-sdk/common/dist";
+    import Content from "./modal/Content.svelte";
 
-    import { KeyChainAdapter, ServiceFactory, hasSetupAccount, IdentityService } from "@zebra-iota-edge-sdk/common";
+    let page;
 
-    let url = window.location.pathname;
-    let displayHome = false;
+    router("/home", () => (page = Home));
+    router("/menu", () => (page = Menu));
+    router("/landing", () => (page = Landing));
+    router("/name", () => (page = Name));
+    router("/credential", () => (page = Credential));
+    router("/devicecredential", () => (page = DeviceCredential));
+    router("/scan", () => (page = Scan));
+    router("/datamatrix", () => (page = DataMatrix));
+    router("/devinfo", () => (page = DevInfo));
+    router("/presentationjson", () => (page = PresentationJSON));
+    router("/createIdentity", () => (page = CreateIdentity));
+    router("/createCredential", () => (page = CreateCredential));
+    router("/createPresentation", () => (page = CreatePresentation));
+
+    // Set up the router to start and actively watch for changes
+    router.start();
 
     onMount(async () => {
         if (!$hasSetupAccount) {
@@ -32,45 +52,22 @@
 
         if (storedIdentity) {
             console.log("Found identity", storedIdentity);
-            displayHome = true;
+            router.replace("/home");
+        } else {
+            router.replace("/landing");
         }
     });
 </script>
 
 <main>
-    <Router {url}>
-        <div>
-            {#if !$hasSetupAccount}
-                <Route path="/" component={Landing} />
-            {:else if displayHome}
-                <Route path="/" component={Home} />
-            {/if}
-            <Route path="/home" component={Home} />
-            <Route path="/menu" component={Menu} />
-            <Route path="/landing" component={Landing} />
-            <Route path="/name" component={Name} />
-            <Route path="/credential" component={Credential} />
-            <Route path="/devicecredential" component={DeviceCredential} />
-            <Route path="/datamatrix" component={DataMatrix} />
-
-            <Route route="/scan" component={Scan} />
-
-            <Route path="/devinfo" component={DevInfo} />
-            <Route path="/presentationjson" component={PresentationJSON} />
-
-            <Route path="/createIdentity" component={CreateIdentity} />
-            <Route path="/createCredential" component={CreateCredential} />
-            <Route path="/createPresentation" component={CreatePresentation} />
-        </div>
-    </Router>
+    <svelte:component this={page} />
     <Modal>
         <Content />
     </Modal>
 </main>
 
 <style>
-    main,
-    div {
+    main {
         height: 100%;
     }
 </style>

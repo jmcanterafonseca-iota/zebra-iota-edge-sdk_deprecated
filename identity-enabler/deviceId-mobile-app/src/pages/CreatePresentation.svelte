@@ -1,11 +1,9 @@
 <script lang="ts">
-    import { navigate } from "svelte-routing";
+    import router from "page";
     import { onMount, beforeUpdate } from "svelte";
     import { Plugins } from "@capacitor/core";
     import bwipjs from "bwip-js";
-    import { ServiceFactory, error, IdentityService } from "@zebra-iota-edge-sdk/common";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
-    import Button from "../components/Button.svelte";
+    import { Button, FullScreenLoader, ServiceFactory, error, IdentityService } from "@zebra-iota-edge-sdk/common/dist";
     import DevInfo from "./DevInfo.svelte";
     import PresentationJson from "./PresentationJSON.svelte";
 
@@ -66,7 +64,7 @@
     });
 
     function goBack() {
-        navigate("credential", { state: { credential: credential } });
+        router.replace("/credential", { credential });
     }
 
     function onClickDev() {

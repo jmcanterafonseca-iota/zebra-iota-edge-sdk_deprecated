@@ -1,11 +1,18 @@
 <script lang="ts">
-    import { navigate } from "svelte-routing";
+    import router from "page";
     import { fly } from "svelte/transition";
     import { Plugins } from "@capacitor/core";
-    import { ServiceFactory, error, updateStorage, __ANDROID__, parse, IdentityService } from "@zebra-iota-edge-sdk/common";
-    import Scanner from "../components/Scanner.svelte";
-    import InvalidCredential from "../components/InvalidCredential.svelte";
-    import FullScreenLoader from "../components/FullScreenLoader.svelte";
+    import {
+        ServiceFactory,
+        Scanner,
+        FullScreenLoader,
+        error,
+        updateStorage,
+        __ANDROID__,
+        parse,
+        IdentityService
+    } from "@zebra-iota-edge-sdk/common/dist";
+    import InvalidCredential from "../modal/InvalidCredential.svelte";
 
     const { Toast } = Plugins;
 
@@ -55,7 +62,7 @@
     }
 
     function goBack() {
-        navigate("home");
+        router.show("/home");
     }
 </script>
 

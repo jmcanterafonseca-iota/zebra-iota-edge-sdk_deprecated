@@ -1,16 +1,25 @@
 <script lang="ts">
-    import { Link } from "svelte-routing";
+    import router from "page";
 </script>
 
 <main>
     <h1>Home</h1>
     <div class="controls">
-        <button><Link to="createIdentity">Create Identity</Link></button>
-        <button><Link to="createCredential">Create Credential</Link></button>
-        <button><Link to="createPresentation">Create Presentation</Link></button>
-
-        <button><Link to="splash">Splash</Link></button>
-        <button><Link to="landing">Landing</Link></button>
+        <a href="/createIdentity">
+            <button>Create Identity</button>
+        </a>
+        <a href="/createCredential">
+            <button>Create Credential</button>
+        </a>
+        <a href="/createPresentation">
+            <button>Create Presentation</button>
+        </a>
+        <a href="/splash">
+            <button>Splash</button>
+        </a>
+        <a href="/landing">
+            <button>Landing</button>
+        </a>
     </div>
 </main>
 

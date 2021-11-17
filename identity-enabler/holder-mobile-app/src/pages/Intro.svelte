@@ -1,13 +1,17 @@
-<script lang="ts">
-    import { Link } from "svelte-routing";
-</script>
+<script lang="ts"></script>
 
 <main>
     <h1>Home</h1>
     <div class="controls">
-        <button><Link to="createIdentity">Create Identity</Link></button>
-        <button><Link to="createCredential">Create Credential</Link></button>
-        <button><Link to="createPresentation">Create Presentation</Link></button>
+        <a href="/createIdentity">
+            <button>Create Identity</button>
+        </a>
+        <a href="/createCredential">
+            <button>Create Credential</button>
+        </a>
+        <a href="/createPresentation">
+            <button>Create Presentation</button>
+        </a>
     </div>
 </main>
 

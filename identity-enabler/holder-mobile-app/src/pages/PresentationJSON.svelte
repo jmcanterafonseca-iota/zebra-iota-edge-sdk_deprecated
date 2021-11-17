@@ -1,8 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { Plugins } from "@capacitor/core";
-
-    import Markdown from "../components/Markdown.svelte";
+    import { Markdown } from "@zebra-iota-edge-sdk/common/dist";
 
     const { App } = Plugins;
 

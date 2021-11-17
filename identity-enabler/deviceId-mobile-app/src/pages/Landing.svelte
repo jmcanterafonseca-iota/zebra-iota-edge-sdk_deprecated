@@ -1,7 +1,6 @@
 <script lang="ts">
-    import Button from "../components/Button.svelte";
-    import Header from "../components/Header.svelte";
-    import { navigate } from "svelte-routing";
+    import { Header, Button } from "@zebra-iota-edge-sdk/common/dist";
+    import router from "page";
 
     const info = {
         header: "Create and store device digital identity",
@@ -10,7 +9,7 @@
     };
 
     function onNext() {
-        navigate("name");
+        router.show("/name");
     }
 </script>
 

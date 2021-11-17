@@ -1,27 +1,28 @@
 <script lang="ts">
-    import { Router, Route } from "svelte-routing";
+    import router from "page";
     import Home from "./pages/Home.svelte";
     import DevInfo from "./pages/DevInfo.svelte";
     import Scan from "./pages/Scan.svelte";
 
     let url = window.location.pathname;
+
+    let page;
+
+    router("/", () => (page = Home));
+    router("/home", () => (page = Home));
+    router("/scan", () => (page = Scan));
+    router("/devinfo", () => (page = DevInfo));
+
+    // Set up the router to start and actively watch for changes
+    router.start();
 </script>
 
 <main>
-    <Router {url}>
-        <div>
-            <Route path="/" component={Home} />
-
-            <Route path="/home" component={Home} />
-            <Route path="/devinfo" component={DevInfo} />
-            <Route route="/scan" component={Scan} />
-        </div>
-    </Router>
+    <svelte:component this={page} />
 </main>
 
 <style>
-    main,
-    div {
+    main {
         height: 100%;
     }
 </style>
