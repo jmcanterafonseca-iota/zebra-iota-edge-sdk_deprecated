@@ -1,0 +1,14 @@
+[
+	{
+		"pkg": "@capacitor-community/barcode-scanner",
+		"classpath": "com.dutchconcepts.capacitor.barcodescanner.BarcodeScanner"
+	},
+	{
+		"pkg": "@capacitor-community/camera-preview",
+		"classpath": "com.ahm.capacitor.camera.preview.CameraPreview"
+	},
+	{
+		"pkg": "capacitor-secure-storage-plugin",
+		"classpath": "com.whitestein.securestorage.SecureStoragePlugin"
+	}
+]
