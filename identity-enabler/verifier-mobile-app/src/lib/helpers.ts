@@ -154,3 +154,16 @@ export function addDaysToDate(date: Date, days: number): Date {
     res.setDate(res.getDate() + days);
     return res;
 }
+
+/**
+ * Sets a timeout
+ *
+ * @method delay
+ *
+ * @param {number} ms
+ *
+ * @returns {void}
+ */
+ export function setTimeoutPromise(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
