@@ -1,4 +1,4 @@
-package org.iota.zebra;
+package org.iota.zebra.device;
 
 import android.os.Bundle;
 import android.content.pm.ActivityInfo;

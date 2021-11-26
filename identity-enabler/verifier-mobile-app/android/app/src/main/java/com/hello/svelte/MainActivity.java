@@ -1,4 +1,4 @@
-package org.iota.zebra;
+package org.iota.zebra.verifier;
 
 import android.os.Bundle;
 import android.content.pm.ActivityInfo;
