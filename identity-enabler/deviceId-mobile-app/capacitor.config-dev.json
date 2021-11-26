@@ -1,5 +1,5 @@
 {
-  "appId": "org.iota.zebra",
+  "appId": "org.iota.zebra.device",
   "appName": "Device ID - IOTA SDK",
   "bundledWebRuntime": false,
   "npmClient": "npm",
