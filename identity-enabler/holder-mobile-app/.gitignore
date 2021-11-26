@@ -1,7 +1,7 @@
-/public/build/
-/public/*.wasm
+public/build
+public/*.wasm
 .gradle
-/android/.idea
+android/.idea
 
 # Capacitor config
 android/app/src/main/assets/capacitor.config.json
