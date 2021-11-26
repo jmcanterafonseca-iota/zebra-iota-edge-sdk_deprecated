@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.iota.zebra">
+            xmlns:tools="http://schemas.android.com/tools"  
+    package="org.iota.zebra.verifier">
 
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
     <!-- Permissions -->
@@ -35,6 +35,7 @@
         <activity
             android:name=".verifier.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
+            android:name="org.iota.zebra.verifier.MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBarLaunch">
