@@ -5,7 +5,7 @@
     import { BrowserMultiFormatReader as BMFR, BarcodeFormat, ChecksumException, DecodeHintType, Exception, FormatException, NotFoundException, Result } from '@zxing/library';
     import { BrowserMultiFormatReader, IScannerControls } from '@zxing/browser';
     import { __ANDROID__, __WEB__ } from '../lib/platforms';
-    import { setTimeoutPromise } from '../lib/helpers';
+    import { wait } from '../lib/helpers';
 
     const dispatch = createEventDispatcher();
     const formats = new Map<DecodeHintType, any>().set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.DATA_MATRIX]);
@@ -43,7 +43,7 @@
         }
 
         if (!result) {
-            await setTimeoutPromise(500);
+            await wait(500);
             return _capture();
         }
 
@@ -58,7 +58,7 @@
             const { CameraPreview} = Plugins;
             camera = CameraPreview;
             await camera.start({ position: 'rear', toBack: true, quality: 100 });
-            await setTimeoutPromise(500);
+            await wait(500);
             return;
         }
 

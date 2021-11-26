@@ -197,7 +197,7 @@ export function addDaysToDate(date: Date, days: number): Date {
 }
 
 /**
- * Sets a timeout
+ * Waits for a certain number of milliseconds
  *
  * @method delay
  *
@@ -205,6 +205,6 @@ export function addDaysToDate(date: Date, days: number): Date {
  *
  * @returns {void}
  */
-export function setTimeoutPromise(ms: number) {
+ export function wait(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

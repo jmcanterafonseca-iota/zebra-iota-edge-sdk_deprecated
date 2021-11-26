@@ -225,7 +225,7 @@ export async function getMarkdownContent(url): Promise<any> {
 };
 
 /**
- * Sets a timeout
+ * Waits for a certain number of milliseconds
  *
  * @method delay
  *
@@ -233,6 +233,6 @@ export async function getMarkdownContent(url): Promise<any> {
  *
  * @returns {void}
  */
-export function setTimeoutPromise(ms: number) {
+ export function wait(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
