@@ -201,10 +201,10 @@ export function addDaysToDate(date: Date, days: number): Date {
  *
  * @method delay
  *
- * @param {number} ms
+ * @param {number} milliseconds
  *
  * @returns {void}
  */
- export function wait(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+ export function wait(milliseconds: number) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
