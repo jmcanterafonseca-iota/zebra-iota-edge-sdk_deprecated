@@ -29,12 +29,6 @@
 {/if}
 
 <main>
-    {#if loading}
-		<FullScreenLoader label="loading QR code..." />
-	{/if}
-    {#if invalid && !loading}
-		<InvalidCredential />
-	{/if}
 	<Router url="{url}">
 		<div>
 			<Route path="/" component="{Home}" />
