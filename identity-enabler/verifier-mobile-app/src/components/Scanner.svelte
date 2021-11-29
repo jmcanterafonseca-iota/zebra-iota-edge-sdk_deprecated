@@ -48,7 +48,7 @@
         if (!navigator.mediaDevices?.getUserMedia) {
             throw new Error("Browser camera access not supported.");
         }
-
+        
         videoEl.srcObject = await navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
@@ -68,7 +68,7 @@
             });
 
         return () => {
-            
+            (videoEl.srcObject as MediaStream).getTracks().forEach(track => track.stop());
         };
     });
 </script>
