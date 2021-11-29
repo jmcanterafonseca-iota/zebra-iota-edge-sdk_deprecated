@@ -45,7 +45,7 @@
     };
 
     const initialise = async () => {
-        if (!navigator.mediaDevices.getUserMedia) {
+        if (!navigator.mediaDevices?.getUserMedia) {
             throw new Error("Browser camera access not supported.");
         }
 
@@ -100,15 +100,9 @@
     }
     
     .video-container {
-        /* width: 100%; */
         max-height: 85vh;
         position: relative;
     }
-    
-    /* .video-container-android {
-        height: 100%;
-        width: 100%;
-    } */
 
     video {
         width: 100%;
@@ -118,9 +112,8 @@
     p {
         text-align: center;
         vertical-align: middle;
-        line-height: 85vh;
         font-family: 'Proxima Nova', sans-serif;
-        font-size: 6vw;
+        font-size: 20px;
         color: #131f37;
     }
 </style>
