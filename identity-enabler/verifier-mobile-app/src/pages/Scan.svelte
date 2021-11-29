@@ -2,18 +2,18 @@
     import { navigate } from 'svelte-routing';
     import { fly } from 'svelte/transition';
     import { Plugins } from '@capacitor/core';
-
     import { ServiceFactory } from '../factories/serviceFactory';
     import { error, updateStorage } from '../lib/store';
     import { parse } from '../lib/helpers';
     import { __ANDROID__ } from '../lib/platforms';
-
     import Scanner from '../components/Scanner.svelte';
     import InvalidCredential from '../components/InvalidCredential.svelte';
     import FullScreenLoader from '../components/FullScreenLoader.svelte';
+    import { BarcodeFormat, BrowserMultiFormatReader, DecodeHintType } from '@zxing/library';
 
     const { Toast } = Plugins;
-
+    const formats = new Map().set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.DATA_MATRIX, BarcodeFormat.QR_CODE]);
+    const reader = new BrowserMultiFormatReader(formats);
     let VP = '';
     let invalid = false;
     let loading = false;
@@ -45,10 +45,30 @@
         };
     }
 
+    // handles input button
+    const imageSelected = (e) => {
+        const image = e.currentTarget.files[0];
+        
+        const fr = new FileReader();
+        fr.onload = e => {
+            const img = new Image();
+            img.src = e.target.result;
+            reader.decodeFromImageElement(img)
+                .then((result) => {
+                    console.log("result", result.getText());
+                    handleScannerData({ detail: result.getText() });
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        };
+        fr.readAsDataURL(image);
+    };
+
     async function showToast() {
         await Toast.show({
             text: 'Credential verified!',
-            options: 'center'
+            position: 'center'
         });
     }
 
@@ -68,37 +88,46 @@
         overflow: hidden;
     }
 
-    header {
-        background: linear-gradient(90deg, #00FFFF 0%, #0099FF 100%);
+	header {
         display: flex;
+        flex-direction: column;
+        height: 72px;
+        background: linear-gradient(90deg, #00FFFF 0%, #0099FF 100%);
+    }
+	
+	.options-wrapper > p {
+		font-family: 'Proxima Nova', sans-serif;
+		font-weight: 600;
+		font-size: 14px;
+		line-height: 16px;
+		color: #F8F8F8;
+		margin: 0;
+		z-index: 1;
+	}
+
+    .options-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         align-items: center;
-        justify-content: center;
-        height: 7.4vh;
+        margin: 3.5vh;
     }
 
-    header.ios {
-        padding: calc(env(safe-area-inset-top) + 1vh) 0 2vw 0;
-        padding: calc(constant(safe-area-inset-top) + 1vh) 0 2vw 0;
+    input[type="file"] {
+        display: none;
     }
 
-    img {
-        position: absolute;
-        left: 5vw;
-    }
-
-    header > p {
-        flex-grow: 1;
-        overflow: hidden;
-        text-align: center;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-family: 'Proxima Nova', sans-serif;
-        font-weight: 600;
-        font-size: 5vw;
-        line-height: 5vw;
-        letter-spacing: 0.04em;
-        color: #ffffff;
-        margin: 0;
+    .image-select {
+		font-family: 'Proxima Nova', sans-serif;
+		font-weight: 600;
+		font-size: 14px;
+		line-height: 16px;
+		color: #F8F8F8;
+        border: 1px solid #ccc;
+        background-color: #00A7FF;;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
     }
 </style>
 
@@ -112,10 +141,16 @@
 	{/if}
 
     {#if !invalid && !loading}
-    <header class:ios="{__ANDROID__}">
-        <img on:click="{goBack}" src="../assets/chevron-left.svg" alt="back" />
-        <p>Scanner</p>
-    </header>
-    <Scanner on:message="{handleScannerData}" />
+        <header>
+            <div class="options-wrapper">
+                <img on:click="{goBack}" src="../assets/chevron-left.svg" alt="back" />
+                <p>Scanner</p>
+                <label class="image-select">
+                    <input type="file" accept="image/*" on:change={(e) => imageSelected(e)} />
+                    Browse
+                </label>
+            </div>
+        </header>
+        <Scanner on:message="{handleScannerData}" />
     {/if}
 </main>
