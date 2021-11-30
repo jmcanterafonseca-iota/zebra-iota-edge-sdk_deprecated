@@ -36,13 +36,8 @@
         
         const fr = new FileReader();
         fr.onload = e => {
-            const img = new Image();
-            img.src = e.target.result;
-            reader.decodeFromImageElement(img)
-                .then((result) => {
-                    console.log("result", result.getText());
-                    handleScannerData({ detail: result.getText() });
-                })
+            reader.decodeFromImageUrl(e.target.result)
+                .then(result => handleScannerData({ detail: result.getText() }))
                 .catch(e => {
                     console.error(e);
                 });
