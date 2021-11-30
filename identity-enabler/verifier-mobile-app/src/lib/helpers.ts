@@ -78,13 +78,9 @@ export function delay(ms: number): void {
  export function persistent<T>(key: string, initialValue: T, saveTransformation?: (value: T) => T): Writable<T> {
     let value = initialValue;
 
-    try {
-        const json = localStorage.getItem(key);
-        if (json) {
-            value = JSON.parse(json);
-        }
-    } catch (err) {
-        console.error(err);
+    const json = localStorage.getItem(key);
+    if (json) {
+        value = JSON.parse(json);
     }
 
     const state = writable(value);
@@ -135,15 +131,11 @@ export async function getMarkdownContent(url): Promise<any> {
 /**
  * check if Credential is expired
  */
-export function isExpired(date: Date): Boolean  {
-    const expiryDate = addDaysToDate(date, 30);
+export function isExpired(date: string): boolean  {
+    const expiryDate = addDaysToDate(new Date(date), 30);
     const today = new Date();
     
-    if (today.getTime() > expiryDate.getTime()) {
-        return true;
-    } else {
-        return false;
-    }
+    return today.getTime() > expiryDate.getTime();
 }
 
 /**

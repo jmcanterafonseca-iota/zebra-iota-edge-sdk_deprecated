@@ -1,76 +1,44 @@
-<script>
-	import { Plugins } from '@capacitor/core';
-	import { onMount } from 'svelte';
+<script lang="ts">
 	import { navigate } from "svelte-routing";
 	import { slide } from 'svelte/transition';
-	import { getFromStorage } from '../lib/store';
+	import { scans, scanScreen } from '../lib/store';
 	import { isExpired } from '../lib/helpers';
-
-	import FullScreenLoader from '../components/FullScreenLoader.svelte';
 	import Button from '../components/Button.svelte';
 	import ListItem from '../components/ListItem.svelte';
 	import DevInfo from './DevInfo.svelte';
-	import Credential from './Credential.svelte';
+	import type { IScan } from '../models/types/IScan';
 
-	const { App, Modals } = Plugins;
-
-	let isEmpty = false;
-	let expired = false;
 	let showTutorial = false;
 	let showCredential = false;
-	let localCredentials = {};
-	let credentialItem = {};
-	let loading = false;
-
-	onMount(async () => {
-		App.addListener("backButton", function(){}, false);
-		setTimeout(async () => {
-			try {
-				loading = true;
-				localCredentials = await getFromStorage('credentials');
-				localCredentials = Object.values(localCredentials)?.filter(data => data);
-				console.log('onMount', localCredentials);
-				isEmpty = Object.values(localCredentials).every(x => x === null || x === '');
-				loading = false;
-			} catch (err) {
-				console.log(err);
-				loading = false;
-			}
-		}, 0);
-    });
 
 	function scan() {
-        navigate('scan');
+        navigate('/scan');
     }
 
 	function onClickDev() {
 		showTutorial = true;
 	}
 
-	function onClickCredential(credential) {
-		expired = isExpired(credential.issuanceDate);
-		credentialItem = credential;
-		showCredential = true;
+	function onClickScan(scan: IScan) {
+		scanScreen.set({visible: true, scan});
 	}
 
-	async function onClickReset() {
-		let confirmRet = await Modals.confirm({
-			title: 'Reset the app',
-			message: 'Are you sure you want to reset the app and delete all credentials?'
-		});
-		if (confirmRet.value) {
-			localStorage.setItem('credentials', JSON.stringify({
-				personal: '',
-				health: '',
-				blood: ''
-			}));
-			localCredentials = {
-				personal: '',
-				health: '',
-				blood: ''
-			};
-			isEmpty = Object.values(localCredentials).every(x => x === null || x === '');
-		}
+	function onClickReset() {
+		scans.reset;
+	}
+
+	function getHeading(scan: IScan): string {
+		return "IOTA";
+	}
+
+	function getSubheading(scan: IScan): string {
+		const vcType = scan.vp.verifiableCredential.type;
+		return vcType.length ? vcType[vcType.length - 1] : "Unknown";
+	}
+
+	function getExpiry(scan: IScan): boolean {
+		const issuanceDate = scan.vp.verifiableCredential.issuanceDate;
+		return issuanceDate ? isExpired(issuanceDate) : false;
 	}
 </script>
 
@@ -167,23 +135,11 @@
 </style>
 
 <main>
-	{#if loading}
-		<FullScreenLoader label="loading Credentials..." />
-	{/if}
-
 	{#if showTutorial}
-		<DevInfo page="Presentation" bind:showTutorial={showTutorial} />
-	{/if}
-	
-	{#if showCredential}
-		<Credential expired={expired}
-					localCredential={credentialItem}
-					bind:showCredential={showCredential} 
-					bind:localCredentials={localCredentials} 
-					bind:isEmpty={isEmpty} />
+		<DevInfo page="Presentation" bind:showTutorial />
 	{/if}
 
-	{#if !showCredential && !showTutorial && !loading}
+	{#if !showCredential && !showTutorial}
 		<header>
 			<div class="options-wrapper">
 				<img src="../assets/reset.svg" on:click="{onClickReset}" alt="reset" />
@@ -192,18 +148,18 @@
 			</div>
 		</header>
 		<section>
-			{#if isEmpty}
+			{#if !$scans.length}
 				<div class="empty-wrapper">
 					<p>No credentials scanned</p>
 				</div>
 			{:else}
-				{#each Object.values(localCredentials) as credential}
+				{#each $scans as scan}
 					<div transition:slide class="list">
 						<ListItem
-							onClick="{() => onClickCredential(credential)}"
-							heading="{"IOTA"}"
-							subheading="{credential.type[1]}"
-							expired={isExpired(credential.issuanceDate)}
+							onClick="{() => onClickScan(scan)}"
+							heading={getHeading(scan)}
+							subheading={getSubheading(scan)}
+							expired={getExpiry(scan)}
 						/>
 					</div>
 				{/each}

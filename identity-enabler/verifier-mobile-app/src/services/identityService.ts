@@ -1,7 +1,7 @@
 import Keychain from '../lib/keychain';
 import { SchemaNames, DIDMapping } from '../schemas';
 import { parse } from '../lib/helpers';
-import type { InternalCredentialDataModel } from '../lib/store';
+import type { IInternalCredentialDataModel } from '../models/types/IInternalCredentialDataModel';
 import type { Identity, IdentityConfig, VerifiableCredentialEnrichment } from '../models/types/identity';
 import * as IotaIdentity from '@iota/identity-wasm/web';
 
@@ -121,7 +121,7 @@ export class IdentityService {
             .catch(() => null);
     };
 
-    retrieveCredentials(ids: string[]): Promise<InternalCredentialDataModel[]> {
+    retrieveCredentials(ids: string[]): Promise<IInternalCredentialDataModel[]> {
         return Promise.all(ids.map((id) => Keychain.get(id) ))
             .then((data) => data.map((entry) => parse(entry.value) ))
             .catch((e) => {
@@ -203,7 +203,7 @@ export class IdentityService {
      *
      * @returns {Promise}
      */
-    storeCredential(credentialId: string, credential: InternalCredentialDataModel): Promise<{ value: boolean }> {
+    storeCredential(credentialId: string, credential: IInternalCredentialDataModel): Promise<{ value: boolean }> {
         return Keychain.set(credentialId, JSON.stringify(credential));
     };
 
