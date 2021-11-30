@@ -1,22 +1,18 @@
-<script>
+<script lang="ts">
     import { beforeUpdate } from 'svelte';
     import { fly } from 'svelte/transition';
     import { Plugins } from '@capacitor/core';
-
-    import { updateStorage } from '../lib/store';
-
+    import { scans, scanScreen } from '../lib/store';
     import Button from '../components/Button.svelte';
     import ObjectList from '../components/ObjectList.svelte';
-    import DevInfo from './DevInfo.svelte';
+    import DevInfo from '../pages/DevInfo.svelte';
+    import type { IScan } from '../models/types/IScan';
 
     const { App, Modals } = Plugins;
 
     let showTutorial = false;
-    export let showCredential;
-    export let localCredential = {};
-    export let localCredentials = {};
-    export let isEmpty;
-    export let expired;
+    export let expired = false;
+    export let scan: IScan;
 
     async function onDelete() {
 		let confirmRet = await Modals.confirm({
@@ -24,21 +20,17 @@
 			message: 'Are you sure you want to delete the credential?'
 		});
 		if (confirmRet.value) {
-			await updateStorage('credentials', { [localCredential.type[1].split(/\b/)[0].toLowerCase()]: '' });
-            localCredentials = localCredentials.filter((credential) => {
-                return credential.type[1] !== localCredential.type[1];
-            });
-            isEmpty = Object.values(localCredentials).every(x => x === null || x === '');
-            showCredential = false;
+            scans.delete(scan.id);
+            close();
 		}
 	}
 
-    function goBack() {
-        showCredential = false;
-    }
-
     function onClickDev() {
         showTutorial = true;
+    }
+
+    function close() {
+        scanScreen.set({visible: false});
     }
 
 	beforeUpdate(() => {
@@ -50,6 +42,8 @@
     main {
         display: flex;
 		flex-direction: column;
+        justify-content: flex-start;
+        background-color: #F8F8F8;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
 		height: 100%;
@@ -133,12 +127,12 @@
                     <p>EXPIRED CREDENTIAL</p>
                 {/if}
             </header>
-            <section>
-                <ObjectList object="{localCredential.credentialSubject}" />
-            </section>
         </div>
+        <section>
+            <ObjectList object="{scan.vp.verifiableCredential.credentialSubject}" />
+        </section>
         <footer>
-            <Button style="background: #0099FF; color: white;" label="Done" onClick="{goBack}" />
+            <Button style="background: #0099FF; color: white;" label="Done" onClick="{close}" />
         </footer>
     {/if}
 </main>
