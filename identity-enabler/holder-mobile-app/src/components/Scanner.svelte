@@ -40,7 +40,6 @@
             return capture();
         }
 
-        console.log("result", result.getText());
         dispatch('message', result.getText());
     };
 

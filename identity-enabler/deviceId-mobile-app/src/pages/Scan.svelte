@@ -11,7 +11,8 @@
     import FullScreenLoader from '../components/FullScreenLoader.svelte';
 
     const { Toast } = Plugins;
-
+    const formats = new Map().set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.DATA_MATRIX, BarcodeFormat.QR_CODE]);
+    const reader = new BrowserMultiFormatReader(formats);
     let VP = '';
     let invalid = false;
     let loading = false;
@@ -48,13 +49,8 @@
         
         const fr = new FileReader();
         fr.onload = e => {
-            const img = new Image();
-            img.src = e.target.result;
             reader.decodeFromImageElement(img)
-                .then((result) => {
-                    console.log("result", result.getText());
-                    handleScannerData({ detail: result.getText() });
-                })
+                .then(result => handleScannerData({ detail: result.getText() }))
                 .catch(e => {
                     console.error(e);
                 });
@@ -75,7 +71,7 @@
 	}
 
     function goBack() {
-        navigate('home');
+        navigate('/home');
     }
 </script>
 
