@@ -13,7 +13,7 @@ import json from '@rollup/plugin-json';
 
 const production = !process.env.ROLLUP_WATCH;
 
-function serve() {
+function serveDev() {
 	let server;
 
 	function toExit() {
@@ -23,7 +23,7 @@ function serve() {
 	return {
 		writeBundle() {
 			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+			server = require('child_process').spawn('npm', ['run', 'start:dev'], {
 				stdio: ['ignore', 'inherit', 'inherit'],
 				shell: true
 			});
@@ -97,7 +97,7 @@ export default {
 		}),
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
-		!production && serve(),
+		!production && serveDev(),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
