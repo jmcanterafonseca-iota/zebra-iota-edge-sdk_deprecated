@@ -2,58 +2,52 @@ import { writable } from 'svelte/store';
 import { persistent } from './helpers';
 import init from './init';
 import type { VerifiableCredentialEnrichment } from '../models/types/identity';
+import type { IScan } from '../models/types/IScan';
+import type { ScanError } from './scan';
 
 init();
 
-export const updateStorage = async (key, value) => {
-    try {
-        let stored = {};
-        let updated = {};
-        if (localStorage.getItem(key)) {
-            stored = JSON.parse(await localStorage.getItem(key));
-            updated = {...stored, ...value};
-        } else {
-            updated = [value];
-        }
-        await localStorage.setItem(key, JSON.stringify(updated));
-        return;
-    } catch (err) {
-        console.error(err);
-    }
+/**
+ * Creates a scans store
+ * @returns A LocalStorage backed writable scan store
+ */
+function createScansStore() {
+	const { subscribe, set, update } = persistent<IScan[]>("scans", []);
+
+	return {
+		subscribe,
+		delete: (scanId: string) => {
+            update(current => {
+                current.splice(current.findIndex(s => s.id === scanId), 1);
+                return current;
+            });
+        },
+        add: (scan: IScan) => {
+            update(current => {
+                current.push(scan);
+                return current;
+            });
+        },
+		reset: () => set([])
+	};
 }
 
-export const getFromStorage = async (key) => {
-    try {
-        const json = localStorage.getItem(key);
-        if (json) {
-            return JSON.parse(json);
-        }
-        return null;
-    } catch (err) {
-        console.error(err);
-    }
-}
+export const scans = createScansStore();
 
-export const credentials = persistent<{ personal: string, health: string, blood: string }>(
-    'credentials',
-    {
-        personal: '',
-        health: '',
-        blood: ''
-    },
-);
+/**
+ * Store to track ScanInfo screen state
+ */
+export const scanScreen = writable<{ visible: true, scan: IScan } | { visible: false }>({ visible: false });
 
-export const landingIndex = writable<number>(0);
+/**
+ * Store to track FullScreenLoader screen state
+ */
+export const loaderScreen = writable<{ visible: true, message?: string } | { visible: false }>({ visible: false });
 
-export interface InternalCredentialDataModel {
-    id : string;
-    metaInformation: {
-        issuer: string;
-        receivedAt: string;
-    };
-    enrichment: VerifiableCredentialEnrichment | null;
-    credentialDocument: any;
-}
+/**
+ * Store to track InvalidCredential screen state
+ */
+export const invalidCredentialScreen = writable<{ visible: true, error: ScanError } | { visible: false }>({ visible: false });
 
 /**
  * Error string

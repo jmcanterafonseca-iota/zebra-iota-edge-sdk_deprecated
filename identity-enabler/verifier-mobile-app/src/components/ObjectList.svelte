@@ -8,11 +8,10 @@
     ul {
         background: #fff;
         margin: 3vh 0;
-        padding: 0 0 8vh 0;
+        padding: 0;
         box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
         list-style-type: none;
         text-align: left;
-        top: 13vh;
         position: relative;
         z-index: 5;
         margin-bottom: 8.5vh;

@@ -1,11 +1,13 @@
-<script>
-    import { navigate } from 'svelte-routing';
+<script lang="ts">
+    import { invalidCredentialScreen } from '../lib/store';
     import { fly } from 'svelte/transition';
-
     import Button from '../components/Button.svelte';
+    import type { ScanError } from '../lib/scan';
 
-    function goBack() {
-        navigate('home');
+    export let error: ScanError;
+
+    function close() {
+        invalidCredentialScreen.set({ visible: false });
     }
 </script>
 
@@ -58,9 +60,12 @@
 <main transition:fly="{{ y: 200, duration: 500 }}">
     <section>
         <img class="credential-logo" src="../assets/expire.svg" alt="invalid" />
-        <p>INVALID CREDENTIAL</p>
+        <p>{error.message}</p>
+        {#if error.originalError}
+            <small>{error.originalError?.message}</small>
+        {/if}
     </section>
     <footer>
-        <Button style="background: #0099FF; color: white;" label="Done" onClick="{goBack}" />
+        <Button style="background: #0099FF; color: white;" label="Done" onClick="{close}" />
     </footer>
 </main>

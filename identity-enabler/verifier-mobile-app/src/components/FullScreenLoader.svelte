@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
   import Spinner from './Spinner.svelte';
 
-  export let label;
+  export let label: string | undefined;
 </script>
 
 <style>
@@ -31,5 +31,5 @@
 
 <div class="loader-wrapper">
     <Spinner />
-    <div class="loader-label">{label}</div>
+    <div class="loader-label">{label || "Loading..."}</div>
 </div>
