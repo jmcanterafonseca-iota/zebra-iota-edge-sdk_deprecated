@@ -9,6 +9,7 @@
     import Scanner from '../components/Scanner.svelte';
     import InvalidCredential from '../components/InvalidCredential.svelte';
     import FullScreenLoader from '../components/FullScreenLoader.svelte';
+    import { BrowserMultiFormatReader, BarcodeFormat, DecodeHintType } from '@zxing/library';
 
     const { Toast } = Plugins;
     const formats = new Map().set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.DATA_MATRIX, BarcodeFormat.QR_CODE]);
