@@ -51,9 +51,7 @@
         videoEl.srcObject = await navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
-                facingMode: { ideal: "environment" },
-                width: { ideal: 4096 },
-                height: { ideal: 2160 } 
+                facingMode: { ideal: "environment" }
             }
         });
     }
@@ -103,11 +101,6 @@
         position: relative;
     }
 
-    video {
-        width: 100%;
-        height: auto;
-    }
-
     p {
         text-align: center;
         vertical-align: middle;
@@ -123,12 +116,12 @@
     {:else}
         <div class="video-container" class:video-container-web="{__WEB__}" class:video-container-android="{__ANDROID__}">
             <!-- svelte-ignore a11y-media-has-caption -->
-            <video id="video" bind:this={videoEl} playsinline></video>
+            <video id="video" bind:this={videoEl} playsinline autoplay></video>
             <svg width="204" height="204" xmlns="http://www.w3.org/2000/svg">
-                <path 
+                <path
                     d="M167 10V0h26.976c5.523 0 10 4.477 10 10v27h-10V10H167zM36.976 10H10v27H0V10C0 4.477 4.477 0 10
-                    0h26.976v10zM167 194h26.976v-27h10v27c0 5.523-4.477 10-10 10H167v-10zm-130.024 0v10H10c-5.523
-                    0-10-4.477-10-10v-27h10v27h26.976z">
+                        0h26.976v10zM167 194h26.976v-27h10v27c0 5.523-4.477 10-10 10H167v-10zm-130.024 0v10H10c-5.523
+                        0-10-4.477-10-10v-27h10v27h26.976z">
                 </path>
             </svg>
         </div>
