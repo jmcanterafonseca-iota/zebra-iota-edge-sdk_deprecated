@@ -1,14 +1,10 @@
 <script lang="ts">
     import { navigate } from 'svelte-routing';
-    import type { Route } from 'svelte-routing';
     import { fly } from 'svelte/transition';
     import { __ANDROID__ } from '../lib/platforms';
     import Scanner from '../components/Scanner.svelte';
     import { BarcodeFormat, BrowserMultiFormatReader, DecodeHintType} from '@zxing/library';
-    import { handleScanError, handleScannerData, ScanError } from '../lib/scan';
-
-    export let location: string;
-    export let route: Route;
+    import { verifyCredential, CredentialVerificationError } from '../lib/verify';
 
     const formats = new Map().set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.DATA_MATRIX, BarcodeFormat.QR_CODE]);
     const reader = new BrowserMultiFormatReader(formats);
@@ -20,14 +16,24 @@
         const fr = new FileReader();
         fr.onload = (e: ProgressEvent<FileReader>) => {
             reader.decodeFromImageUrl(e.target.result as string)
-                .then(result => handleScannerData(result.getText(), "Image" ))
-                .catch(e => handleScanError(new ScanError("Failed to decode", e)));
+                .then(result => handleDecodedData(result.getText(), "Image" ))
+                .catch(e => navigate("/invalid", { state: { error: { message: "Failed to decode image", detail: e.message }}}));
         };
         fr.readAsDataURL(image);
     };
 
-    function goBack() {
-        navigate('/home');
+    async function handleDecodedData(data: string, method: "Image" | "Camera") {
+        try {
+            await verifyCredential(data, method);
+            navigate("/home");
+        } catch (e) {
+            let message = e.message;
+            let detail;
+            if (e instanceof CredentialVerificationError) {
+                detail = e.originalError?.message;
+            }
+            navigate("/invalid", { state: { error: { message, detail }}});
+        }
     }
 </script>
 
@@ -83,7 +89,7 @@
 <main transition:fly="{{ y: 200, duration: 500 }}">
     <header>
         <div class="options-wrapper">
-            <img on:click="{goBack}" src="../assets/chevron-left.svg" alt="back" />
+            <img on:click="{() => navigate("/home")}" src="../assets/chevron-left.svg" alt="back" />
             <p>Scanner</p>
             <label class="image-select">
                 <input type="file" accept="image/*" on:change={(e) => imageSelected(e)} />
@@ -91,5 +97,5 @@
             </label>
         </div>
     </header>
-    <Scanner on:message="{e => handleScannerData(e.detail, "Camera")}" />
+    <Scanner on:message="{ev => handleDecodedData(ev.detail, "Camera")}" />
 </main>

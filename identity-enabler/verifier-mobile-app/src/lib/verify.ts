@@ -1,10 +1,9 @@
 import { Plugins } from '@capacitor/core';
-import { navigate } from 'svelte-routing';
 import { ServiceFactory } from '../factories/serviceFactory';
 import type { IdentityService } from '../services/identityService';
-import { invalidCredentialScreen, loaderScreen, scans } from './store';
+import { loaderScreen, scans } from './store';
 
-export class ScanError extends Error {
+export class CredentialVerificationError extends Error {
   readonly originalError?: Error;
 
   constructor(message: string, originalError?: Error) {
@@ -13,19 +12,14 @@ export class ScanError extends Error {
   }
 }
 
-export function handleScanError(e: ScanError) {
-  console.error(e);
-  loaderScreen.set({ visible: false });
-  invalidCredentialScreen.set({ visible: true, error: e });
-}
-
-export async function handleScannerData(scanData: string, method: 'Camera' | 'Image' | 'DataWedge') {
+export async function verifyCredential(scanData: string, method: 'Camera' | 'Image' | 'DataWedge') {
   loaderScreen.set({ visible: true, message: 'Verifying credential...' });
   let scannedData;
   try {
     scannedData = JSON.parse(scanData);
   } catch (e) {
-    return handleScanError(new ScanError("Invalid JSON", e));
+    loaderScreen.set({ visible: false });
+    throw new CredentialVerificationError("Invalid JSON", e);
   }
 
   const identityService = ServiceFactory.get<IdentityService>('identity');
@@ -33,11 +27,13 @@ export async function handleScannerData(scanData: string, method: 'Camera' | 'Im
   try {
     verificationResult = await identityService.verifyVerifiablePresentation(scannedData);
   } catch (e) {
-    return handleScanError(new ScanError("Verification error", e));
+    loaderScreen.set({ visible: false });
+    throw new CredentialVerificationError("Verification error", e);
   }
 
   if (!verificationResult) {
-    return handleScanError(new ScanError("Credential is invalid"));
+    loaderScreen.set({ visible: false });
+    throw new CredentialVerificationError("Credential is invalid");
   }
 
   // TODO: check whether we also want to save scans that failed verification
@@ -48,5 +44,4 @@ export async function handleScannerData(scanData: string, method: 'Camera' | 'Im
     text: 'Credential verified!',
     position: 'center',
   });
-  navigate("/home");
 }

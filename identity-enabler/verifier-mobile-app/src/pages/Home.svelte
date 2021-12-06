@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { navigate } from "svelte-routing";
 	import { slide } from 'svelte/transition';
-	import { scans, scanScreen } from '../lib/store';
+	import { scans } from '../lib/store';
 	import { isExpired } from '../lib/helpers';
 	import Button from '../components/Button.svelte';
 	import ListItem from '../components/ListItem.svelte';
 	import DevInfo from './DevInfo.svelte';
 	import type { IScan } from '../models/types/IScan';
+	import { Plugins } from "@capacitor/core";
 
 	let showTutorial = false;
 	let showCredential = false;
@@ -20,11 +21,16 @@
 	}
 
 	function onClickScan(scan: IScan) {
-		scanScreen.set({visible: true, scan});
+		navigate("/scaninfo", { state: { scan }});
 	}
 
-	function onClickReset() {
-		scans.reset;
+	async function onClickReset() {
+		scans.reset();
+		const { Toast } = Plugins;
+		await Toast.show({
+			text: 'Scanned credentials reset',
+			position: 'center',
+		});
 	}
 
 	function getHeading(scan: IScan): string {
@@ -91,6 +97,10 @@
 		margin: 0;
 		z-index: 1;
 	}
+	
+	.options-wrapper > img {
+		cursor: pointer;
+	}
 
 	.options-wrapper {
 		display: flex;
@@ -142,7 +152,7 @@
 	{#if !showCredential && !showTutorial}
 		<header>
 			<div class="options-wrapper">
-				<img src="../assets/reset.svg" on:click="{onClickReset}" alt="reset" />
+				<img src="../assets/reset.svg" on:click="{onClickReset}" title="Reset scanned credentials" alt="reset" />
 				<p>SCANNED CREDENTIALS</p>
 				<img class="code" src="../assets/code.svg" on:click="{onClickDev}" alt="code" />
 			</div>

@@ -1,13 +1,11 @@
 <script lang="ts">
-    import { invalidCredentialScreen } from '../lib/store';
     import { fly } from 'svelte/transition';
     import Button from '../components/Button.svelte';
-    import type { ScanError } from '../lib/scan';
 
-    export let error: ScanError;
+    const error = history.state.error as { message: string, detail?: string };
 
-    function close() {
-        invalidCredentialScreen.set({ visible: false });
+    function done() {
+        history.back();
     }
 </script>
 
@@ -61,11 +59,11 @@
     <section>
         <img class="credential-logo" src="../assets/expire.svg" alt="invalid" />
         <p>{error.message}</p>
-        {#if error.originalError}
-            <small>{error.originalError?.message}</small>
+        {#if error.detail}
+            <small>{error.detail}</small>
         {/if}
     </section>
     <footer>
-        <Button style="background: #0099FF; color: white;" label="Done" onClick="{close}" />
+        <Button style="background: #0099FF; color: white;" label="Done" onClick="{done}" />
     </footer>
 </main>

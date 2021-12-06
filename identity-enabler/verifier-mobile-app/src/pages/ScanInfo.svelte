@@ -2,17 +2,18 @@
     import { beforeUpdate } from 'svelte';
     import { fly } from 'svelte/transition';
     import { Plugins } from '@capacitor/core';
-    import { scans, scanScreen } from '../lib/store';
+    import { scans } from '../lib/store';
     import Button from '../components/Button.svelte';
     import ObjectList from '../components/ObjectList.svelte';
     import DevInfo from '../pages/DevInfo.svelte';
     import type { IScan } from '../models/types/IScan';
+    import { isExpired } from '../lib/helpers';
 
     const { App, Modals } = Plugins;
 
     let showTutorial = false;
-    export let expired = false;
-    export let scan: IScan;
+    const scan = history.state.scan as IScan;
+    const expired = isExpired(scan.vp.verifiableCredential.issuanceDate);
 
     async function onDelete() {
 		let confirmRet = await Modals.confirm({
@@ -21,7 +22,7 @@
 		});
 		if (confirmRet.value) {
             scans.delete(scan.id);
-            close();
+            back();
 		}
 	}
 
@@ -29,8 +30,8 @@
         showTutorial = true;
     }
 
-    function close() {
-        scanScreen.set({visible: false});
+    function back() {
+        history.back();
     }
 
 	beforeUpdate(() => {
@@ -132,7 +133,7 @@
             <ObjectList object="{scan.vp.verifiableCredential.credentialSubject}" />
         </section>
         <footer>
-            <Button style="background: #0099FF; color: white;" label="Done" onClick="{close}" />
+            <Button style="background: #0099FF; color: white;" label="Done" onClick="{back}" />
         </footer>
     {/if}
 </main>

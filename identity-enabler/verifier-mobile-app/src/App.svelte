@@ -1,43 +1,50 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Router, Route } from 'svelte-routing';
+	import { Router, Route, navigate } from 'svelte-routing';
 	import Home from './pages/Home.svelte';
 	import DevInfo from './pages/DevInfo.svelte';
 	import Scan from './pages/Scan.svelte';
 	import FullScreenLoader from './components/FullScreenLoader.svelte';
-	import InvalidCredential from './components/InvalidCredential.svelte';
-	import { invalidCredentialScreen, loaderScreen, scanScreen } from './lib/store';
-	import { handleScannerData } from './lib/scan';
-	import ScanInfo from './components/ScanInfo.svelte';
+	import InvalidCredential from './pages/InvalidCredential.svelte';
+	import { CredentialVerificationError, verifyCredential } from './lib/verify';
+	import ScanInfo from './pages/ScanInfo.svelte';
+	import { loaderScreen } from './lib/store';
 
 	let url = window.location.pathname;
 
 	onMount(() => {
 		// register DataWedge handler
-		(window as any).onScan = strData => handleScannerData(strData, "DataWedge");
+		(window as any).onScan = strData => {
+			verifyCredential(strData, "DataWedge")
+				.then(() => navigate("/home"))
+				.catch((e: Error) => {
+					let message = e.message;
+					let detail;
+					if (e instanceof CredentialVerificationError) {
+						detail = e.originalError?.message;
+					}
+					navigate("/invalid", { state: { error: { message, detail }}});
+				});
+		};
 	});
 </script>
 
 {#if $loaderScreen.visible }
 	<FullScreenLoader label={$loaderScreen.message} />
+{:else}
+	<main>
+		<Router url="{url}">
+			<div>
+				<Route path="/" component="{Home}" />
+				<Route path="/home" component="{Home}" />
+				<Route path="/devinfo" component="{DevInfo}" />
+				<Route path="/scan" component="{Scan}" />
+				<Route path="/invalid" component="{InvalidCredential}" />
+				<Route path="/scaninfo" component="{ScanInfo}" />
+			</div>
+		</Router>
+	</main>
 {/if}
-{#if $invalidCredentialScreen.visible }
-	<InvalidCredential error={$invalidCredentialScreen.error} />
-{/if}
-{#if $scanScreen.visible }
-	<ScanInfo scan={$scanScreen.scan} />
-{/if}
-
-<main>
-	<Router url="{url}">
-		<div>
-			<Route path="/" component="{Home}" />
-			<Route path="/home" component="{Home}" />
-			<Route path="/devinfo" component="{DevInfo}" />
-			<Route route="/scan" component="{Scan}" />
-		</div>
-	</Router>
-</main>
 
 <style>
 	main, div {
