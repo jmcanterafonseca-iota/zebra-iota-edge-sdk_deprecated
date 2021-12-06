@@ -12,20 +12,23 @@
 
 	let url = window.location.pathname;
 
+	async function onScan(strData: string) {
+		try {
+			verifyCredential(strData, "DataWedge");
+			navigate("/home");
+		} catch (e) {
+			let message = e.message;
+			let detail;
+			if (e instanceof CredentialVerificationError) {
+				detail = e.originalError?.message;
+			}
+			navigate("/invalid", { state: { error: { message, detail }}});
+		}
+	}
+
 	onMount(() => {
 		// register DataWedge handler
-		(window as any).onScan = strData => {
-			verifyCredential(strData, "DataWedge")
-				.then(() => navigate("/home"))
-				.catch((e: Error) => {
-					let message = e.message;
-					let detail;
-					if (e instanceof CredentialVerificationError) {
-						detail = e.originalError?.message;
-					}
-					navigate("/invalid", { state: { error: { message, detail }}});
-				});
-		};
+		(window as any).onScan = onScan;
 	});
 </script>
 
