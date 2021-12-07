@@ -7,7 +7,6 @@
 	import ListItem from '../components/ListItem.svelte';
 	import DevInfo from './DevInfo.svelte';
 	import type { IScan } from '../models/types/IScan';
-	import { Plugins } from "@capacitor/core";
 
 	let showTutorial = false;
 	let showCredential = false;
@@ -26,11 +25,6 @@
 
 	async function onClickReset() {
 		scans.reset();
-		const { Toast } = Plugins;
-		await Toast.show({
-			text: 'Scanned credentials reset',
-			position: 'center',
-		});
 	}
 
 	function getHeading(scan: IScan): string {
