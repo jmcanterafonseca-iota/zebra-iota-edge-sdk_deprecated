@@ -55,7 +55,6 @@
             img.src = e.target.result;
             reader.decodeFromImageElement(img)
                 .then((result) => {
-                    console.log("result", result.getText());
                     handleScannerData({ detail: result.getText() });
                 })
                 .catch(e => {
