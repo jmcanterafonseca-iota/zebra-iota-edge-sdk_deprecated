@@ -1,39 +1,21 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Plugins } from '@capacitor/core';
-	import FullScreenLoader from '../components/FullScreenLoader.svelte';
 	import Markdown from '../components/Markdown.svelte'
 	import { getMarkdownContent } from '../lib/helpers';
-	import { error } from '../lib/store';
 	import { TUTORIAL_BASE_URL } from '../config';
 
-	const { App } = Plugins;
-
-	export let page = '';
-	export let showTutorial: boolean | undefined;
-
-	let loading = true;
-	let code = '';
-
+	const page: string = history.state.page;
+	let code: string | undefined;
+	let error: Error | undefined;
 
 	onMount(async () => {
-		App.addListener("backButton", function() {
-			showTutorial = false;
-		});
-
 		try {
 			code = await getMarkdownContent(`${TUTORIAL_BASE_URL}/${page}.md`);
-			loading = false;
-			} catch (err) {
-				error.set('Error getting markdown file. Please try again.');
-				loading = false;
-			}
+		} catch (err) {
+			console.error(err);
+			error = err;
+		}
 	});
-
-	function onClose() {
-		showTutorial = false;
-		App.removeAllListeners();
-    }
 </script>
 
 <style>
@@ -43,8 +25,6 @@
 			background: white;
 			display: flex;
 			flex-direction: column;
-			position: absolute;
-			z-index: 10;
 	}
 
 	.header-wrapper {
@@ -109,28 +89,29 @@
 </style>
 
 <main>
-	{#if loading}
-		<FullScreenLoader label="Loading..." />
-	{/if}
-
-	{#if !loading}
 	<div class="header-wrapper">
 		<span>{page.toUpperCase()}</span>
-		<img class="close" on:click={onClose} src="../assets/close.svg" alt="close" />
+		<img class="close" on:click={() => history.back()} src="../assets/close.svg" alt="close" />
 	</div>
+
 	<section>
-		<div class="box-wrapper">
-			<span style="font-weight: 600;">This app doesn’t support adding a new credential, but here’s how it works.</span>	
-		</div>
-		<p>
-			In the IOTA Identity framework, we have implemented the DID standard according to the iota DID Method Specification, 
-			which can be viewed here. 
-			<br><br>
-			An example of DID conforming to the IOTA method specification:
-		</p>
-		<div class="highlightjs-component">
-			<Markdown markdown={code} language="javascript" />
-		</div>
+		{#if error}
+			<div class="box-wrapper">
+				<span style="font-weight: 600;">{error.message}</span>	
+			</div>
+		{:else}
+			<div class="box-wrapper">
+				<span style="font-weight: 600;">This app doesn’t support adding a new credential, but here’s how it works.</span>	
+			</div>
+			<p>
+				In the IOTA Identity framework, we have implemented the DID standard according to the iota DID Method Specification, 
+				which can be viewed here. 
+				<br><br>
+				An example of DID conforming to the IOTA method specification:
+			</p>
+			<div class="highlightjs-component">
+				<Markdown markdown={code} language="javascript" />
+			</div>
+		{/if}
 	</section>
-	{/if}
 </main>

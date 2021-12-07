@@ -124,8 +124,9 @@ export function flattenObj(ob) {
 /**
  * fetch markdown text
  */
-export async function getMarkdownContent(url): Promise<any> {
-    return fetch(url).then(res => res.text());
+export async function getMarkdownContent(url: string): Promise<string> {
+    const res = await fetch(url);
+    return res.text();
 };
 
 /**

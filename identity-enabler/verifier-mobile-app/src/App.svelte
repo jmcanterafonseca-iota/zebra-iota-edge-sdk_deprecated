@@ -8,9 +8,11 @@
 	import InvalidCredential from './pages/InvalidCredential.svelte';
 	import { CredentialVerificationError, verifyCredential } from './lib/verify';
 	import ScanInfo from './pages/ScanInfo.svelte';
-	import { loaderScreen } from './lib/store';
+	import { ServiceFactory } from "./factories/serviceFactory";
+	import type { LoaderScreenSvelteStore } from "./lib/stores/LoaderScreenStore";
 
 	let url = window.location.pathname;
+	const loaderScreen = ServiceFactory.get<LoaderScreenSvelteStore>("loaderScreen");
 
 	async function onScan(strData: string) {
 		try {

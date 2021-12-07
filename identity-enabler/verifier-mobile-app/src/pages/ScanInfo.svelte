@@ -1,17 +1,16 @@
 <script lang="ts">
-    import { beforeUpdate } from 'svelte';
     import { fly } from 'svelte/transition';
     import { Plugins } from '@capacitor/core';
-    import { scans } from '../lib/store';
     import Button from '../components/Button.svelte';
     import ObjectList from '../components/ObjectList.svelte';
-    import DevInfo from '../pages/DevInfo.svelte';
     import type { IScan } from '../models/types/IScan';
     import { isExpired } from '../lib/helpers';
+	import { ServiceFactory } from "../factories/serviceFactory";
+	import type { ScanSvelteStore } from "../lib/stores/ScanStore";
+    import { navigate } from 'svelte-routing';
 
-    const { App, Modals } = Plugins;
-
-    let showTutorial = false;
+    const { Modals } = Plugins;
+    const scans = ServiceFactory.get<ScanSvelteStore>("scans");
     const scan = history.state.scan as IScan;
     const expired = isExpired(scan.vp.verifiableCredential.issuanceDate);
 
@@ -27,16 +26,12 @@
 	}
 
     function onClickDev() {
-        showTutorial = true;
+        navigate("/devinfo", { state: { page: "Credential" }});
     }
 
     function back() {
         history.back();
     }
-
-	beforeUpdate(() => {
-        !showTutorial && App.removeAllListeners();
-	});
 </script>
 
 <style>
@@ -109,31 +104,25 @@
 </style>
 
 <main transition:fly="{{ x: 500, duration: 500 }}">
-    {#if showTutorial}
-		<DevInfo page="Credential" bind:showTutorial={showTutorial} />
-	{/if}
-
-    {#if !showTutorial}
-        <div class="wrapper" style={expired ? 'background: #000000;' : null}>
-            <div class="options-wrapper">
-                <img src="../assets/delete.svg" on:click="{onDelete}" alt="delete" />
-                <img src="../assets/code.svg" on:click="{onClickDev}" alt="code" />
-            </div>
-            <header>
-                {#if !expired}
-                    <img class="credential-logo" src="../assets/tick-large.svg" alt="valid" />
-                    <p>VALID CREDENTIAL</p>
-                {:else}
-                    <img class="credential-logo" src="../assets/expire.svg" alt="expired" />
-                    <p>EXPIRED CREDENTIAL</p>
-                {/if}
-            </header>
+    <div class="wrapper" style={expired ? 'background: #000000;' : null}>
+        <div class="options-wrapper">
+            <img src="../assets/delete.svg" on:click="{onDelete}" alt="delete" />
+            <img src="../assets/code.svg" on:click="{onClickDev}" alt="code" />
         </div>
-        <section>
-            <ObjectList object="{scan.vp.verifiableCredential.credentialSubject}" />
-        </section>
-        <footer>
-            <Button style="background: #0099FF; color: white;" label="Done" onClick="{back}" />
-        </footer>
-    {/if}
+        <header>
+            {#if !expired}
+                <img class="credential-logo" src="../assets/tick-large.svg" alt="valid" />
+                <p>VALID CREDENTIAL</p>
+            {:else}
+                <img class="credential-logo" src="../assets/expire.svg" alt="expired" />
+                <p>EXPIRED CREDENTIAL</p>
+            {/if}
+        </header>
+    </div>
+    <section>
+        <ObjectList object="{scan.vp.verifiableCredential.credentialSubject}" />
+    </section>
+    <footer>
+        <Button style="background: #0099FF; color: white;" label="Done" onClick="{back}" />
+    </footer>
 </main>

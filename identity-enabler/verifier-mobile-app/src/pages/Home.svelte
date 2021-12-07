@@ -1,22 +1,21 @@
 <script lang="ts">
 	import { navigate } from "svelte-routing";
 	import { slide } from 'svelte/transition';
-	import { scans } from '../lib/store';
 	import { isExpired } from '../lib/helpers';
 	import Button from '../components/Button.svelte';
 	import ListItem from '../components/ListItem.svelte';
-	import DevInfo from './DevInfo.svelte';
 	import type { IScan } from '../models/types/IScan';
+	import { ServiceFactory } from "../factories/serviceFactory";
+	import type { ScanSvelteStore } from "../lib/stores/ScanStore";
 
-	let showTutorial = false;
-	let showCredential = false;
+	const scans = ServiceFactory.get<ScanSvelteStore>("scans");
 
 	function scan() {
         navigate('/scan');
     }
 
 	function onClickDev() {
-		showTutorial = true;
+		navigate("/devinfo", { state: { page: "Presentation" }});
 	}
 
 	function onClickScan(scan: IScan) {
@@ -48,7 +47,6 @@
 			flex-direction: column;
 			height: 100%;
 			width: 100%;
-			z-index: 1;
 	}
 
 	header {
@@ -139,40 +137,34 @@
 </style>
 
 <main>
-	{#if showTutorial}
-		<DevInfo page="Presentation" bind:showTutorial />
-	{/if}
-
-	{#if !showCredential && !showTutorial}
-		<header>
-			<div class="options-wrapper">
-				<img src="../assets/reset.svg" on:click="{onClickReset}" title="Reset scanned credentials" alt="reset" />
-				<p>SCANNED CREDENTIALS</p>
-				<img class="code" src="../assets/code.svg" on:click="{onClickDev}" alt="code" />
+	<header>
+		<div class="options-wrapper">
+			<img src="../assets/reset.svg" on:click="{onClickReset}" title="Reset scanned credentials" alt="reset" />
+			<p>SCANNED CREDENTIALS</p>
+			<img class="code" src="../assets/code.svg" on:click="{onClickDev}" alt="code" />
+		</div>
+	</header>
+	<section>
+		{#if !$scans.length}
+			<div class="empty-wrapper">
+				<p>No credentials scanned</p>
 			</div>
-		</header>
-		<section>
-			{#if !$scans.length}
-				<div class="empty-wrapper">
-					<p>No credentials scanned</p>
+		{:else}
+			{#each $scans as scan}
+				<div transition:slide class="list">
+					<ListItem
+						onClick="{() => onClickScan(scan)}"
+						heading={getHeading(scan)}
+						subheading={getSubheading(scan)}
+						expired={getExpiry(scan)}
+					/>
 				</div>
-			{:else}
-				{#each $scans as scan}
-					<div transition:slide class="list">
-						<ListItem
-							onClick="{() => onClickScan(scan)}"
-							heading={getHeading(scan)}
-							subheading={getSubheading(scan)}
-							expired={getExpiry(scan)}
-						/>
-					</div>
-				{/each}
-			{/if}
-		</section>
-		<footer>
-			<Button style="background: #00A7FF; color: white; height: 64px; width: 64px; border-radius: 50%;" onClick="{scan}">
-				<img src="../assets/scan.png" alt="scan" />
-			</Button>
-		</footer>
-	{/if}
+			{/each}
+		{/if}
+	</section>
+	<footer>
+		<Button style="background: #00A7FF; color: white; height: 64px; width: 64px; border-radius: 50%;" onClick="{scan}">
+			<img src="../assets/scan.png" alt="scan" />
+		</Button>
+	</footer>
 </main>
