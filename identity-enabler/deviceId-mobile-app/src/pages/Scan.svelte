@@ -25,7 +25,6 @@
             loading = true;
             let parsedData = parse(event.detail);
             VP = parsedData;
-            console.log("VP", VP);
 
             if (!VP) return showAlert();
 

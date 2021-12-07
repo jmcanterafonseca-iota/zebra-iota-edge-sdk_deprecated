@@ -18,7 +18,6 @@
             loading = true;
             let parsedData = parse(event.detail);
             claims = parsedData;
-            console.log("claims", claims);
     
             if (claims) {
                 navigate('devicecredential', { state: { claims: claims }});
