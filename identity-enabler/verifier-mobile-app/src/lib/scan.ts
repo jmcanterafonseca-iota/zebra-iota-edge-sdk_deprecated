@@ -4,7 +4,7 @@ import type { IdentityService } from '../services/identityService';
 import type { LoaderScreenSvelteStore } from './stores/LoaderScreenStore';
 import type { ScanSvelteStore } from './stores/ScanStore';
 
-export class CredentialVerificationError extends Error {
+export class CredentialScanError extends Error {
   readonly originalError?: Error;
 
   constructor(message: string, originalError?: Error) {
@@ -13,7 +13,13 @@ export class CredentialVerificationError extends Error {
   }
 }
 
-export async function verifyCredential(scanData: string, method: 'Camera' | 'Image' | 'DataWedge') {
+/**
+ * Handles the parsing, verification and storage of a scan.
+ * 
+ * @param scanData The decoded data from a code scan.
+ * @param method The method used to capture the data.
+ */
+export async function processScan(scanData: string, method: 'Camera' | 'Image' | 'DataWedge') {
   const loaderScreen = ServiceFactory.get<LoaderScreenSvelteStore>('loaderScreen');
   loaderScreen.open('Verifying credential...');
   let scannedData;
@@ -21,7 +27,7 @@ export async function verifyCredential(scanData: string, method: 'Camera' | 'Ima
     scannedData = JSON.parse(scanData);
   } catch (e) {
     loaderScreen.close();
-    throw new CredentialVerificationError('Invalid JSON', e);
+    throw new CredentialScanError('Invalid JSON', e);
   }
 
   const identityService = ServiceFactory.get<IdentityService>('identity');
@@ -30,12 +36,12 @@ export async function verifyCredential(scanData: string, method: 'Camera' | 'Ima
     verificationResult = await identityService.verifyVerifiablePresentation(scannedData);
   } catch (e) {
     loaderScreen.close();
-    throw new CredentialVerificationError('Verification error', e);
+    throw new CredentialScanError('Verification error', e);
   }
 
   if (!verificationResult) {
     loaderScreen.close();
-    throw new CredentialVerificationError('Credential is invalid');
+    throw new CredentialScanError('Credential is invalid');
   }
 
   // TODO: check whether we also want to save scans that failed verification

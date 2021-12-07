@@ -6,7 +6,7 @@
 	import Scan from './pages/Scan.svelte';
 	import FullScreenLoader from './components/FullScreenLoader.svelte';
 	import InvalidCredential from './pages/InvalidCredential.svelte';
-	import { CredentialVerificationError, verifyCredential } from './lib/verify';
+	import { CredentialScanError, processScan } from './lib/scan';
 	import ScanInfo from './pages/ScanInfo.svelte';
 	import { ServiceFactory } from "./factories/serviceFactory";
 	import type { LoaderScreenSvelteStore } from "./lib/stores/LoaderScreenStore";
@@ -16,12 +16,12 @@
 
 	async function onScan(strData: string) {
 		try {
-			verifyCredential(strData, "DataWedge");
+			await processScan(strData, "DataWedge");
 			navigate("/home");
 		} catch (e) {
 			let message = e.message;
 			let detail;
-			if (e instanceof CredentialVerificationError) {
+			if (e instanceof CredentialScanError) {
 				detail = e.originalError?.message;
 			}
 			navigate("/invalid", { state: { error: { message, detail }}});

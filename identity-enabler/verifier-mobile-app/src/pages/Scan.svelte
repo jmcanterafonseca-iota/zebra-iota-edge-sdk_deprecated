@@ -4,7 +4,7 @@
     import { __ANDROID__ } from '../lib/platforms';
     import Scanner from '../components/Scanner.svelte';
     import { BarcodeFormat, BrowserMultiFormatReader, DecodeHintType} from '@zxing/library';
-    import { verifyCredential, CredentialVerificationError } from '../lib/verify';
+    import { processScan, CredentialScanError } from '../lib/scan';
 
     const formats = new Map().set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.DATA_MATRIX, BarcodeFormat.QR_CODE]);
     const reader = new BrowserMultiFormatReader(formats);
@@ -16,20 +16,26 @@
         const fr = new FileReader();
         fr.onload = (e: ProgressEvent<FileReader>) => {
             reader.decodeFromImageUrl(e.target.result as string)
-                .then(result => handleDecodedData(result.getText(), "Image" ))
+                .then(result => handleScannedData(result.getText(), "Image" ))
                 .catch(e => navigate("/invalid", { state: { error: { message: "Failed to decode image", detail: e.message }}}));
         };
         fr.readAsDataURL(image);
     };
 
-    async function handleDecodedData(data: string, method: "Image" | "Camera") {
+    // handles scanner message
+    async function message(ev: CustomEvent) {
+        await handleScannedData(ev.detail, "Camera");
+    }
+
+    // main handler
+    async function handleScannedData(data: string, method: "Image" | "Camera") {
         try {
-            await verifyCredential(data, method);
+            await processScan(data, method);
             navigate("/home");
         } catch (e) {
             let message = e.message;
             let detail;
-            if (e instanceof CredentialVerificationError) {
+            if (e instanceof CredentialScanError) {
                 detail = e.originalError?.message;
             }
             navigate("/invalid", { state: { error: { message, detail }}});
@@ -97,5 +103,5 @@
             </label>
         </div>
     </header>
-    <Scanner on:message="{ev => handleDecodedData(ev.detail, "Camera")}" />
+    <Scanner on:message="{message}" />
 </main>
