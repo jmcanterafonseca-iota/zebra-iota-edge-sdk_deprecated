@@ -12,9 +12,9 @@ import type { ILoaderScreen } from "../../models/types/ILoaderScreen";
 
     constructor() {
         const {set, subscribe, update} = writable<ILoaderScreen>({ visible: false });
-        this.set = set.bind(this);
-        this.subscribe = subscribe.bind(this);
-        this.update = update.bind(this);
+        this.set = set;
+        this.subscribe = subscribe;
+        this.update = update;
     }
     
     /**
@@ -32,4 +32,3 @@ import type { ILoaderScreen } from "../../models/types/ILoaderScreen";
         this.set({visible: false });
     }
  }
- 

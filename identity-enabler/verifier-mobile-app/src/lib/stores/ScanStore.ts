@@ -12,9 +12,9 @@ export class ScanSvelteStore implements Writable<IScan[]> {
 
   constructor(localStorageKey: string) {
     const { subscribe, set, update } = persistent<IScan[]>(localStorageKey, []);
-    this.set = set.bind(this);
-    this.subscribe = subscribe.bind(this);
-    this.update = update.bind(this);
+    this.set = set;
+    this.subscribe = subscribe;
+    this.update = update;
   }
 
   /**
