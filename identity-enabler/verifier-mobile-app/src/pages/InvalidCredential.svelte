@@ -1,8 +1,9 @@
 <script lang="ts">
     import { fly } from 'svelte/transition';
     import Button from '../components/Button.svelte';
+    import type { IInvalidCredentialOutcome } from '../models/types/IInvalidCredentialOutcome';
 
-    const error = history.state.error as { message: string, detail?: string };
+    const error = history.state.error as IInvalidCredentialOutcome;
 
     function done() {
         history.back();
