@@ -37,7 +37,7 @@
 
 	function getExpiry(scan: IScan): boolean {
 		const issuanceDate = scan.vp.verifiableCredential.issuanceDate;
-		return issuanceDate ? isExpired(issuanceDate) : false;
+		return issuanceDate ? isExpired(new Date(issuanceDate)) : false;
 	}
 </script>
 

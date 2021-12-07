@@ -12,7 +12,7 @@
     const { Modals } = Plugins;
     const scans = ServiceFactory.get<ScanSvelteStore>("scans");
     const scan = history.state.scan as IScan;
-    const expired = isExpired(scan.vp.verifiableCredential.issuanceDate);
+    const expired = isExpired(new Date(scan.vp.verifiableCredential.issuanceDate));
 
     async function onDelete() {
 		let confirmRet = await Modals.confirm({

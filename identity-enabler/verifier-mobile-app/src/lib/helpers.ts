@@ -130,10 +130,10 @@ export async function getMarkdownContent(url: string): Promise<string> {
 };
 
 /**
- * check if Credential is expired
+ * Check whether Credential is expired.
  */
-export function isExpired(date: string): boolean  {
-    const expiryDate = addDaysToDate(new Date(date), 30);
+export function isExpired(date: Date): boolean  {
+    const expiryDate = addDaysToDate(date, 30);
     const today = new Date();
     
     return today.getTime() > expiryDate.getTime();
