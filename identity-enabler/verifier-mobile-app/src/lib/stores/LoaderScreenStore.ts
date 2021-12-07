@@ -32,3 +32,4 @@ import type { ILoaderScreen } from "../../models/types/ILoaderScreen";
         this.set({visible: false });
     }
  }
+ 

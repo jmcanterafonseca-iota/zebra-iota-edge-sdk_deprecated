@@ -6,13 +6,13 @@ import { ScanSvelteStore } from './stores/ScanStore';
 import { LoaderScreenSvelteStore } from './stores/LoaderScreenStore';
 
 const config: IdentityConfig = {
-	node: IOTA_NODE_URL,
-	network: DEVNET ? 'dev' : 'main',
-	...(IOTA_PERMANODE_URL && { permanode: IOTA_PERMANODE_URL })
+  node: IOTA_NODE_URL,
+  network: DEVNET ? 'dev' : 'main',
+  ...(IOTA_PERMANODE_URL && { permanode: IOTA_PERMANODE_URL }),
 };
 
 export default () => {
-    ServiceFactory.register('identity', () => new IdentityService(config));
-	ServiceFactory.register('scans', () => new ScanSvelteStore('scans'));
-	ServiceFactory.register('loaderScreen', () => new LoaderScreenSvelteStore());
-}
+  ServiceFactory.register('identity', () => new IdentityService(config));
+  ServiceFactory.register('scans', () => new ScanSvelteStore('scans'));
+  ServiceFactory.register('loaderScreen', () => new LoaderScreenSvelteStore());
+};

@@ -5,8 +5,8 @@
     import ObjectList from '../components/ObjectList.svelte';
     import type { IScan } from '../models/types/IScan';
     import { isExpired } from '../lib/helpers';
-	import { ServiceFactory } from "../factories/serviceFactory";
-	import type { ScanSvelteStore } from "../lib/stores/ScanStore";
+    import { ServiceFactory } from "../factories/serviceFactory";
+    import type { ScanSvelteStore } from "../lib/stores/ScanStore";
     import { navigate } from 'svelte-routing';
 
     const { Modals } = Plugins;
@@ -15,15 +15,15 @@
     const expired = isExpired(new Date(scan.vp.verifiableCredential.issuanceDate));
 
     async function onDelete() {
-		let confirmRet = await Modals.confirm({
-			title: 'Delete credential',
-			message: 'Are you sure you want to delete the credential?'
-		});
-		if (confirmRet.value) {
+        let confirmRet = await Modals.confirm({
+            title: 'Delete credential',
+            message: 'Are you sure you want to delete the credential?'
+        });
+        if (confirmRet.value) {
             scans.delete(scan.id);
             back();
-		}
-	}
+        }
+    }
 
     function onClickDev() {
         navigate("/devinfo", { state: { page: "Credential" }});
@@ -37,13 +37,13 @@
 <style>
     main {
         display: flex;
-		flex-direction: column;
+        flex-direction: column;
         justify-content: flex-start;
         background-color: #F8F8F8;
-		overflow-y: auto;
-		-webkit-overflow-scrolling: touch;
-		height: 100%;
-		width: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        height: 100%;
+        width: 100%;
         position: absolute;
         z-index: 7;
     }
@@ -95,10 +95,10 @@
     }
 
     .options-wrapper {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		margin: 3.5vh 3.5vh 0 3.5vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 3.5vh 3.5vh 0 3.5vh;
         z-index: 2;
     }
 </style>
