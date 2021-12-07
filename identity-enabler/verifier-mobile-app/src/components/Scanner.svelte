@@ -51,9 +51,7 @@
         videoEl.srcObject = await navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
-                facingMode: { ideal: "environment" },
-                width: { ideal: 4096 },
-                height: { ideal: 2160 } 
+                facingMode: { ideal: "environment" }
             }
         });
     }
@@ -99,15 +97,9 @@
     }
     
     .video-container {
-        /* width: 100%; */
         max-height: 85vh;
         position: relative;
     }
-    
-    /* .video-container-android {
-        height: 100%;
-        width: 100%;
-    } */
 
     video {
         width: 100%;
