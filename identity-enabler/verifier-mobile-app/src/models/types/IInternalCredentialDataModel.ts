@@ -6,7 +6,7 @@ export interface IInternalCredentialDataModel {
     issuer: string;
     receivedAt: string;
   };
-  enrichment: VerifiableCredentialEnrichment | null;
+  enrichment?: VerifiableCredentialEnrichment;
   credentialDocument: {
     [key: string]: unknown;
   };
