@@ -44,7 +44,7 @@
     };
 
     const initialise = async () => {
-        if (!navigator.mediaDevices.getUserMedia) {
+        if (!navigator.mediaDevices?.getUserMedia) {
             throw new Error("Browser camera access not supported.");
         }
 
