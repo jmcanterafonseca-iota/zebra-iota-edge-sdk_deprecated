@@ -1,59 +1,24 @@
 <script lang="ts">
     import { navigate } from 'svelte-routing';
     import { fly } from 'svelte/transition';
-    import { Plugins } from '@capacitor/core';
-    import { ServiceFactory } from '../factories/serviceFactory';
-    import { error, loadingScreen, updateStorage } from '../lib/store';
-    import { parse } from '../lib/helpers';
+    import { loadingScreen } from '../lib/store';
     import { __ANDROID__ } from '../lib/platforms';
     import Scanner from '../components/Scanner.svelte';
     import { BarcodeFormat, BrowserMultiFormatReader, DecodeHintType } from '@zxing/library';
-    import type { IdentityService } from '../services/identityService';
+    import { handleScannerData } from '../lib/scan';
 
-    const { Toast } = Plugins;
     const formats = new Map().set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.DATA_MATRIX, BarcodeFormat.QR_CODE]);
     const reader = new BrowserMultiFormatReader(formats);
-    let VP;
-
-    async function handleScannerData(event) {
-        try {
-            loadingScreen.set("Verifying credential...");
-            let parsedData = parse(event.detail);
-            VP = parsedData;
-
-            if (!VP) {
-                loadingScreen.set();
-                navigate('/invalid');
-                return;
-            }
-
-            const identityService = ServiceFactory.get<IdentityService>('identity');
-            const verificationResult = await identityService.verifyVerifiablePresentation(VP);
-    
-            if (verificationResult) {
-                await updateStorage('credentials', { [VP.verifiableCredential.type[1].split(/\b/)[0].toLowerCase()]: VP.verifiableCredential });
-                loadingScreen.set();
-                showToast();
-                navigate('/home');
-            } else {
-                loadingScreen.set();
-                navigate('/invalid');
-                error.set('Invalid Data Matrix');
-            }
-        } catch (err) {
-            console.error(err);
-        };
-    }
-
+ 
     // handles input button
-    const imageSelected = (e) => {
+    const imageSelected = (e: Event & { currentTarget: EventTarget & HTMLInputElement; }) => {
         const image = e.currentTarget.files[0];
         
         const fr = new FileReader();
         fr.onload = (e: ProgressEvent<FileReader>) => {
             loadingScreen.set("Decoding image...");
             reader.decodeFromImageUrl(e.target.result as string)
-                .then(result => handleScannerData({ detail: result.getText() }))
+                .then(result => handleScannerData(result.getText()))
                 .catch(e => {
                     console.error(e);
                     loadingScreen.set();
@@ -63,11 +28,9 @@
         fr.readAsDataURL(image);
     };
 
-    async function showToast() {
-        await Toast.show({
-            text: 'Credential verified!',
-            position: 'center'
-        });
+    // handles Scanner message
+    async function message(ev: CustomEvent) {
+        await handleScannerData(ev.detail);
     }
 </script>
 
@@ -126,10 +89,10 @@
             <img on:click="{() => navigate('/home')}" src="../assets/chevron-left.svg" alt="back" />
             <p>Scanner</p>
             <label class="image-select">
-                <input type="file" accept="image/*" on:change={(e) => imageSelected(e)} />
+                <input type="file" accept="image/*" on:change={imageSelected} />
                 Browse
             </label>
         </div>
     </header>
-    <Scanner on:message="{handleScannerData}" />
+    <Scanner on:message="{message}" />
 </main>
