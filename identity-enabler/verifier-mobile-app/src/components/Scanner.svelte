@@ -12,10 +12,10 @@
     let error: Error | undefined;
     let videoEl: HTMLVideoElement;
 
-	async function showAlert(title: string, message: string) {
+    async function showAlert(title: string, message: string) {
         const { Modals } = Plugins;
-		await Modals.alert({ title, message });
-	}
+        await Modals.alert({ title, message });
+    }
 
     const capture = async (): Promise<void> => {
         let result: Result;
@@ -65,7 +65,7 @@
             });
 
         return () => {
-            
+            (videoEl.srcObject as MediaStream).getTracks().forEach(track => track.stop());
         };
     });
 </script>
