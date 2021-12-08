@@ -2,7 +2,7 @@ import { Plugins } from "@capacitor/core";
 import { navigate } from "svelte-routing";
 import { ServiceFactory } from "../factories/serviceFactory";
 import type { IdentityService } from "../services/identityService";
-import { error, loadingScreen, updateStorage } from "./store";
+import { loadingScreen, updateStorage } from "./store";
 
 /**
  * Handles data string captured by Camera, DataWedge or Image selection.
@@ -44,6 +44,5 @@ export async function handleScannerData(decodedText: string): Promise<void> {
     } else {
         loadingScreen.set();
         navigate('/invalid');
-        error.set('Invalid Data Matrix');
     }
 }
