@@ -6,14 +6,14 @@
     import Scan from './pages/Scan.svelte';
     import InvalidCredential from './pages/InvalidCredential.svelte';
     import { onMount } from 'svelte';
-	import FullScreenLoader from './components/FullScreenLoader.svelte';
-	import { loadingScreen } from './lib/store';
-	import { handleScannerData } from './lib/scan';
+    import FullScreenLoader from './components/FullScreenLoader.svelte';
+    import { loadingScreen } from './lib/store';
+    import { handleScannerData } from './lib/scan';
 
     let url = window.location.pathname;
 
     async function onScan(decodedText: string) {
-		await handleScannerData(decodedText);
+        await handleScannerData(decodedText);
     }
 
     onMount(() => {
@@ -22,18 +22,18 @@
 </script>
 
 <main>
-	{#if $loadingScreen}
-		<FullScreenLoader label={$loadingScreen} />
-	{/if}
-	<Router url="{url}">
-		<div>
-			<Route path="/" component="{Home}" />
-			<Route path="/home" component="{Home}" />
-			<Route path="/devinfo" component="{DevInfo}" />
-			<Route path="/invalid" component="{InvalidCredential}" />
-			<Route route="/scan" component="{Scan}" />
-		</div>
-	</Router>
+    {#if $loadingScreen}
+        <FullScreenLoader label={$loadingScreen} />
+    {/if}
+    <Router url="{url}">
+        <div>
+            <Route path="/" component="{Home}" />
+            <Route path="/home" component="{Home}" />
+            <Route path="/devinfo" component="{DevInfo}" />
+            <Route path="/invalid" component="{InvalidCredential}" />
+            <Route route="/scan" component="{Scan}" />
+        </div>
+    </Router>
 </main>
 
 <style>
