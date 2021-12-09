@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Plugins } from '@capacitor/core';
-    import { createEventDispatcher, onMount } from 'svelte';
+    import { createEventDispatcher, onMount, getContext } from 'svelte';
     import { BrowserMultiFormatReader, BarcodeFormat, ChecksumException, DecodeHintType, FormatException, NotFoundException, Result } from '@zxing/library';
     import { __ANDROID__, __WEB__ } from '../lib/platforms';
     import { wait } from '../lib/helpers';
@@ -59,15 +59,20 @@
     }
 
     onMount(() => {
-        initialise()
+        if (window['cameraStatus'] === 'on') {
+            initialise()
             .then(capture)
             .catch((e:Error) => {
                 console.error(e);
                 error = e;
             });
+        }
 
         return () => {
-            (videoEl.srcObject as MediaStream).getTracks().forEach(track => track.stop());
+            if (window['cameraStatus'] === 'on' && videoEl.srcObject) {
+                (videoEl.srcObject as MediaStream).getTracks().forEach(track => track.stop());
+            }
+            delete window['cameraStatus'];
         };
     });
 </script>

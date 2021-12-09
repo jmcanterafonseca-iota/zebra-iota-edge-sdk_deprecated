@@ -1,6 +1,6 @@
 <script>
 	import { Plugins } from '@capacitor/core';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import { navigate } from "svelte-routing";
 
@@ -127,6 +127,7 @@
 	}
 
 	function scan() {
+		window['cameraStatus'] = 'on';
         navigate('scan');
     }
 </script>
