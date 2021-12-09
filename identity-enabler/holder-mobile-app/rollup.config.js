@@ -3,13 +3,14 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import livereload from "rollup-plugin-livereload";
 import css from "rollup-plugin-css-only";
-import { terser } from "rollup-plugin-terser";
-import sveltePreprocess from "svelte-preprocess";
-import { wasm } from "@rollup/plugin-wasm";
-import copy from "rollup-plugin-copy";
-import typescript from "@rollup/plugin-typescript";
-import { string } from "rollup-plugin-string";
-import json from "@rollup/plugin-json";
+import { terser } from 'rollup-plugin-terser';
+import sveltePreprocess from 'svelte-preprocess';
+import { wasm } from '@rollup/plugin-wasm';
+import copy from 'rollup-plugin-copy';
+import typescript from '@rollup/plugin-typescript';
+import { string } from 'rollup-plugin-string';
+import json from '@rollup/plugin-json';
+import * as path from 'path';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -116,8 +117,27 @@ export default {
         // Rollup to set `this = window` for these modules.
         const thisAsWindowForModules = ["node_modules/@zxing/library/esm"];
 
-        if (thisAsWindowForModules.some(id_ => id.trimRight().includes(id_))) {
-            return "window";
-        }
-    }
+		// If we're building for production (npm run build
+		// instead of npm run dev), minify
+		production && terser()
+	],
+	watch: {
+		clearScreen: false
+	},
+	moduleContext: (id) => {
+		// In order to match native module behaviour, Rollup sets `this`
+		// as `undefined` at the top level of modules. Rollup also outputs
+		// a warning if a module tries to access `this` at the top level.
+		
+		// The following modules use `this` at the top level and expect it
+		// to be the global `window` object (runs in a browser), so we tell
+		// Rollup to set `this = window` for these modules.
+		const thisAsWindowForModules = [
+		  path.normalize('node_modules/@zxing/library/esm'),
+		];
+	  
+		if (thisAsWindowForModules.some(id_ => id.trimRight().includes(id_))) {
+		  return 'window';
+		}
+	}
 };
