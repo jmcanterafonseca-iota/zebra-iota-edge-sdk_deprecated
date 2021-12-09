@@ -20,8 +20,8 @@
     header > pre {
         font-family: 'Proxima Nova', sans-serif;
         font-weight: 700;
-        font-size: 3.5vh;
-        line-height: 4.4vh;
+        font-size: 1.3em;
+        line-height: 1.5em;
         margin: 0 !important;
         padding-top: 2.5vh;
         white-space: pre-wrap; 

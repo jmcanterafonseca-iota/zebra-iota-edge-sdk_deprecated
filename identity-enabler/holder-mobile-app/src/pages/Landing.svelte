@@ -121,8 +121,8 @@
         font-family: 'Proxima Nova', sans-serif;
         font-style: normal;
         font-weight: normal;
-        font-size: 2.08vh;
-        line-height: 3.3vh;
+        font-size: 0.8em;
+        line-height: 1.5em;
         color: #6f7a8d;
         text-align: center;
         padding: 0px 3vw;
