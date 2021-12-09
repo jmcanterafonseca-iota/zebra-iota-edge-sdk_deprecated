@@ -67,7 +67,7 @@
             });
 
         return () => {
-            (videoEl.srcObject as MediaStream).getTracks().forEach(track => track.stop());
+            (videoEl.srcObject as MediaStream)?.getTracks()?.forEach(track => track.stop());
         };
     });
 </script>
