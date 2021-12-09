@@ -6,17 +6,13 @@
     import Button from '../components/Button.svelte';
     import ObjectList from '../components/ObjectList.svelte';
     import DevInfo from './DevInfo.svelte';
-    
     import { modalStatus } from '../lib/store';
-
     import { ServiceFactory } from '../factories/serviceFactory';
 
     const { App } = Plugins;
-
     let showTutorial = false;
-
     const credential = window.history.state.credential;
-	const identityService = ServiceFactory.get('identity');
+    const identityService = ServiceFactory.get('identity');
     const preparedCredentialDocument = identityService.prepareCredentialForDisplay(credential.credentialDocument);
 
     function share() {
@@ -35,19 +31,19 @@
         showTutorial = true;
     }
 
-	beforeUpdate(() => {
+    beforeUpdate(() => {
         !showTutorial && App.removeAllListeners();
-	});
+    });
 </script>
 
 <style>
     main {
         display: flex;
-		flex-direction: column;
-		overflow-y: auto;
-		-webkit-overflow-scrolling: touch;
-		position: relative;
-		height: 100%;
+        flex-direction: column;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+        height: 100%;
     }
 
     header {
@@ -109,17 +105,17 @@
     }
 
     .options-wrapper {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		margin: 3.5vh 3.5vh 0 3.5vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 3.5vh 3.5vh 0 3.5vh;
     }
 </style>
 
 <main transition:fly="{{ x: 500, duration: 500 }}">
     {#if showTutorial}
-		<DevInfo page="Credential" bind:showTutorial={showTutorial} />
-	{/if}
+        <DevInfo page="Credential" bind:showTutorial={showTutorial} />
+    {/if}
 
     {#if !showTutorial}
         <div class="header-wrapper">
