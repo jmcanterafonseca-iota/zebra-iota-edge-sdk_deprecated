@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Plugins } from '@capacitor/core';
-    import { createEventDispatcher, onMount, getContext } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import { BrowserMultiFormatReader, BarcodeFormat, ChecksumException, DecodeHintType, FormatException, NotFoundException, Result } from '@zxing/library';
     import { __ANDROID__, __WEB__ } from '../lib/platforms';
     import { wait } from '../lib/helpers';

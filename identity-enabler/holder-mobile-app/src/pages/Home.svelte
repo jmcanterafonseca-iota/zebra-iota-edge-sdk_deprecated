@@ -1,6 +1,6 @@
 <script>
 	import { Plugins } from '@capacitor/core';
-	import { onMount, setContext } from 'svelte';
+	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import { navigate } from "svelte-routing";
 
