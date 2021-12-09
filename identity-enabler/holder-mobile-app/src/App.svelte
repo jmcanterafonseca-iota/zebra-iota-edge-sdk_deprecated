@@ -22,10 +22,13 @@
 	import { hasSetupAccount } from './lib/store';
 	import Keychain from './lib/keychain';
 
+	console.log('App loaded');
 	let url = window.location.pathname;
 	let displayHome = false;
 
 	onMount(async () => {
+        	console.log('App onMount');
+
 			if (!$hasSetupAccount) {
 					return Keychain.clear();
 			}

@@ -5,6 +5,7 @@
     import { __ANDROID__, __WEB__ } from '../lib/platforms';
     import { wait } from '../lib/helpers';
 
+    console.log('Scanner loaded');
     const dispatch = createEventDispatcher();
     const SAMPLING_FREQUENCY = 350;
     const formats = new Map<DecodeHintType, any>().set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.DATA_MATRIX, BarcodeFormat.QR_CODE]);
@@ -59,6 +60,7 @@
     }
 
     onMount(() => {
+        console.log('Scanner onMount');
         initialise()
             .then(capture)
             .catch((e:Error) => {

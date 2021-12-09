@@ -6,7 +6,9 @@
     import Scanner from '../components/Scanner.svelte';
     import FullScreenLoader from '../components/FullScreenLoader.svelte';
     import { BarcodeFormat, BrowserMultiFormatReader, DecodeHintType } from '@zxing/library';
+    import { onMount } from 'svelte';
 
+    console.log('Scan loaded');
     const formats = new Map().set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.DATA_MATRIX, BarcodeFormat.QR_CODE]);
     const reader = new BrowserMultiFormatReader(formats);
     let claims = '';
@@ -54,6 +56,10 @@
     function goBack() {
         navigate('/home');
     }
+
+    onMount(() => {
+        console.log('Scan onMount');
+    });
 </script>
 
 <style>
