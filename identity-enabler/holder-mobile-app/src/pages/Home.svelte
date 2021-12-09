@@ -127,6 +127,7 @@
 	}
 
 	function scan() {
+		// We ensure that only the Camera is switched on when we want
 		window['cameraStatus'] = 'on';
         navigate('scan');
     }

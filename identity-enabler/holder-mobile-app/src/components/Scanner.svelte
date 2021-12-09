@@ -68,6 +68,7 @@
             });
         }
 
+        // Unmount function
         return () => {
             if (window['cameraStatus'] === 'on' && videoEl.srcObject) {
                 (videoEl.srcObject as MediaStream).getTracks().forEach(track => track.stop());
