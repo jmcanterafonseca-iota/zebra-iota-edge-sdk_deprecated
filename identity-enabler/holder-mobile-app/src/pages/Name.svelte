@@ -40,9 +40,14 @@
     }
 
     async function save() {
-        if (loading) {
+       if (navigator.onLine === false) {
+           alert("You need Internet Connection to create a new Identity");
+           return;
+       }
+
+       if (loading) {
             return;
-        }
+       }
 
         Keyboard.hide();
 
