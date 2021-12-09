@@ -21,7 +21,7 @@
         if (navigator.onLine === false) {
             await showAlert(
                 'Error', 
-                'You need Internet connection to share a Credential' 
+                'You need Internet connectivity to share a Credential' 
             );
            return;
         }

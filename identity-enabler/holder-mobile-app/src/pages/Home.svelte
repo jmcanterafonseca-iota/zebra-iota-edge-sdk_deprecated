@@ -43,7 +43,7 @@
 		if (navigator.onLine === false) {
             await showAlert(
                 'Error', 
-                'You need Internet connection to generate a new Credential' 
+                'You need Internet connectivity to generate a new Credential' 
             );
            return;
         }

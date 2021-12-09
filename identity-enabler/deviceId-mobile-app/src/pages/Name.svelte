@@ -41,7 +41,7 @@
 
     async function save() {
         if (navigator.onLine === false) {
-            showAlert('Error', 'Internet connectivity is needed to generate a Device DID');
+            showAlert('Error', 'You need Internet connectivity to generate a new IOTA Device Identity');
             return;
         } 
 

@@ -45,7 +45,7 @@
        if (navigator.onLine === false) {
             await showAlert(
                 'Error', 
-                'You need Internet connection to create a new IOTA Identity' 
+                'You need Internet connectivity to create a new IOTA Identity' 
             );
            return;
        }
