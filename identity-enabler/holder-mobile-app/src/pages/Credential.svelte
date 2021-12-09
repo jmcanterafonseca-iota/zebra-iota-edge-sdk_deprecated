@@ -54,10 +54,9 @@
         margin-bottom: 5vh;
     }
 
-    .wrapper {
+    .header-wrapper {
         text-align: center;
         padding-bottom: 15vh;
-        max-height: 36vh;
         background: linear-gradient(90deg, #00FFFF 0%, #0099FF 100%);
     }
 
@@ -94,15 +93,15 @@
     }
 
     section {
-        margin: 0 7vw;
-        z-index: 2;
+        margin: -15vh 7vw 0 7vw;
+        z-index: 0;
     }
 
     footer {
         position: fixed;
         width: 100%;
         bottom: 0;
-        z-index: 6;
+        z-index: 1;
     }
 
     .credential-logo {
@@ -114,7 +113,6 @@
 		flex-direction: row;
 		justify-content: space-between;
 		margin: 3.5vh 3.5vh 0 3.5vh;
-        z-index: 3;
     }
 </style>
 
@@ -124,12 +122,12 @@
 	{/if}
 
     {#if !showTutorial}
-    <div class="wrapper">
-        <div class="options-wrapper">
-			<img src="../assets/chevron-left.svg" on:click="{goBack}" alt="chevron-left" />
-            <img src="../assets/code.svg" on:click="{onClickDev}" alt="code" />
-		</div>
-			<header>
+        <div class="header-wrapper">
+            <div class="options-wrapper">
+                <img src="../assets/chevron-left.svg" on:click="{goBack}" alt="chevron-left" />
+                <img src="../assets/code.svg" on:click="{onClickDev}" alt="code" />
+            </div>
+            <header>
                 {#if credential.enrichment.credentialLabel === 'Organisation ID'}
                     <img class="credential-logo" src="../assets/zebra.svg" alt="credential-logo" />
                     <p>{credential.metaInformation.issuer.toUpperCase()}</p>
@@ -137,17 +135,17 @@
                     <img class="credential-logo" src="../assets/credentialLarge.svg" alt="credential-logo" />
                     <p>{credential.enrichment.issuerLabel}</p>
                 {/if}
-				<p>{credential.enrichment.credentialLabel}</p>
+                <p>{credential.enrichment.credentialLabel}</p>
                 <p>{new Date(preparedCredentialDocument.issuanceDate).toLocaleString()}</p>           
-			</header>
+            </header>
+        </div>
         <section>
             <ObjectList object="{preparedCredentialDocument.credentialSubject}" />
         </section>
-    </div>
-    <footer>
-        <Button style="background: #0099FF; color: white;" label="Share" onClick="{share}">
-            <img src="../assets/share.png" alt="share" />
-        </Button>
-    </footer>
+        <footer>
+            <Button style="background: #0099FF; color: white;" label="Share" onClick="{share}">
+                <img src="../assets/share.png" alt="share" />
+            </Button>
+        </footer>
     {/if}
 </main>
