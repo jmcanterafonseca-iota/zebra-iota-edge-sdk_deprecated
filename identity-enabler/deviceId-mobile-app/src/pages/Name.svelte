@@ -9,6 +9,7 @@
 
     import { ServiceFactory } from '../factories/serviceFactory';
 	import { account, error, hasSetupAccount } from '../lib/store';
+    import { showAlert } from '../lib/ui/helpers';
     
     const { Keyboard } = Plugins;
 
@@ -39,6 +40,11 @@
     }
 
     async function save() {
+        if (navigator.onLine === false) {
+            showAlert('Error', 'Internet connectivity is needed to generate a Device DID');
+            return;
+        } 
+
         if (loading) {
             return;
         }
