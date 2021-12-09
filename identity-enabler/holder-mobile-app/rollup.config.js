@@ -24,58 +24,55 @@ function serve() {
     return {
         writeBundle() {
             if (server) return;
-            server = require("child_process").spawn("npm", ["run", "start", "--", "--dev"], {
-                stdio: ["ignore", "inherit", "inherit"],
+            server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+                stdio: ['ignore', 'inherit', 'inherit'],
                 shell: true
             });
 
-            process.on("SIGTERM", toExit);
-            process.on("exit", toExit);
+            process.on('SIGTERM', toExit);
+            process.on('exit', toExit);
         }
     };
 }
 
 export default {
-    input: "src/main.ts",
+    input: 'src/main.ts',
     output: {
         sourcemap: !production,
-        format: "iife",
-        name: "app",
-        file: "public/build/bundle.js"
+        format: 'iife',
+        name: 'app',
+        file: 'public/build/bundle.js'
     },
     plugins: [
         svelte({
             compilerOptions: {
                 // enable run-time checks when not in production
-                dev: !production
+                dev: !production,
             },
-            preprocess: sveltePreprocess()
+            preprocess: sveltePreprocess(),
         }),
         copy({
-            targets: [
-                {
-                    src: "node_modules/@iota/identity-wasm/web/identity_wasm_bg.wasm",
-                    dest: "public",
-                    rename: "identity_wasm_bg.wasm"
-                },
-                {
-                    src: "./src/assets/*",
-                    dest: "public/assets"
-                }
-            ]
+            targets: [{
+                src: 'node_modules/@iota/identity-wasm/web/identity_wasm_bg.wasm',
+                dest: 'public',
+                rename: 'identity_wasm_bg.wasm'
+            },{
+                src: './src/assets/*', 
+                dest: 'public/assets' 
+            }]
         }),
         wasm({
-            sync: ["node_modules/@iota/identity-wasm/web/identity_wasm_bg.wasm", "identity_wasm_bg.wasm"]
+            sync: ['node_modules/@iota/identity-wasm/web/identity_wasm_bg.wasm', 'identity_wasm_bg.wasm'],
         }),
         json(),
         string({
-            include: ["**/*.md"]
+            include: ['**/*.md'],
         }),
         // we'll extract any component CSS out into
         // a separate file - better for performance
         // css({ output: "bundle.css" }),
-        css({ output: "bundle.css" }),
-        css({ output: "extra.css" }),
+        css({output:'bundle.css'}),
+        css({output:'extra.css'}),
 
         // If you have external dependencies installed from
         // npm, you'll most likely need these plugins. In
@@ -84,7 +81,7 @@ export default {
         // https://github.com/rollup/plugins/tree/master/packages/commonjs
         resolve({
             browser: true,
-            dedupe: ["svelte"],
+            dedupe: ['svelte'],
             preferBuiltins: false
         }),
         commonjs(),
@@ -98,7 +95,7 @@ export default {
 
         // Watch the `public` directory and refresh the
         // browser on changes when not in production
-        !production && livereload("public"),
+        !production && livereload('public'),
 
         // If we're building for production (npm run build
         // instead of npm run dev), minify
@@ -107,7 +104,7 @@ export default {
     watch: {
         clearScreen: false
     },
-    moduleContext: id => {
+    moduleContext: (id) => {
         // In order to match native module behaviour, Rollup sets `this`
         // as `undefined` at the top level of modules. Rollup also outputs
         // a warning if a module tries to access `this` at the top level.
@@ -115,29 +112,12 @@ export default {
         // The following modules use `this` at the top level and expect it
         // to be the global `window` object (runs in a browser), so we tell
         // Rollup to set `this = window` for these modules.
-        const thisAsWindowForModules = ["node_modules/@zxing/library/esm"];
+        const thisAsWindowForModules = [
+          path.normalize('node_modules/@zxing/library/esm'),
+        ];
 
-		// If we're building for production (npm run build
-		// instead of npm run dev), minify
-		production && terser()
-	],
-	watch: {
-		clearScreen: false
-	},
-	moduleContext: (id) => {
-		// In order to match native module behaviour, Rollup sets `this`
-		// as `undefined` at the top level of modules. Rollup also outputs
-		// a warning if a module tries to access `this` at the top level.
-		
-		// The following modules use `this` at the top level and expect it
-		// to be the global `window` object (runs in a browser), so we tell
-		// Rollup to set `this = window` for these modules.
-		const thisAsWindowForModules = [
-		  path.normalize('node_modules/@zxing/library/esm'),
-		];
-	  
-		if (thisAsWindowForModules.some(id_ => id.trimRight().includes(id_))) {
-		  return 'window';
-		}
-	}
+        if (thisAsWindowForModules.some(id_ => id.trimRight().includes(id_))) {
+          return 'window';
+        }
+    }
 };
