@@ -24,22 +24,20 @@
 
 <style>
     li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #ffffff;
-        box-shadow: 0px 4px 12px rgba(217, 225, 238, 0.3);
-        padding: 2vh 6vw;
+      border: 2px solid rgba(217, 225, 238, 0.6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem 1rem 0.5rem;
     }
 
     .icon {
-        height: 14vw;
-        width: 14vw;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        background-color: #f8f8f8;
+      height: 14vw;
+      width: 14vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
 
     .icon > img {

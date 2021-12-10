@@ -48,8 +48,11 @@
 </main>
 
 <style>
-    main,
-    div {
+    main {
+        background-color: white;
+    }
+
+    main, div {
         height: 100%;
     }
 </style>

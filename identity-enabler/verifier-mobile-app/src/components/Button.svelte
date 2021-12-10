@@ -30,6 +30,7 @@
         cursor: pointer;
         margin: 0;
         color: white;
+        background-color: #1E22AA;
     }
 
     button.disabled {

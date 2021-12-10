@@ -94,7 +94,7 @@
     .header-wrapper {
         text-align: center;
         padding-bottom: 3vh;
-        background: linear-gradient(90deg, #00ffff 0%, #0099ff 100%);
+        background-color: #6165E3;
     }
 
     header {
