@@ -1,7 +1,14 @@
 <script>
+import { onMount } from 'svelte';
+
     import { navigate } from 'svelte-routing';
     import { fly } from 'svelte/transition';
     import Button from '../components/Button.svelte';
+import { playAudio } from '../lib/ui/helpers';
+    onMount(() => {
+        // We wait a little bit in order not to overlap the different sounds
+        setTimeout(async () => await playAudio('invalid'), 500);
+    });
 </script>
 
 <style>

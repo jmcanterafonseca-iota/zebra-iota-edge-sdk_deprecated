@@ -8,7 +8,7 @@
     import FullScreenLoader from './components/FullScreenLoader.svelte';
     import { loadingScreen } from './lib/store';
     import { handleScannerData } from './lib/scan';
-    import { showAlert } from './lib/ui/helpers';
+    import { playAudio, showAlert } from './lib/ui/helpers';
     import Credential from './pages/Credential.svelte';
 
     let url = window.location.pathname;
@@ -19,6 +19,8 @@
      * @param decodedText The content supplied by DataWedge (Zebra Scanner)
      */
     async function onScan(decodedText: string) {
+        await playAudio('scanned');
+
         if (navigator.onLine === false) {
             await showAlert(
                 'Error', 
