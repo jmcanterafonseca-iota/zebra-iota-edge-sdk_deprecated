@@ -33,7 +33,7 @@ import { parse } from './lib/helpers';
             if (claims) {
                 navigate('devicecredential', { state: { claims: claims }});
             } else {
-                showAlert('Error', 'Invalid Claims');
+                await showAlert('Error', 'Invalid Claims');
             }
         } catch (err) {
             console.error(err);

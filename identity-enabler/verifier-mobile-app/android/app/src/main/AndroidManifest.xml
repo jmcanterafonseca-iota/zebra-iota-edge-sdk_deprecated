@@ -22,12 +22,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <service android:name=".datawedge.DataWedgeService">
             <intent-filter>
                 <action android:name="org.iota.zebra.verifier.intent.action.SCAN" />
                 <category android:name="org.iota.zebra.intent.category.DATAWEDGE" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
