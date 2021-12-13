@@ -6,12 +6,9 @@ export async function showAlert(title: string, message: string) {
 }
 
 export async function playAudio(sound: string) {
-    console.log('Play Audio');
-
     const audio = new Audio();
-    audio.onerror = (e) => {
-        console.log("Audio Error", e);
-        throw e;
+    audio.onerror = () => {
+        console.error("Audio Play Error", audio.error);
     };
 
     audio.src = `../assets/audio/${sound}.wav`;
