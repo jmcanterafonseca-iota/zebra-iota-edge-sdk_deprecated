@@ -49,6 +49,11 @@ import { Toast } from '@capacitor/core';
         }
 	}
 
+	/**
+     * Function executed when a Zebra DataWedge scanning event happens
+     * 
+     * @param decodedText The content supplied by DataWedge (Zebra Scanner)
+     */
 	async function onScan(decodedText: string) {
 		console.log("on Scan: ", window.location);
 		// If we are not expecting a credential we just ignore the event

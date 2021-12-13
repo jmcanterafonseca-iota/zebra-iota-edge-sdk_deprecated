@@ -40,6 +40,11 @@ import { parse } from './lib/helpers';
         };
 	}
 
+	/**
+     * Function executed when a Zebra DataWedge scanning event happens
+     * 
+     * @param decodedText The content supplied by DataWedge (Zebra Scanner)
+     */
 	async function onScan(decodedText: string) {
         if (navigator.onLine === false) {
             await showAlert(
