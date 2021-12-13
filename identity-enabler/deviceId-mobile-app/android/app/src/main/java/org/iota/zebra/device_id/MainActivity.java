@@ -15,13 +15,13 @@ import androidx.lifecycle.Observer;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
 
-import org.iota.zebra.datawedge.DataWedgeService;
+import org.iota.zebra.device_id.datawedge.DataWedgeService;
 
 import java.util.ArrayList;
 
 
 public class MainActivity extends BridgeActivity {
-  private static String TAG = "Verifier - IOTA SDK";
+  private static String TAG = "Device_ID - IOTA SDK";
 
   private DataWedgeService boundService;
   private WebView webView;
