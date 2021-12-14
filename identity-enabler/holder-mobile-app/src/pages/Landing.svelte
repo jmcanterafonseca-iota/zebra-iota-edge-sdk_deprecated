@@ -78,7 +78,7 @@
         background: #F8F8F8;
         flex-direction: column;
         display: flex;
-        flex: 1;
+        justify-content: space-between;
     }
 
     .content {
@@ -90,16 +90,13 @@
 
     .content > img {
         mix-blend-mode: multiply;
-        width: 25.8vh;
-        height: 25.8vh;
-        margin: 7.6vh 0 5.6vh 0;
+        max-height: 150px;
     }
 
     .dots {
         text-align: center;
         justify-content: center;
         margin-bottom: 3.3vh;
-        /* padding: 2.5vh 0; */
     }
 
     span {
@@ -121,7 +118,7 @@
         font-family: 'Proxima Nova', sans-serif;
         font-style: normal;
         font-weight: normal;
-        font-size: 0.8em;
+        font-size: 0.9em;
         line-height: 1.5em;
         color: #6f7a8d;
         text-align: center;
@@ -135,14 +132,11 @@
 
     .contentContainer {
         display: flex;
-        flex: 1;
     }
 
     .footerContainer {
         display: flex;
-        align-self: flex-end;
         width: 100%;
-        margin-top: 7.5vh;
     }
 </style>
 

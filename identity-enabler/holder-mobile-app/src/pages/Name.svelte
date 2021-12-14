@@ -88,7 +88,6 @@
         align-items: center;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        position: absolute;
         width: 100%;
     }
 
@@ -103,13 +102,11 @@
 
     footer {
         padding: 0px 7vw;
-        width: 100vh;
+        width: 100%;
     }
 
     img {
-        width: 27vh;
-        height: 27vh;
-        margin-top: 12.5vh;
+        max-height: 150px;
     }
 </style>
 

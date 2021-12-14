@@ -4,7 +4,6 @@
 
 <style>
     .container {
-        height: 22vh;
         width: 100%;
         padding: 0 8vw;
     }
@@ -20,10 +19,9 @@
     header > pre {
         font-family: 'Proxima Nova', sans-serif;
         font-weight: 700;
-        font-size: 1.3em;
-        line-height: 1.5em;
+        font-size: 1.5em;
+        line-height: 1.2em;
         margin: 0 !important;
-        padding-top: 2.5vh;
         white-space: pre-wrap; 
         text-align: center;
         color: #131f37;
