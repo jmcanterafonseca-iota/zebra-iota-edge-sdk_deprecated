@@ -14,20 +14,9 @@
     const { Keyboard } = Plugins;
 
     let name = '';
-    let isKeyboardActive = false;
 	let loading = false;
 
     let background;
-    let keyboardHeight;
-
-    Keyboard.addListener('keyboardWillShow', (info) => {
-        keyboardHeight = info.keyboardHeight;
-        isKeyboardActive = true;
-    });
-
-    Keyboard.addListener('keyboardWillHide', () => {
-        isKeyboardActive = false;
-    });
 
     function handleOuterClick() {
         if (event.target === background) {
@@ -79,16 +68,15 @@
         background-color: #F8F8F8;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         align-items: center;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        position: absolute;
         width: 100%;
     }
 
     .headerContainer {
         display: flex;
-        flex: 0.5;
     }
 
     .contentContainer {
@@ -100,27 +88,16 @@
         align-items: center;
         display: flex;
         flex-direction: column;
-        flex: 1;
         width: 100%;
-        padding: 0 3.4vh;
     }
 
     .contentContainer > img {
         mix-blend-mode: multiply;
-        width: 25.8vh;
-        height: 25.8vh;
-        margin-top: contentMargin;
-    }
-
-    .active {
-        margin-top: 7.6vh;
+        max-height: 150px;
     }
 
     footer {
-        padding: 0px 7vw;
-        width: 100vh;
-        position: absolute;
-        bottom: 0;
+        width: 100%;
     }
 </style>
 
@@ -132,12 +109,11 @@
         <FullScreenLoader label="Creating Identity..." />
     {:else}
         <div class="headerContainer">
-            <Header text="Set the name of
-                            the device" />
+            <Header text="Set the name of the device" />
         </div>
 
         <div class="contentContainer">
-            <img class="{isKeyboardActive ? "active" : "inactive"}" src="../assets/landing-2.png" alt="set-name" />
+            <img src="../assets/landing-2.png" alt="set-name" />
             <TextField bind:value="{name}" placeholder="Device name" />
         </div>
 

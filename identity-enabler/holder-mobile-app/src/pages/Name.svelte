@@ -98,15 +98,12 @@
 
     .content > img {
         mix-blend-mode: multiply;
+        max-height: 150px;
     }
 
     footer {
         padding: 0px 7vw;
         width: 100%;
-    }
-
-    img {
-        max-height: 150px;
     }
 </style>
 

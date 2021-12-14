@@ -9,7 +9,6 @@
     }
 
     .logo {
-        text-align: center;
         margin: 40px auto;
         filter: invert(100%);
         width: 56.26px;
