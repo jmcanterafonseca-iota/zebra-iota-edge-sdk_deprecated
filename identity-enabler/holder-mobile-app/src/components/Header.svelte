@@ -4,7 +4,6 @@
 
 <style>
     .container {
-        width: 100%;
         padding: 0 8vw;
     }
 

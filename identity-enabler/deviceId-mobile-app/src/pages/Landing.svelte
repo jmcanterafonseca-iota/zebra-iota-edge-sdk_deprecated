@@ -19,22 +19,19 @@
 <style>
     main {
         height: 100%;
-        background: #F8F8F8;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
     }
 
     .content {
-        text-align: center;
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        width: 100%;
-        padding: 0 3.4vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 11vh;
     }
 
-    .content > img {
-        mix-blend-mode: multiply;
-        max-height: 150px;
+    .content > * {
+        margin: 3vh 0;
     }
 
     .info {
@@ -45,33 +42,30 @@
         line-height: 1.5em;
         color: #6f7a8d;
         text-align: center;
+        padding: 0 8vw;
     }
 
-    .headerContainer {
-        display: flex;
+    img {
+        mix-blend-mode: multiply;
+        max-height: 150px;
     }
 
-    .contentContainer {
-        display: flex;
-    }
-
-    .footerContainer {
-        display: flex;
+    footer {
+        position: fixed;
+        bottom: 0;
         width: 100%;
     }
 </style>
 
 <main id="wrapper">
-    <div class="headerContainer">
-        <Header text="{info.header}" />
-    </div>
-    <div class="contentContainer">
-        <div class="content">
-            <img src="../assets/landing-1.png" alt="landing-1" />
-            <p class="info">{info.content}</p>
+    <div class="content">
+        <div>
+            <Header text="{info.header}" />
         </div>
+        <img src="../assets/landing-1.png" alt="landing-1" />
+        <p class="info">{info.content}</p>
     </div>
     <footer class="footerContainer">
-        <Button style="background: #00A7FF; color: white;" label="{info.footer}" onClick="{onNext}" />
+        <Button label="{info.footer}" onClick="{onNext}" />
     </footer>
 </main>

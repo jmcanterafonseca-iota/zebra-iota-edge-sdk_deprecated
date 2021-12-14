@@ -65,38 +65,30 @@
 <style>
     main {
         height: 100%;
-        background-color: #F8F8F8;
+        width: 100%;
+    }
+
+    .content {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
         align-items: center;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        width: 100%;
+        padding-bottom: 11vh;
     }
 
-    .headerContainer {
-        display: flex;
+    .content > * {
+        margin: 3vh 0;
     }
 
-    .contentContainer {
-        display: flex;
-    }
-
-    .contentContainer {
-        text-align: center;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .contentContainer > img {
+    img {
         mix-blend-mode: multiply;
         max-height: 150px;
     }
 
     footer {
+        position: fixed;
+        bottom: 0;
         width: 100%;
     }
 </style>
@@ -108,18 +100,19 @@
     {#if loading}
         <FullScreenLoader label="Creating Identity..." />
     {:else}
-        <div class="headerContainer">
-            <Header text="Set the name of the device" />
+        <div class="content">
+            <div>
+                <Header text="Set the name of the device" />
+            </div>
+            <div>
+                <img src="../assets/landing-2.png" alt="set-name" />
+            </div>
+            <div>
+                <TextField bind:value="{name}" placeholder="Device name" />
+            </div>
         </div>
-
-        <div class="contentContainer">
-            <img src="../assets/landing-2.png" alt="set-name" />
-            <TextField bind:value="{name}" placeholder="Device name" />
-        </div>
-
         <footer>
             <Button
-                style="background: #00A7FF; color: white; height: 64px;" 
                 loadingText="{'Generating identity'}"
                 disabled="{name.length === 0}"
                 label="Next"

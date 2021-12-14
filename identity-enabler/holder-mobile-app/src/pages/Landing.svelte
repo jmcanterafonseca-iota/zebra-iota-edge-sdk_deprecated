@@ -19,7 +19,7 @@
             footer: 'Next'
         },
         {
-            header: 'Your data,\nyour ownership',
+            header: 'Your data, your ownership',
             content: 'Your data is controlled only on your phone. Currently, no backup options are available.',
             footer: 'Next'
         },
@@ -75,10 +75,9 @@
 <style>
     main {
         height: 100%;
-        background: #F8F8F8;
         flex-direction: column;
         display: flex;
-        justify-content: space-between;
+        align-items: center;
     }
 
     .content {
@@ -91,6 +90,7 @@
     .content > img {
         mix-blend-mode: multiply;
         max-height: 150px;
+        padding: 3vh 0;
     }
 
     .dots {
@@ -127,15 +127,17 @@
 
     .headerContainer {
         display: flex;
-        flex: 0.5;
+        padding: 3vh 0;
     }
 
     .contentContainer {
         display: flex;
+        padding-bottom: 11vh;
     }
 
     .footerContainer {
-        display: flex;
+        position: fixed;
+        bottom: 0;
         width: 100%;
     }
 </style>
@@ -164,6 +166,6 @@
         {/each}
     </div>
     <footer class="footerContainer">
-        <Button style="background: #00A7FF; color: white;" label="{info[$landingIndex].footer}" onClick="{onNext}" />
+        <Button label="{info[$landingIndex].footer}" onClick="{onNext}" />
     </footer>
 </main>

@@ -19,11 +19,12 @@
         cursor: pointer;
         margin: 0;
         color: white;
+        background-color: #00A7FF;
     }
 
     button.disabled {
         pointer-events: none;
-        opacity: 0.5;
+        background-color: #84d4ff;
     }
 
     button :global(img) {
