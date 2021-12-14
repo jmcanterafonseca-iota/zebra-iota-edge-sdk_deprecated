@@ -19,8 +19,6 @@
      * @param decodedText The content supplied by DataWedge (Zebra Scanner)
      */
     async function onScan(decodedText: string) {
-        await playAudio('scanned');
-
         if (navigator.onLine === false) {
             await showAlert(
                 'Error', 
