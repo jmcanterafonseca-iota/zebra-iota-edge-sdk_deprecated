@@ -85,7 +85,7 @@
     .close {
         position: absolute;
         right: 3.4vh;
-        width: 2em;
+        width: 1.75em;
         stroke: white;
         fill: white;
     }
