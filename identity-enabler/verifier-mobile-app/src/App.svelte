@@ -8,7 +8,7 @@
     import FullScreenLoader from './components/FullScreenLoader.svelte';
     import { loadingScreen } from './lib/store';
     import { handleScannerData } from './lib/scan';
-    import { playAudio, showAlert } from './lib/ui/helpers';
+    import { showAlert } from './lib/ui/helpers';
     import Credential from './pages/Credential.svelte';
 
     let url = window.location.pathname;
