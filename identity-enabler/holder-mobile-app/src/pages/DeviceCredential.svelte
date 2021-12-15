@@ -113,7 +113,7 @@
             <ObjectList object={claims} />
         </section>
         <footer>
-            <Button                label="Issue Device ID credential"                onClick={createCredential}            />
+            <Button label="Issue Device ID credential" onClick={createCredential} />
         </footer>
     {/if}
 </main>
