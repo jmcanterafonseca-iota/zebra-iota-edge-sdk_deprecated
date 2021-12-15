@@ -18,6 +18,7 @@
     import { hasSetupAccount } from "./lib/store";
     import Keychain from "./lib/keychain";
     import { parse } from "./lib/helpers";
+    import type { IdentityService } from "./services/identityService";
 
     let url = window.location.pathname;
     let displayHome = false;
@@ -64,7 +65,7 @@
             return Keychain.clear();
         }
 
-        const identityService = ServiceFactory.get("identity");
+        const identityService = ServiceFactory.get<IdentityService>("identity");
         const storedIdentity = await identityService.retrieveIdentity();
 
         if (storedIdentity) {
