@@ -75,7 +75,14 @@
     {#if !invalid && !loading}
         <header>
             <div class="options-wrapper">
-                <img on:click={goBack} src="../assets/chevron-left.svg" alt="back" />
+                <svg
+                    on:click={goBack}
+                    class="options-icon arrow"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M15 6L9 12L15 18" />
+                </svg>
                 <p>Scanner</p>
                 <label class="image-select">
                     <input type="file" accept="image/*" on:change={e => imageSelected(e)} />
@@ -96,8 +103,20 @@
     header {
         display: flex;
         flex-direction: column;
-        height: 72px;
-        background: linear-gradient(90deg, #00ffff 0%, #0099ff 100%);
+        background-color: #00a7ff;
+    }
+
+    .options-icon {
+        fill: white;
+        width: 1.75em;
+    }
+
+    .arrow {
+        fill: none !important;
+        stroke: white;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
     }
 
     .options-wrapper > p {

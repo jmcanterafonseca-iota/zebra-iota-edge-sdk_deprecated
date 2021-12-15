@@ -9,7 +9,6 @@
     import Landing from "./pages/Landing.svelte";
     import Name from "./pages/Name.svelte";
     import PresentationJSON from "./pages/PresentationJSON.svelte";
-    import DataMatrix from "./pages/DataMatrix.svelte";
     import Credential from "./pages/Credential.svelte";
     import DeviceCredential from "./pages/DeviceCredential.svelte";
     import DevInfo from "./pages/DevInfo.svelte";
@@ -88,13 +87,9 @@
             <Route path="/name" component={Name} />
             <Route path="/credential" component={Credential} />
             <Route path="/devicecredential" component={DeviceCredential} />
-            <Route path="/datamatrix" component={DataMatrix} />
-
             <Route path="/scan" component={Scan} />
-
             <Route path="/devinfo" component={DevInfo} />
             <Route path="/presentationjson" component={PresentationJSON} />
-
             <Route path="/createCredential" component={CreateCredential} />
             <Route path="/createPresentation" component={CreatePresentation} />
         </div>
@@ -105,6 +100,10 @@
 </main>
 
 <style>
+    main {
+        background-color: white;
+    }
+
     main,
     div {
         height: 100%;
