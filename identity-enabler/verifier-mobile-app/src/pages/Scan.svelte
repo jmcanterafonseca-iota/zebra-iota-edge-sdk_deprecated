@@ -44,7 +44,14 @@
 <main transition:fly={{ y: 200, duration: 500 }}>
     <header>
         <div class="options-wrapper">
-            <img on:click={goBack} src="../assets/chevron-left.svg" alt="back" />
+            <svg
+                on:click={() => navigate("/home")}
+                class="arrow"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M15 6L9 12L15 18" />
+            </svg>
             <p>Scanner</p>
             <label class="image-select">
                 <input type="file" accept="image/*" on:change={imageSelected} />
@@ -66,6 +73,15 @@
         flex-direction: column;
         height: 72px;
         background-color: #6165e3;
+    }
+
+    .arrow {
+        width: 2em;
+        fill: none;
+        stroke: white;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
     }
 
     .options-wrapper > p {
