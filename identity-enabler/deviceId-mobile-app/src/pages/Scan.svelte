@@ -102,14 +102,14 @@
 
     {#if !invalid && !loading}
         <header>
-            <div class="options-wrapper">
-                <img on:click={goBack} src="../assets/chevron-left.svg" alt="back" />
-                <p>Scanner</p>
-                <label class="image-select">
-                    <input type="file" accept="image/*" on:change={e => imageSelected(e)} />
-                    Browse
-                </label>
-            </div>
+            <svg on:click={goBack} class="arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 6L9 12L15 18" />
+            </svg>
+            <p>Scanner</p>
+            <label class="image-select">
+                <input type="file" accept="image/*" on:change={e => imageSelected(e)} />
+                Browse
+            </label>
         </header>
         <Scanner on:message={handleScannerData} />
     {/if}
@@ -122,27 +122,28 @@
     }
 
     header {
-        display: flex;
-        flex-direction: column;
-        height: 72px;
         background-color: #aee693;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 72px;
+        padding: 0 2.6vh;
     }
 
-    .options-wrapper > p {
+    .arrow {
+        width: 2em;
+        fill: none;
+        stroke: black;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    header > p {
         font-family: "Proxima Nova", sans-serif;
         font-weight: 600;
-        font-size: 14px;
-        line-height: 16px;
+        font-size: 1.2em;
         margin: 0;
-        z-index: 1;
-    }
-
-    .options-wrapper {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        margin: 3.5vh;
     }
 
     input[type="file"] {

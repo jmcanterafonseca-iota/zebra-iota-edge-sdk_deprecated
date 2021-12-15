@@ -64,7 +64,9 @@
     <div class={loading ? "wrapper mini" : "wrapper"} transition:fly={{ x: 500, duration: 500 }}>
         {#if !loading}
             <header>
-                <img on:click={goBack} src="../assets/chevron-left.svg" alt="back" />
+                <svg on:click={goBack} class="arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 6L9 12L15 18" />
+                </svg>
                 <p>Request Device DID credential</p>
             </header>
 
@@ -108,8 +110,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 7.9vh;
+        height: 72px;
         padding: 0 2.6vh;
+    }
+
+    .arrow {
+        width: 1.75em;
+        fill: none;
+        stroke: black;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
     }
 
     header > p {
@@ -118,8 +129,7 @@
         white-space: nowrap;
         font-family: "Proxima Nova", sans-serif;
         font-weight: 600;
-        font-size: 2.3vh;
-        line-height: 2.7vh;
+        font-size: 1.2em;
         margin: 0;
     }
 
