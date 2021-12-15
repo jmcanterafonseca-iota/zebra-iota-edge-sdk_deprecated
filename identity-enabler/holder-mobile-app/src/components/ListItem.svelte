@@ -10,7 +10,9 @@
         <path d="M11.9049 27.3454C11.6834 28.0795 11.0701 28.9003 10.4414 28.9961L26.9385 29.0001C27.561 29.0001 27.8113 28.8353 28.0655 27.8732C28.3197 26.911 30.6951 15.9806 30.6951 15.9806C30.6951 15.7732 30.527 15.605 30.3195 15.605H14.8869C14.6794 15.605 14.5112 15.7732 14.5112 15.9806C14.5112 15.9806 12.1265 26.6114 11.9049 27.3454Z" fill="#00A7FF" stroke="black" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     <div>
-        <h5>{heading}</h5>
+        {#if heading}
+            <h5>{heading}</h5>
+        {/if}
         <h6>{subheading}</h6>
     </div>
     <svg class="arrow right" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

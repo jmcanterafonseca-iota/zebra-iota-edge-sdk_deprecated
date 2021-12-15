@@ -76,7 +76,7 @@
     }
 
     .arrow {
-        width: 2em;
+        width: 1.75em;
         fill: none;
         stroke: white;
         stroke-width: 2;
