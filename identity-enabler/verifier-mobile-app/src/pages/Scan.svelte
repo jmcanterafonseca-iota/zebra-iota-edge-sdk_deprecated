@@ -65,7 +65,7 @@
         display: flex;
         flex-direction: column;
         height: 72px;
-        background-color: #6165E3;
+        background-color: #6165e3;
     }
 
     .options-wrapper > p {
@@ -97,7 +97,7 @@
         line-height: 16px;
         color: #f8f8f8;
         border: 1px solid #ccc;
-        background-color: #1E22AA;;
+        background-color: #1e22aa;
         padding: 6px 12px;
         border-radius: 4px;
         cursor: pointer;

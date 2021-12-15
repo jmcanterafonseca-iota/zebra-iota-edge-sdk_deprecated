@@ -94,7 +94,7 @@
     .header-wrapper {
         text-align: center;
         padding-bottom: 3vh;
-        background-color: #6165E3;
+        background-color: #6165e3;
     }
 
     header {

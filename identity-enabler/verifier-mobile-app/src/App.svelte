@@ -52,7 +52,8 @@
         background-color: white;
     }
 
-    main, div {
+    main,
+    div {
         height: 100%;
     }
 </style>
