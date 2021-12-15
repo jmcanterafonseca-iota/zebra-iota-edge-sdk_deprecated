@@ -39,7 +39,8 @@
                 bcid: "qrcode",
                 text: content,
                 height: 50,
-                width: 50
+                width: 50,
+                backgroundcolor: "ffffff"
             });
         } catch (e) {
             console.error(e);
@@ -84,7 +85,7 @@
 
             <footer>
                 <Button
-                    style="background: #00A7FF; color: white; height: 64px;"
+                    style="height: 64px;"
                     loadingText={"Generating identity"}
                     label="Next"
                     onClick={requestCredential}
@@ -97,14 +98,13 @@
 <style>
     main {
         height: 100%;
-        background: #f8f8f8;
         flex-direction: column;
         display: flex;
         flex: 1;
     }
 
     header {
-        background: linear-gradient(90deg, #00ffff 0%, #0099ff 100%);
+        background-color: #aee693;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -120,14 +120,12 @@
         font-weight: 600;
         font-size: 2.3vh;
         line-height: 2.7vh;
-        color: #ffffff;
         margin: 0;
     }
 
     .qr-wrapper {
         height: fit-content;
         position: relative;
-        background: white;
         display: flex;
         flex-direction: row;
         align-items: center;

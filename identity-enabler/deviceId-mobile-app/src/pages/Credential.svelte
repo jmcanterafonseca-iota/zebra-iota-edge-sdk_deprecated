@@ -72,9 +72,9 @@
         </section>
         <footer>
             {#if save}
-                <Button style="background: #0099FF; color: white;" label="Save credential" onClick={onSaveCredential} />
+                <Button label="Save credential" onClick={onSaveCredential} />
             {:else}
-                <Button style="background: #0099FF; color: white;" label="Share" onClick={share}>
+                <Button label="Share" onClick={share}>
                     <img src="../assets/share.png" alt="share" />
                 </Button>
             {/if}
@@ -99,7 +99,7 @@
     .header-wrapper {
         text-align: center;
         padding-bottom: 3vh;
-        background: linear-gradient(90deg, #00ffff 0%, #0099ff 100%);
+        background-color: #aee693;
     }
 
     header {

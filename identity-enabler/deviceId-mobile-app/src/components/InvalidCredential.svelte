@@ -14,7 +14,7 @@
         <p>INVALID CREDENTIAL</p>
     </section>
     <footer>
-        <Button style="background: #0099FF; color: white;" label="Done" onClick={goBack} />
+        <Button label="Done" onClick={goBack} />
     </footer>
 </main>
 

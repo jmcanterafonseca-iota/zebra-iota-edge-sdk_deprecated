@@ -20,7 +20,8 @@
                 bcid: "datamatrix",
                 text: JSON.stringify(credential),
                 scale: 3,
-                padding: 20
+                padding: 20,
+                backgroundcolor: "ffffff"
             });
         } catch (e) {
             console.error(e);
@@ -83,7 +84,7 @@
             <footer class="footerContainer">
                 <p>Valid until {addDaysToDate(credential?.verifiableCredential?.issuanceDate, 30)}</p>
                 <Button
-                    style="background: transparent; color: white; font-weight: 500; font-size: 1.7vh; line-height: 2.3vh; border: none; height:fit-content;"
+                    style="background: transparent; font-weight: 500; font-size: 1.7vh; line-height: 2.3vh; border: none; height:fit-content;"
                     label="VIEW IN JSON FORMAT"
                     onClick={onClickJSON}
                 />

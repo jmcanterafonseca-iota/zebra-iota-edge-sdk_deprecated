@@ -140,12 +140,11 @@
         display: flex;
         flex-direction: column;
         height: 141px;
-        background: linear-gradient(90deg, #00ffff 0%, #0099ff 100%);
+        background-color: #aee693;
     }
 
     name-wrapper {
         padding-top: 5.6vh;
-        background: #f8f8f8;
     }
 
     section {
@@ -153,7 +152,6 @@
         align-content: space-between;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        background: #f8f8f8;
     }
 
     .logo {

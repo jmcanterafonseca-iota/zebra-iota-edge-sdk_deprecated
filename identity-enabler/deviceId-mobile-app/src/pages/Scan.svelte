@@ -125,7 +125,7 @@
         display: flex;
         flex-direction: column;
         height: 72px;
-        background: linear-gradient(90deg, #00ffff 0%, #0099ff 100%);
+        background-color: #aee693;
     }
 
     .options-wrapper > p {
@@ -133,7 +133,6 @@
         font-weight: 600;
         font-size: 14px;
         line-height: 16px;
-        color: #f8f8f8;
         margin: 0;
         z-index: 1;
     }
@@ -155,9 +154,8 @@
         font-weight: 600;
         font-size: 14px;
         line-height: 16px;
-        color: #f8f8f8;
-        border: 1px solid #ccc;
-        background-color: #00a7ff;
+        border: 1px solid #9d9d9d;
+        background-color: #78d64b;
         padding: 6px 12px;
         border-radius: 4px;
         cursor: pointer;

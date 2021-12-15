@@ -121,6 +121,10 @@
 </main>
 
 <style>
+    main {
+        background-color: white;
+    }
+
     main,
     div {
         height: 100%;
