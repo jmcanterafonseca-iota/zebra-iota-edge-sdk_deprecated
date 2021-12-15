@@ -59,8 +59,8 @@
     }
 
     onMount(async () => {
-		(window as any).onScan = onScan;
-		
+        (window as any).onScan = onScan;
+
         if (!$hasSetupAccount) {
             return Keychain.clear();
         }
