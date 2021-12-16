@@ -111,7 +111,7 @@
                     />
                 </svg>
             </div>
-            <div class="logo"><img src="../assets/device.png" alt="logo" /></div>
+            <div class="logo"><img src="/img/device.png" alt="logo" /></div>
         </header>
         <name-wrapper>
             <p>Device {$account.name}</p>

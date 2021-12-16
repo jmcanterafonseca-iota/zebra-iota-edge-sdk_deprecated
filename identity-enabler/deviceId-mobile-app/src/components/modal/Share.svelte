@@ -36,7 +36,7 @@
                 label="Share as data matrix"
                 onClick={share}
             >
-                <img class="modal-icon" src="../assets/data-matrix.svg" alt="data-matrix" />
+                <img class="modal-icon" src="/img/data-matrix.svg" alt="data-matrix" />
             </Button>
             <div class="border" />
             <Button
@@ -49,7 +49,7 @@
                 label="Share as JSON"
                 onClick={shareJSON}
             >
-                <img class="modal-icon" src="../assets/link.svg" alt="link" />
+                <img class="modal-icon" src="/img/link.svg" alt="link" />
             </Button>
         </div>
     </div>
