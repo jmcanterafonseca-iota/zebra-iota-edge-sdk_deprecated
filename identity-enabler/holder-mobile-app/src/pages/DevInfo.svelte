@@ -89,7 +89,6 @@
     i.icon-cross {
         position: absolute;
         right: 3.4vh;
-        width: 1.75em;
     }
 
     section {

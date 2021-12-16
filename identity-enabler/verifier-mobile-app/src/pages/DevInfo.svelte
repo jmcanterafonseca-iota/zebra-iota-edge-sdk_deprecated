@@ -78,6 +78,11 @@
         white-space: nowrap;
     }
 
+    i.icon-cross {
+        position: absolute;
+        right: 3.4vh;
+    }
+
     section {
         background: white;
     }
