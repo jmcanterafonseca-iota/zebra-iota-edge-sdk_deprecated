@@ -11,7 +11,7 @@
     import DevInfo from "./DevInfo.svelte";
     import { showAlert } from "../lib/ui/helpers";
 
-    const { App, Modals } = Plugins;
+    const { Modals } = Plugins;
 
     let isEmpty = false;
     let showTutorial = false;
@@ -19,7 +19,6 @@
     let loading = false;
 
     onMount(async () => {
-        App.addListener("backButton", function () {}, false);
         setTimeout(async () => {
             try {
                 loading = true;

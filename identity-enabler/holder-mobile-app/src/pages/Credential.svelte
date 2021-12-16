@@ -1,8 +1,6 @@
 <script>
     import { navigate } from "svelte-routing";
-    import { beforeUpdate } from "svelte";
     import { fly } from "svelte/transition";
-    import { Plugins } from "@capacitor/core";
     import Button from "../components/Button.svelte";
     import ObjectList from "../components/ObjectList.svelte";
     import DevInfo from "./DevInfo.svelte";
@@ -10,7 +8,6 @@
     import { ServiceFactory } from "../factories/serviceFactory";
     import { showAlert } from "../lib/ui/helpers";
 
-    const { App } = Plugins;
     let showTutorial = false;
     const credential = window.history.state.credential;
     const identityService = ServiceFactory.get("identity");
@@ -36,10 +33,6 @@
     function onClickDev() {
         showTutorial = true;
     }
-
-    beforeUpdate(() => {
-        !showTutorial && App.removeAllListeners();
-    });
 </script>
 
 <main transition:fly={{ x: 500, duration: 500 }}>

@@ -12,12 +12,11 @@
     export let showTutorial = Boolean;
 
     let code = "";
+    let listenerHandle;
 
     onMount(async () => {
+        listenerHandle = App.addListener("backButton", onClose);
         loadingScreen.set("Loading...");
-        App.addListener("backButton", function () {
-            showTutorial = false;
-        });
 
         try {
             code = await getMarkdownContent(`${TUTORIAL_BASE_URL}/${page}.md`);
@@ -28,8 +27,8 @@
     });
 
     function onClose() {
+        listenerHandle.remove();
         showTutorial = false;
-        App.removeAllListeners();
     }
 </script>
 

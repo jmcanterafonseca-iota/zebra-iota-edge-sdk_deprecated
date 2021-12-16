@@ -7,7 +7,7 @@
     const { close } = getContext("simple-modal");
     const { Share } = Plugins;
 
-    const credential = window.history.state.credential
+    const credential = window.history.state.credential;
 
     function share() {
         navigate("createPresentation", { state: { credential } });

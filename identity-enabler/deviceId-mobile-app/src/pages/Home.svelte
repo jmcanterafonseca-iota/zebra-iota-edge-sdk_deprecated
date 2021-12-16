@@ -12,13 +12,12 @@
 
     let showTutorial = false;
 
-    const { App, Modals } = Plugins;
+    const { Modals } = Plugins;
 
     let loading = false;
     let localCredentials = [];
 
     onMount(async () => {
-        App.addListener("backButton", function () {});
         setTimeout(async () => {
             try {
                 localCredentials = await getFromStorage("credentials");

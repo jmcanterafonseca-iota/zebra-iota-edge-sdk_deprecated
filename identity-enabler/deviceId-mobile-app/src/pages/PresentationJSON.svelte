@@ -7,16 +7,15 @@
 
     export let showJSON = Boolean;
     export let code = "";
+    let listenerHandle;
 
-    onMount(async () => {
-        App.addListener("backButton", function () {
-            showJSON = false;
-        });
+    onMount(() => {
+        listenerHandle = App.addListener("backButton", onClose);
     });
 
     function onClose() {
+        listenerHandle.remove();
         showJSON = false;
-        App.removeAllListeners();
     }
 </script>
 

@@ -1,14 +1,10 @@
 <script>
     import { navigate } from "svelte-routing";
-    import { beforeUpdate } from "svelte";
     import { fly } from "svelte/transition";
-    import { Plugins } from "@capacitor/core";
     import { updateStorage, modalStatus } from "../lib/store";
     import Button from "../components/Button.svelte";
     import ObjectList from "../components/ObjectList.svelte";
     import DevInfo from "./DevInfo.svelte";
-
-    const { App } = Plugins;
 
     let showTutorial = false;
 
@@ -37,10 +33,6 @@
     function onClickDev() {
         showTutorial = true;
     }
-
-    beforeUpdate(() => {
-        !showTutorial && App.removeAllListeners();
-    });
 </script>
 
 <main transition:fly={{ x: 500, duration: 500 }}>
