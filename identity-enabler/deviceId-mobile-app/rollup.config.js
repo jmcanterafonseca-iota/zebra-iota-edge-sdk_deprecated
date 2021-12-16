@@ -9,8 +9,8 @@ import copy from "rollup-plugin-copy";
 import typescript from "@rollup/plugin-typescript";
 import { string } from "rollup-plugin-string";
 import json from "@rollup/plugin-json";
-import del from "rollup-plugin-delete";
 import * as fs from "fs";
+import * as path from "path";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -44,15 +44,13 @@ export default {
         file: "public/js/bundle.js"
     },
     plugins: [
-        del({
-            targets: "public/*",
-            runOnce: Boolean(process.env.ROLLUP_WATCH)
-        }),
         copy({
+            copyOnce: Boolean(process.env.ROLLUP_WATCH),
             targets: [
                 {
-                    src: "src/web/*",
-                    dest: "public"
+                    src: "src/web",
+                    dest: ".",
+                    rename: "public"
                 },
                 {
                     src: "node_modules/@iota/identity-wasm/web/identity_wasm_bg.wasm",
@@ -74,8 +72,10 @@ export default {
         // we'll extract any component CSS out into
         // a separate file - better for performance
         css({
-            output: (styles, styleNodes) => {
-                fs.writeFileSync("public/css/bundle.css", styles);
+            output: (styles, _) => {
+                const dir = path.resolve(process.cwd(), "public/css");
+                fs.mkdirSync(dir, { recursive: true });
+                fs.writeFileSync(path.join(dir, "bundle.css"), styles);
             }
         }),
 
