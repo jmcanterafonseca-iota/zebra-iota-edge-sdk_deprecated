@@ -75,14 +75,7 @@
     {#if !invalid && !loading}
         <header>
             <div class="options-wrapper">
-                <svg
-                    on:click={goBack}
-                    class="options-icon arrow"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path d="M15 6L9 12L15 18" />
-                </svg>
+                <i on:click={goBack} class="icon-chevron" />
                 <p>Scanner</p>
                 <label class="image-select">
                     <input type="file" accept="image/*" on:change={e => imageSelected(e)} />
@@ -104,19 +97,6 @@
         display: flex;
         flex-direction: column;
         background-color: #00a7ff;
-    }
-
-    .options-icon {
-        fill: white;
-        width: 1.75em;
-    }
-
-    .arrow {
-        fill: none !important;
-        stroke: white;
-        stroke-width: 2;
-        stroke-linecap: round;
-        stroke-linejoin: round;
     }
 
     .options-wrapper > p {
