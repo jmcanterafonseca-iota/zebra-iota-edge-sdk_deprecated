@@ -15,7 +15,7 @@
         <div>
             <Header text="Scan, verify and store credentials" />
         </div>
-        <img src="../assets/landing-1.png" alt="landing-1" />
+        <img src="/img/landing-1.png" alt="landing-1" />
     </div>
     <footer class="footerContainer">
         <Button label="Next" onClick={onNext} />
