@@ -115,7 +115,7 @@
             <Route path="/requestcredential" component={RequestCredential} />
 
             <Route path="/createQR" component={CreateQR} />
-            <Route route="/scan" component={Scan} />
+            <Route path="/scan" component={Scan} />
             <Route path="/createPresentation" component={CreatePresentation} />
         </div>
     </Router>
