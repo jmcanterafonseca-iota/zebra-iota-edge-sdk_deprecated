@@ -6,7 +6,10 @@
     import { onMount } from "svelte";
     import Hammer from "hammerjs";
     import { fly } from "svelte/transition";
+    import { Plugins } from "@capacitor/core";
 
+
+    const { App } = Plugins;
     let mounted;
     let back = $landingIndex > 0;
 
@@ -32,7 +35,7 @@
 
     function onNext() {
         if ($landingIndex === info.length - 1) {
-            navigate("name");
+            navigate("/name");
         } else {
             back = false;
             landingIndex.update(x => x + 1);
@@ -61,13 +64,17 @@
     }
 
     onMount(() => {
+        const listenerHandle = App.addListener("backButton", onBack);
         mounted = true;
+
         if (window.matchMedia("(pointer: coarse)").matches) {
             const hammer = new Hammer(document.getElementById("wrapper"));
             hammer.get("swipe").set({ direction: Hammer.DIRECTION_HORIZONTAL });
             hammer.on("swipeleft", () => onNext());
             hammer.on("swiperight", () => onBack());
         }
+
+        return listenerHandle.remove;
     });
 </script>
 

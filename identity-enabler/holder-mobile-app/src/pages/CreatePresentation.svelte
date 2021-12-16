@@ -1,5 +1,4 @@
 <script>
-    import { navigate } from "svelte-routing";
     import { onMount } from "svelte";
     import bwipjs from "bwip-js";
     import { ServiceFactory } from "../factories/serviceFactory";
@@ -61,7 +60,7 @@
     });
 
     function goBack() {
-        navigate("credential", { state: { credential: credential } });
+        window.history.back();
     }
 
     function onClickDev() {

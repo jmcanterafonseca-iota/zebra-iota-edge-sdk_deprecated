@@ -17,22 +17,30 @@
 
     let showTutorial = false;
 
-    const { Modals } = Plugins;
+    const { App, Modals } = Plugins;
 
     let loading = false;
     let localCredentials = [];
 
+    onMount(() => App.addListener("backButton", onBack).remove);
     onMount(async () => {
-        setTimeout(async () => {
-            try {
-                const creds = await getFromStorage("credentials");
-                localCredentials = Object.values(creds)?.filter(data => data) ?? [];
-                console.log("onMount", localCredentials);
-            } catch (err) {
-                console.log(err);
-            }
-        }, 0);
+        try {
+            const creds = await getFromStorage("credentials");
+            localCredentials = Object.values(creds)?.filter(data => data) ?? [];
+            console.log("onMount", localCredentials);
+        } catch (err) {
+            console.log(err);
+        }
     });
+
+    function onBack() {
+        switch (window.history.state?.prevPage) {
+            case "/name":
+                return;
+            default:
+                window.history.back();
+        }
+    }
 
     async function generateCredential() {
         if (navigator.onLine === false) {
@@ -125,12 +133,12 @@
                 });
                 return;
             }
-            navigate("landing");
+            navigate("/landing");
         }
     }
 
     function scan() {
-        navigate("scan");
+        navigate("/scan");
     }
 </script>
 

@@ -14,11 +14,9 @@
 
     let loading = true;
     let code = "";
-    let listenerHandle;
 
+    onMount(() => App.addListener("backButton", onClose).remove);
     onMount(async () => {
-        listenerHandle = App.addListener("backButton", onClose);
-
         try {
             code = await getMarkdownContent(`${TUTORIAL_BASE_URL}/${page}.md`);
             loading = false;
@@ -29,7 +27,6 @@
     });
 
     function onClose() {
-        listenerHandle.remove();
         showTutorial = false;
     }
 </script>

@@ -53,7 +53,7 @@
             console.log("new credential", credential);
             await updateStorage("credentials", { ["organization"]: credential });
             loading = false;
-            navigate("createPresentation", { state: { credential } });
+            navigate("/createPresentation", { state: { credential } });
         } catch (err) {
             error.set("Error creating credential. Please try again.");
             loading = false;
@@ -61,7 +61,7 @@
     }
 
     function goBack() {
-        navigate("home");
+        window.history.back();
     }
 
     function onClickDev() {
