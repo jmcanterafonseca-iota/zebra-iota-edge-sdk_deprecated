@@ -131,3 +131,7 @@ i {
     font-size: 1.75em;
     color: white;
 }
+
+.rotate-180 {
+    transform: rotate(180deg);
+}
