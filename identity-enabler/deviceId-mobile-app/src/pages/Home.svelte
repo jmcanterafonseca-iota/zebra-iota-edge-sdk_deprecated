@@ -123,7 +123,6 @@
                         onClick={() => navigate("credential", { state: { credential } })}
                         heading={"IOTA"}
                         subheading={credential.verifiableCredential.type[1]}
-                        icon="device.svg"
                     />
                 </div>
             {/each}
@@ -230,10 +229,6 @@
     .add {
         width: 40px;
         height: 40px;
-    }
-
-    .code {
-        margin-left: auto;
     }
 
     .btn-wrapper {
