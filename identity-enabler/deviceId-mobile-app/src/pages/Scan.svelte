@@ -102,9 +102,7 @@
 
     {#if !invalid && !loading}
         <header>
-            <svg on:click={goBack} class="arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15 6L9 12L15 18" />
-            </svg>
+            <i on:click={goBack} class="icon-chevron" />
             <p>Scanner</p>
             <label class="image-select">
                 <input type="file" accept="image/*" on:change={e => imageSelected(e)} />
@@ -128,15 +126,6 @@
         justify-content: space-between;
         height: 72px;
         padding: 0 2.6vh;
-    }
-
-    .arrow {
-        width: 2em;
-        fill: none;
-        stroke: black;
-        stroke-width: 2;
-        stroke-linecap: round;
-        stroke-linejoin: round;
     }
 
     header > p {

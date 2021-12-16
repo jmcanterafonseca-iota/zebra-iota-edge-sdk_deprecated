@@ -64,9 +64,7 @@
     <div class={loading ? "wrapper mini" : "wrapper"} transition:fly={{ x: 500, duration: 500 }}>
         {#if !loading}
             <header>
-                <svg on:click={goBack} class="arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 6L9 12L15 18" />
-                </svg>
+                <i on:click={goBack} class="icon-chevron" />
                 <p>Request Device DID credential</p>
             </header>
 
@@ -112,15 +110,6 @@
         justify-content: center;
         height: 72px;
         padding: 0 2.6vh;
-    }
-
-    .arrow {
-        width: 1.75em;
-        fill: none;
-        stroke: black;
-        stroke-width: 2;
-        stroke-linecap: round;
-        stroke-linejoin: round;
     }
 
     header > p {
