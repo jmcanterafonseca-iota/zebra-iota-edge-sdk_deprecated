@@ -11,27 +11,26 @@
     import DevInfo from "./DevInfo.svelte";
     import { showAlert } from "../lib/ui/helpers";
 
-    const { Modals } = Plugins;
+    const { App, Modals } = Plugins;
 
     let isEmpty = false;
     let showTutorial = false;
     let localCredentials = {};
     let loading = false;
 
+    onMount(() => App.addListener("backButton", onBack).remove);
     onMount(async () => {
-        setTimeout(async () => {
-            try {
-                loading = true;
-                localCredentials = await getFromStorage("credentials");
-                localCredentials = Object.values(localCredentials)?.filter(data => data);
-                console.log("onMount", localCredentials);
-                isEmpty = Object.values(localCredentials).every(x => x === null || x === "");
-                loading = false;
-            } catch (err) {
-                console.log(err);
-                loading = false;
-            }
-        }, 0);
+        try {
+            loading = true;
+            localCredentials = await getFromStorage("credentials");
+            localCredentials = Object.values(localCredentials)?.filter(data => data);
+            console.log("onMount", localCredentials);
+            isEmpty = Object.values(localCredentials).every(x => x === null || x === "");
+            loading = false;
+        } catch (err) {
+            console.log(err);
+            loading = false;
+        }
     });
 
     async function scan() {
@@ -40,6 +39,15 @@
             return;
         }
         navigate("/scan");
+    }
+
+    function onBack() {
+        if (showTutorial) {
+            showTutorial = false;
+            return;
+        }
+
+        // do not react to Android back button on Home screen
     }
 
     function onClickDev() {

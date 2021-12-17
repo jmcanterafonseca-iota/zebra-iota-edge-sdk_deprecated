@@ -7,12 +7,17 @@
     import DevInfo from "./DevInfo.svelte";
     import { isExpired } from "../lib/helpers";
     import { navigate } from "svelte-routing";
+    import { onMount } from "svelte";
 
-    const { Modals } = Plugins;
+    const { App, Modals } = Plugins;
 
     let showTutorial = false;
     let credential = window.history.state.credential;
     let expired = isExpired(credential.issuanceDate);
+
+    function onDone() {
+        navigate("/");
+    }
 
     async function onDelete() {
         let confirmRet = await Modals.confirm({
@@ -21,13 +26,25 @@
         });
         if (confirmRet.value) {
             await updateStorage("credentials", { [credential.type[1].split(/\b/)[0].toLowerCase()]: "" });
-            navigate("/home");
+            // prevent user navigating back to a deleted credential page
+            navigate("/", { replace: true });
         }
     }
 
     function onClickDev() {
         showTutorial = true;
     }
+
+    function onBack() {
+        if (showTutorial) {
+            showTutorial = false;
+            return;
+        }
+
+        window.history.back();
+    }
+
+    onMount(() => App.addListener("backButton", onBack).remove);
 </script>
 
 <main transition:fly={{ x: 500, duration: 500 }}>
@@ -55,7 +72,7 @@
             <ObjectList object={credential.credentialSubject} />
         </section>
         <footer>
-            <Button style="background: #0099FF; color: white;" label="Done" onClick={() => navigate("/home")} />
+            <Button style="background: #0099FF; color: white;" label="Done" onClick={onDone} />
         </footer>
     {/if}
 </main>
