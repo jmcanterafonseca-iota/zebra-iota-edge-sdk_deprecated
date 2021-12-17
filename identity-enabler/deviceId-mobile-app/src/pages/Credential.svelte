@@ -14,7 +14,6 @@
     const credential = window.history.state.credential;
     const save = window?.history?.state?.save;
 
-    
     onMount(() => App.addListener("backButton", goBack).remove);
 
     function share() {

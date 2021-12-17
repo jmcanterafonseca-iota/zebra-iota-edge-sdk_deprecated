@@ -18,7 +18,7 @@
 
     async function onBack() {
         if (exitOnBack) {
-            // From the home screen, navigating back twice should exit the app
+            // From the landing screen, navigating back twice should exit the app
             App.exitApp();
             return;
         }
