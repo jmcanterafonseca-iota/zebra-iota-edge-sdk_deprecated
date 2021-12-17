@@ -19,7 +19,7 @@
 
 ## About
 
-This SDK allows building applications with Zebra Devices in combination with the [IOTA](https://wiki.iota.org) Distributed Ledger Technology. It is composed by the following modules:
+This SDK allows building applications with Zebra Devices in combination with the [IOTA](https://wiki.iota.org) Distributed Ledger Technology. It is composed of the following modules:
 
 * **[Identity Enabler](./identity-enabler)**. Provides all the scaffolding structured around reference applications that facilitate the creation of solutions that exploit [IOTA  Decentralized Identities](https://files.iota.org/comms/IOTA_The_Case_for_a_Unified_Identity.pdf) in different domains (Personal identity and health passports, Organizational Identities and Device Identities in the Global Trade and Supply Chain domain).
 
