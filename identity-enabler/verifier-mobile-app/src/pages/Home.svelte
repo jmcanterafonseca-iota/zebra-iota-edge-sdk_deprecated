@@ -123,7 +123,8 @@
             {:else}
                 {#each Object.values(localCredentials) as credential}
                     <div transition:slide class="list">
-                        <ListItem
+                        <ListItem icon={isExpired(credential.issuanceDate) ? "cross" : "check"}
+                            iconColor="#1e22aa"
                             onClick={() => onClickCredential(credential)}
                             heading={"IOTA"}
                             subheading={credential.type[1]}
@@ -166,18 +167,7 @@
 
     .list {
         padding: 0 20px;
-    }
-
-    .list:first-child {
-        margin-top: 3.5vh;
-    }
-
-    .list:not(:last-child) {
-        margin-bottom: 3vh;
-    }
-
-    .list:last-child {
-        margin-bottom: 9vh;
+        margin-bottom: 2vh;
     }
 
     .options-wrapper > p {

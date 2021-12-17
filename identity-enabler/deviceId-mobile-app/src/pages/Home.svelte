@@ -106,7 +106,7 @@
         <section>
             {#each localCredentials as credential}
                 <div class="list">
-                    <ListItem
+                    <ListItem icon="chip"
                         onClick={() => navigate("credential", { state: { credential } })}
                         heading={"IOTA"}
                         subheading={credential.verifiableCredential.type[1]}
@@ -114,14 +114,8 @@
                 </div>
             {/each}
             {#if localCredentials.length < 1}
-                <div class="btn-wrapper">
-                    <Button
-                        style="background: white; color: #051923; display: flex; justify-content: flex-start; padding: 1rem; border: 2px solid rgb(219, 219, 219);"
-                        label="Request Device ID credential"
-                        onClick={createQR}
-                    >
-                        <i class="icon-add" />
-                    </Button>
+                <div class="list">
+                    <ListItem icon="add" iconColor="#78d64b" onClick={createQR} subheading="Request Device ID credential" />
                 </div>
             {/if}
         </section>
@@ -140,11 +134,6 @@
         flex-direction: column;
         height: 141px;
         background-color: #aee693;
-    }
-
-    i.icon-add {
-        font-size: 3em;
-        color: #78d64b;
     }
 
     name-wrapper {
@@ -178,14 +167,7 @@
 
     .list {
         padding: 0 20px;
-    }
-
-    .list:not(:last-child) {
-        margin-bottom: 3vh;
-    }
-
-    .list:last-child {
-        margin-bottom: 9vh;
+        margin-bottom: 2vh;
     }
 
     name-wrapper > p {
@@ -202,10 +184,5 @@
         flex-direction: row;
         justify-content: space-between;
         margin: 3.5vh 3.5vh 0 3.5vh;
-    }
-
-    .btn-wrapper {
-        height: 72px;
-        padding: 0 20px;
     }
 </style>

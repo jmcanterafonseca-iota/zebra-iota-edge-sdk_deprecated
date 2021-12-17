@@ -1,18 +1,27 @@
-<script>
+<script type="ts">
     export let onClick;
-    export let heading;
-    export let subheading;
+    export let heading: string | undefined = undefined;
+    export let subheading: string;
+    export let icon: string = "credential";
+    export let iconColor: string = "black";
+    export let arrow = true;
 </script>
 
 <li on:click={onClick}>
-    <i class="icon-credential" />
-    <div>
+    <i class="icon-{icon}" style="color: {iconColor};" />
+    <div class="text-container">
         {#if heading}
-            <h5>{heading}</h5>
+            <div class="overflow-container">
+                <h5>{heading}</h5>
+            </div>
         {/if}
-        <h6>{subheading}</h6>
+        <div class="overflow-container">
+            <h6>{subheading}</h6>
+        </div>
     </div>
-    <i class="icon-chevron rotate-180" />
+    {#if arrow}
+        <i class="icon-chevron rotate-180" />
+    {/if}
 </li>
 
 <style>
@@ -21,7 +30,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem;
+        padding: 0.8rem;
     }
 
     li > i {
@@ -29,32 +38,40 @@
         font-size: 3em;
     }
 
-    div {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
+    .icon-chevron {
+        font-size: 1.75em;
+    }
+
+    .text-container {
         flex: 1;
         padding: 0 1rem;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .overflow-container {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     h5 {
+        display: inline;
         font-family: "Proxima Nova", sans-serif;
         font-weight: 600;
         font-size: 0.75em;
         letter-spacing: 0.06em;
         color: #8593ac;
         text-transform: uppercase;
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         margin: 0 0 0.9vh 0;
     }
 
     h6 {
+        display: inline;
         font-family: "Proxima Nova", sans-serif;
         font-weight: 600;
-        font-size: 1.1em;
+        font-size: 1em;
         margin: 0;
+        color: #051923;
     }
 </style>

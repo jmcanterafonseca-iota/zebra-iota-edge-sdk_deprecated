@@ -13,7 +13,7 @@
     import { updateStorage, getFromStorage, account, resetAllStores } from "../lib/store";
     import { getRandomUserData, generateRandomId, wait } from "../lib/helpers";
     import type { IdentityService } from "../services/identityService";
-    import { showAlert } from "../lib/ui/helpers";
+    import { credentialIcon, showAlert } from "../lib/ui/helpers";
     import { BACK_BUTTON_EXIT_GRACE_PERIOD } from "../config";
 
     let showTutorial = false;
@@ -179,22 +179,16 @@
         <section>
             {#each localCredentials as credential}
                 <div transition:slide class="list">
-                    <ListItem
-                        onClick={() => navigate("/credential", { state: { credential } })}
+                    <ListItem icon={credential.enrichment ? credentialIcon[credential.enrichment.credentialLabel] : "credential"}
+                        onClick={() => navigate("credential", { state: { credential } })}
                         heading={credential.enrichment ? credential.enrichment.issuerLabel : ""}
                         subheading={credential.enrichment ? credential.enrichment.credentialLabel : ""}
                     />
                 </div>
             {/each}
             {#if localCredentials.length < 3}
-                <div class="btn-wrapper">
-                    <Button
-                        style="background: white; color: #051923; display: flex; justify-content: flex-start; padding: 1rem; border: 2px solid rgb(219, 219, 219);"
-                        label="Add new credential"
-                        onClick={generateCredential}
-                    >
-                        <i class="icon-add" />
-                    </Button>
+                <div transition:slide class="list">
+                    <ListItem icon="add" iconColor="#00a7ff" arrow={false} onClick={generateCredential} subheading="Add new credential" />
                 </div>
             {/if}
         </section>
@@ -244,14 +238,7 @@
 
     .list {
         padding: 0 20px;
-    }
-
-    .list:not(:last-child) {
-        margin-bottom: 3vh;
-    }
-
-    .list:last-child {
-        margin-bottom: 9vh;
+        margin-bottom: 2vh;
     }
 
     name-wrapper > p {
@@ -268,16 +255,6 @@
         flex-direction: row;
         justify-content: space-between;
         margin: 1.5rem 3.5vh 0 3.5vh;
-    }
-
-    i.icon-add {
-        font-size: 3em;
-        color: #00a7ff;
-    }
-
-    .btn-wrapper {
-        height: 72px;
-        padding: 0 20px;
     }
 
     footer {
