@@ -163,10 +163,10 @@
         align-content: space-between;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        margin: 2rem 1.5rem;
     }
 
     .list {
-        padding: 0 20px;
         margin-bottom: 2vh;
     }
 

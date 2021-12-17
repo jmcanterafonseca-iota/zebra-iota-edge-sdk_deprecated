@@ -115,7 +115,7 @@
             {/each}
             {#if localCredentials.length < 1}
                 <div class="list">
-                    <ListItem icon="add" iconColor="#78d64b" onClick={createQR} subheading="Request Device ID credential" />
+                    <ListItem icon="add" iconColor="#78d64b" onClick={createQR} arrow={false} subheading="Request Device ID credential" />
                 </div>
             {/if}
         </section>
