@@ -4,7 +4,7 @@
     import { navigate } from "svelte-routing";
     import { slide } from "svelte/transition";
     import { getFromStorage } from "../lib/store";
-    import { isExpired } from "../lib/helpers";
+    import { isExpired, wait } from "../lib/helpers";
     import FullScreenLoader from "../components/FullScreenLoader.svelte";
     import Button from "../components/Button.svelte";
     import ListItem from "../components/ListItem.svelte";

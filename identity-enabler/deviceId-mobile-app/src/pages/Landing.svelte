@@ -4,6 +4,7 @@
     import Button from "../components/Button.svelte";
     import Header from "../components/Header.svelte";
     import { navigate } from "svelte-routing";
+    import { wait } from "../lib/helpers";
 
     const info = {
         header: "Create and store device digital identity",

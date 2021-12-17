@@ -7,6 +7,7 @@
     import Hammer from "hammerjs";
     import { fly } from "svelte/transition";
     import { Plugins } from "@capacitor/core";
+    import { wait } from "../lib/helpers";
 
     const { App, Toast } = Plugins;
     let mounted;
