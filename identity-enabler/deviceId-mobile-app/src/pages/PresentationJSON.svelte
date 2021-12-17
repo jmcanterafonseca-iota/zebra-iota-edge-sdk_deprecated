@@ -1,20 +1,10 @@
 <script>
-    import { onMount } from "svelte";
-    import { Plugins } from "@capacitor/core";
     import Markdown from "../components/Markdown.svelte";
-
-    const { App } = Plugins;
 
     export let showJSON = Boolean;
     export let code = "";
-    let listenerHandle;
-
-    onMount(() => {
-        listenerHandle = App.addListener("backButton", onClose);
-    });
 
     function onClose() {
-        listenerHandle.remove();
         showJSON = false;
     }
 </script>

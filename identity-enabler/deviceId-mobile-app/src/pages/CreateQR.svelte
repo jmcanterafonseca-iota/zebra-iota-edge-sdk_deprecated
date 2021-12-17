@@ -51,7 +51,7 @@
     }
 
     function requestCredential() {
-        navigate("requestcredential");
+        navigate("/requestcredential");
     }
 </script>
 

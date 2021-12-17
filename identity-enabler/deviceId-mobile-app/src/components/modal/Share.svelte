@@ -10,7 +10,7 @@
     const credential = window.history.state.credential;
 
     function share() {
-        navigate("createPresentation", { state: { credential } });
+        navigate("/createPresentation", { state: { credential } });
         close();
     }
 

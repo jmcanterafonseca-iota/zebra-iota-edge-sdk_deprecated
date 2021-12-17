@@ -1,4 +1,6 @@
 <script>
+    import { Plugins } from "@capacitor/core";
+    import { onMount } from "svelte";
     import { navigate } from "svelte-routing";
     import { fly } from "svelte/transition";
     import { updateStorage, modalStatus } from "../lib/store";
@@ -6,10 +8,14 @@
     import ObjectList from "../components/ObjectList.svelte";
     import DevInfo from "./DevInfo.svelte";
 
+    const { App } = Plugins;
     let showTutorial = false;
 
     const credential = window.history.state.credential;
     const save = window?.history?.state?.save;
+
+    
+    onMount(() => App.addListener("backButton", goBack).remove);
 
     function share() {
         modalStatus.set({
@@ -23,10 +29,20 @@
         await updateStorage("credentials", {
             [credential.verifiableCredential.type[1].split(/\b/)[0].toLowerCase()]: credential
         });
-        navigate("home");
+        navigate("/home");
     }
 
     function goBack() {
+        if ($modalStatus.active) {
+            modalStatus.set({ active: false });
+            return;
+        }
+
+        if (showTutorial) {
+            showTutorial = false;
+            return;
+        }
+
         history.back();
     }
 

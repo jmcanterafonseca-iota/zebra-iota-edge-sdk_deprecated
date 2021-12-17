@@ -1,24 +1,18 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { Plugins } from "@capacitor/core";
     import FullScreenLoader from "../components/FullScreenLoader.svelte";
     import Markdown from "../components/Markdown.svelte";
     import { getMarkdownContent } from "../lib/helpers";
     import { TUTORIAL_BASE_URL } from "../config";
     import { error } from "../lib/store";
 
-    const { App } = Plugins;
-
     export let page = "";
     export let showTutorial: boolean;
 
     let loading = true;
     let code = "";
-    let listenerHandle;
 
     onMount(async () => {
-        listenerHandle = App.addListener("backButton", onClose);
-
         try {
             code = await getMarkdownContent(`${TUTORIAL_BASE_URL}/${page}.md`);
             loading = false;
@@ -29,7 +23,6 @@
     });
 
     function onClose() {
-        listenerHandle.remove();
         showTutorial = false;
     }
 </script>
