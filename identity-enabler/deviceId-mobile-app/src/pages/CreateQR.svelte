@@ -47,7 +47,7 @@
     }
 
     function goBack() {
-        history.back();
+        window.history.back();
     }
 
     function requestCredential() {

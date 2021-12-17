@@ -42,7 +42,7 @@
             return;
         }
 
-        history.back();
+        window.history.back();
     }
 
     function onClickDev() {

@@ -29,7 +29,7 @@
             return;
         }
 
-        history.back();
+        window.history.back();
     }
 </script>
 
