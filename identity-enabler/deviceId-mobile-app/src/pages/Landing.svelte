@@ -5,6 +5,7 @@
     import Header from "../components/Header.svelte";
     import { navigate } from "svelte-routing";
     import { wait } from "../lib/helpers";
+    import { BACK_BUTTON_EXIT_GRACE_PERIOD } from "../config";
 
     const info = {
         header: "Create and store device digital identity",
@@ -30,7 +31,7 @@
             duration: "short",
             text: "Tap back again to exit"
         });
-        await wait(2000); // 2s is same duration as "short" Toast
+        await wait(BACK_BUTTON_EXIT_GRACE_PERIOD);
         exitOnBack = false;
     }
 

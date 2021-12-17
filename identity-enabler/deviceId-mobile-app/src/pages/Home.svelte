@@ -10,6 +10,7 @@
     import { ServiceFactory } from "../factories/serviceFactory";
     import type { IdentityService } from "../services/identityService";
     import { wait } from "../lib/helpers";
+    import { BACK_BUTTON_EXIT_GRACE_PERIOD } from "../config";
 
     let showTutorial = false;
 
@@ -24,7 +25,6 @@
         try {
             localCredentials = await getFromStorage("credentials");
             localCredentials = Object.values(localCredentials)?.filter(data => data);
-            console.log("onMount", localCredentials);
         } catch (err) {
             console.log(err);
         }
@@ -48,7 +48,7 @@
             duration: "short",
             text: "Tap back again to exit"
         });
-        await wait(2000); // 2s is same duration as "short" Toast
+        await wait(BACK_BUTTON_EXIT_GRACE_PERIOD);
         exitOnBack = false;
     }
 

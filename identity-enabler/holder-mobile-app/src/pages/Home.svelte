@@ -14,6 +14,7 @@
     import { getRandomUserData, generateRandomId, wait } from "../lib/helpers";
     import type { IdentityService } from "../services/identityService";
     import { showAlert } from "../lib/ui/helpers";
+    import { BACK_BUTTON_EXIT_GRACE_PERIOD } from "../config";
 
     let showTutorial = false;
 
@@ -28,7 +29,6 @@
         try {
             const creds = await getFromStorage("credentials");
             localCredentials = Object.values(creds)?.filter(data => data) ?? [];
-            console.log("onMount", localCredentials);
         } catch (err) {
             console.log(err);
         }
@@ -52,7 +52,7 @@
             duration: "short",
             text: "Tap back again to exit"
         });
-        await wait(2000); // 2s is same duration as "short" Toast
+        await wait(BACK_BUTTON_EXIT_GRACE_PERIOD);
         exitOnBack = false;
     }
 

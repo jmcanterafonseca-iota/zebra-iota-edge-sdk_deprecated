@@ -10,6 +10,7 @@
     import ListItem from "../components/ListItem.svelte";
     import DevInfo from "./DevInfo.svelte";
     import { showAlert } from "../lib/ui/helpers";
+    import { BACK_BUTTON_EXIT_GRACE_PERIOD } from "../config";
 
     const { App, Toast, Modals } = Plugins;
 
@@ -25,7 +26,6 @@
             loading = true;
             localCredentials = await getFromStorage("credentials");
             localCredentials = Object.values(localCredentials)?.filter(data => data);
-            console.log("onMount", localCredentials);
             isEmpty = Object.values(localCredentials).every(x => x === null || x === "");
             loading = false;
         } catch (err) {
@@ -60,7 +60,7 @@
             duration: "short",
             text: "Tap back again to exit"
         });
-        await wait(2000); // 2s is same duration as "short" Toast
+        await wait(BACK_BUTTON_EXIT_GRACE_PERIOD);
         exitOnBack = false;
     }
 

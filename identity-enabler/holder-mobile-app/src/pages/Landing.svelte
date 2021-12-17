@@ -8,6 +8,7 @@
     import { fly } from "svelte/transition";
     import { Plugins } from "@capacitor/core";
     import { wait } from "../lib/helpers";
+    import { BACK_BUTTON_EXIT_GRACE_PERIOD } from "../config";
 
     const { App, Toast } = Plugins;
     let mounted;
@@ -52,7 +53,7 @@
             duration: "short",
             text: "Tap back again to exit"
         });
-        await wait(2000); // 2s is same duration as "short" Toast
+        await wait(BACK_BUTTON_EXIT_GRACE_PERIOD);
         exitOnBack = false;
     }
 
