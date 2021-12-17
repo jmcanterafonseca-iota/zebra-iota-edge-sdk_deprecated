@@ -11,6 +11,7 @@
 
 <style>
     .loader-wrapper {
+        position: absolute;
         height: 100%;
         width: 100%;
         display: flex;
@@ -19,6 +20,7 @@
         justify-content: center;
         row-gap: 40px;
         background-color: #00a7ff;
+        z-index: 10;
     }
     .loader-label {
         font-family: "Proxima Nova", sans-serif;
