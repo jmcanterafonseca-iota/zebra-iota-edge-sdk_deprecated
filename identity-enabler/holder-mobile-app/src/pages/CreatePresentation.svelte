@@ -7,7 +7,9 @@
     import Button from "../components/Button.svelte";
     import DevInfo from "./DevInfo.svelte";
     import PresentationJson from "./PresentationJSON.svelte";
+    import { Plugins } from "@capacitor/core";
 
+    const { App } = Plugins;
     let presentationJSON = "";
     let loading = true;
     let showJSON = false;
@@ -60,6 +62,16 @@
     });
 
     function goBack() {
+        if (showTutorial) {
+            showTutorial = false;
+            return;
+        }
+
+        if (showJSON) {
+            showJSON = false;
+            return;
+        }
+
         window.history.back();
     }
 
@@ -70,6 +82,8 @@
     function onClickJSON() {
         showJSON = true;
     }
+
+    onMount(() => App.addListener("backButton", goBack).remove);
 </script>
 
 <main>

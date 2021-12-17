@@ -30,7 +30,13 @@
 
     function goBack() {
         if ($modalStatus.active) {
-            return modalStatus.set({ active: false });
+            modalStatus.set({ active: false });
+            return;
+        }
+
+        if (showTutorial) {
+            showTutorial = false;
+            return;
         }
 
         window.history.back();

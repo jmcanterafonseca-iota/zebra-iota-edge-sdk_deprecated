@@ -9,7 +9,10 @@
     import Button from "../components/Button.svelte";
     import ObjectList from "../components/ObjectList.svelte";
     import DevInfo from "./DevInfo.svelte";
+    import { onMount } from "svelte";
+    import { Plugins } from "@capacitor/core";
 
+    const { App } = Plugins;
     let showTutorial = false;
     let loading = false;
 
@@ -61,12 +64,19 @@
     }
 
     function goBack() {
+        if (showTutorial) {
+            showTutorial = false;
+            return;
+        }
+
         window.history.back();
     }
 
     function onClickDev() {
         showTutorial = true;
     }
+
+    onMount(() => App.addListener("backButton", goBack).remove);
 </script>
 
 <main>

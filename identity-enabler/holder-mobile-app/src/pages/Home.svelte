@@ -34,6 +34,11 @@
     });
 
     function onBack() {
+        if (showTutorial) {
+            showTutorial = false;
+            return;
+        }
+
         switch (window.history.state?.prevPage) {
             case "/name":
                 return;
@@ -166,7 +171,7 @@
             {#each localCredentials as credential}
                 <div transition:slide class="list">
                     <ListItem
-                        onClick={() => navigate("credential", { state: { credential } })}
+                        onClick={() => navigate("/credential", { state: { credential } })}
                         heading={credential.enrichment ? credential.enrichment.issuerLabel : ""}
                         subheading={credential.enrichment ? credential.enrichment.credentialLabel : ""}
                     />

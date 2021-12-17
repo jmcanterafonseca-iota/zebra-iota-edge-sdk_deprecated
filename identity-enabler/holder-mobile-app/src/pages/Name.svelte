@@ -51,7 +51,7 @@
             loading = false;
             hasSetupAccount.set(true);
 
-            navigate("/home", { state: { prevPage: "/name" }});
+            navigate("/", { state: { prevPage: "/name" } });
         } catch (err) {
             error.set("Error creating identity. Please try again.");
             loading = false;

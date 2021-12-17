@@ -8,7 +8,6 @@
     import { fly } from "svelte/transition";
     import { Plugins } from "@capacitor/core";
 
-
     const { App } = Plugins;
     let mounted;
     let back = $landingIndex > 0;
