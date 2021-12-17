@@ -29,10 +29,12 @@ This SDK allows building applications with Zebra Devices in combination with the
 
 The SDK uses Web Technologies for the user interface of the reference applications. In particular, the applications are coded in TypeScript, using the [Svelte](https://svelte.dev/) framework. To package the Web Applications as Android applications, the [Capacitor](https://capacitorjs.com/) framework is used. That means that you can run these applications in your local browser as Web Applications or in your Android device or emulator.
 
-* [Node.js](https://nodejs.org/en/download/) and [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-* [Android Studio](https://developer.android.com/studio) and related Android development tools
-* Ideally a Zebra Device with DataWedge such as the [TC21](https://www.zebra.com/gb/en/products/mobile-computers/handheld/tc21-tc26.html)
-* DataWedge profiles for the different applications. You can download and import them from [here]()
+Specific prerequisites are:
+
+* [Node.js](https://nodejs.org/en/download/) and [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+* [Android Studio](https://developer.android.com/studio) and related Android development tools such as [adb](https://developer.android.com/studio/command-line/adb).
+* Ideally a Zebra Device with DataWedge such as the [TC21](https://www.zebra.com/gb/en/products/mobile-computers/handheld/tc21-tc26.html).
+* [DataWedge](https://techdocs.zebra.com/datawedge/11-1/guide/about/) profiles for the reference applications. You can download and import them from [here](./test/datawedge/datawedge.db).
 
 ## Getting started
 
@@ -40,9 +42,9 @@ For the Identity Enabler go to the [identity-enabler](./identity-enabler) folder
 
 * *Holder Application* which allows generating and presenting credentials using data matrix codes.
 * *Verifier Application* which allows verifying credentials.
-* *Device Onboarding Application* which allows to onboard devices and assign decentralized identities. 
+* *Device Onboarding Application* which allows to onboard devices and assign decentralized identities.
 
-If you want to run the applications as Android application you just need to:
+If you want to run the applications as Android application, for instance the Holder application, you just need to:
 
 ```console
 cd holder-mobile-app
@@ -50,9 +52,9 @@ npm install
 npm run android
 ```
 
-Afterwards the Web application code will be compiled and generated. Then, ff your Android Studio is present and configured on your local machine automatically a new project with the application will be open. You can then compile and run your Android application. 
+Afterwards the Web application code will be compiled and generated. Then, ff your Android Studio is present and configured on your local machine automatically a new project with the application will be open. You can then compile and run your Android application.
 
-If you want to run the applications as local Web application you just need to:
+If you want to run the applications as local Web application, for instance the Verifier Application, you just need to:
 
 ```console
 cd verifier-mobile-app
