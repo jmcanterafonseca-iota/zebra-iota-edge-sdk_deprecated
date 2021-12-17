@@ -106,7 +106,8 @@
         <section>
             {#each localCredentials as credential}
                 <div class="list">
-                    <ListItem icon="chip"
+                    <ListItem
+                        icon="chip"
                         onClick={() => navigate("credential", { state: { credential } })}
                         heading={"IOTA"}
                         subheading={credential.verifiableCredential.type[1]}
@@ -115,7 +116,13 @@
             {/each}
             {#if localCredentials.length < 1}
                 <div class="list">
-                    <ListItem icon="add" iconColor="#78d64b" onClick={createQR} arrow={false} subheading="Request Device ID credential" />
+                    <ListItem
+                        icon="add"
+                        iconColor="#78d64b"
+                        onClick={createQR}
+                        arrow={false}
+                        subheading="Request Device ID credential"
+                    />
                 </div>
             {/if}
         </section>
