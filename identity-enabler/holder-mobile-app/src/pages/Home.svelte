@@ -179,7 +179,10 @@
         <section>
             {#each localCredentials as credential}
                 <div transition:slide class="list">
-                    <ListItem icon={credential.enrichment ? credentialIcon[credential.enrichment.credentialLabel] : "credential"}
+                    <ListItem
+                        icon={credential.enrichment
+                            ? credentialIcon[credential.enrichment.credentialLabel]
+                            : "credential"}
                         onClick={() => navigate("credential", { state: { credential } })}
                         heading={credential.enrichment ? credential.enrichment.issuerLabel : ""}
                         subheading={credential.enrichment ? credential.enrichment.credentialLabel : ""}
@@ -188,7 +191,13 @@
             {/each}
             {#if localCredentials.length < 3}
                 <div transition:slide class="list">
-                    <ListItem icon="add" iconColor="#00a7ff" arrow={false} onClick={generateCredential} subheading="Add new credential" />
+                    <ListItem
+                        icon="add"
+                        iconColor="#00a7ff"
+                        arrow={false}
+                        onClick={generateCredential}
+                        subheading="Add new credential"
+                    />
                 </div>
             {/if}
         </section>

@@ -123,7 +123,8 @@
             {:else}
                 {#each Object.values(localCredentials) as credential}
                     <div transition:slide class="list">
-                        <ListItem icon={isExpired(credential.issuanceDate) ? "cross" : "check"}
+                        <ListItem
+                            icon={isExpired(credential.issuanceDate) ? "cross" : "check"}
                             iconColor="#1e22aa"
                             onClick={() => onClickCredential(credential)}
                             heading={"IOTA"}
