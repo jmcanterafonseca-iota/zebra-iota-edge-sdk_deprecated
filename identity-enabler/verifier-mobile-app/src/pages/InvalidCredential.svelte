@@ -11,7 +11,7 @@
     });
 
     function onDone() {
-        navigate("/");
+        navigate("/home");
     }
 </script>
 

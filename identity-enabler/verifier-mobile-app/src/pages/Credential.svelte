@@ -16,7 +16,7 @@
     let expired = isExpired(credential.issuanceDate);
 
     function onDone() {
-        navigate("/");
+        navigate("/home");
     }
 
     async function onDelete() {
@@ -26,8 +26,8 @@
         });
         if (confirmRet.value) {
             await updateStorage("credentials", { [credential.type[1].split(/\b/)[0].toLowerCase()]: "" });
-            // prevent user navigating back to a deleted credential page
-            navigate("/", { replace: true });
+            // ensure impossible to navigate back to a deleted credential page
+            navigate("/home", { replace: true });
         }
     }
 

@@ -38,6 +38,7 @@
     <Router {url}>
         <div>
             <Route path="/" component={Home} />
+            <Route path="/home" component={Home} />
             <Route path="/devinfo" component={DevInfo} />
             <Route path="/invalid" component={InvalidCredential} />
             <Route path="/scan" component={Scan} />

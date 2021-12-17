@@ -11,12 +11,13 @@
     import DevInfo from "./DevInfo.svelte";
     import { showAlert } from "../lib/ui/helpers";
 
-    const { App, Modals } = Plugins;
+    const { App, Toast, Modals } = Plugins;
 
     let isEmpty = false;
     let showTutorial = false;
     let localCredentials = {};
     let loading = false;
+    let exitOnBack = false;
 
     onMount(() => App.addListener("backButton", onBack).remove);
     onMount(async () => {
@@ -41,13 +42,26 @@
         navigate("/scan");
     }
 
-    function onBack() {
+    async function onBack() {
         if (showTutorial) {
             showTutorial = false;
             return;
         }
 
-        // do not react to Android back button on Home screen
+        if (exitOnBack) {
+            // From the home screen, navigating back twice should exit the app
+            App.exitApp();
+            return;
+        }
+
+        exitOnBack = true;
+        await Toast.show({
+            position: "bottom",
+            duration: "short",
+            text: "Tap back again to exit"
+        });
+        await wait(2000); // 2s is same duration as "short" Toast
+        exitOnBack = false;
     }
 
     function onClickDev() {
