@@ -8,9 +8,10 @@
     import { fly } from "svelte/transition";
     import { Plugins } from "@capacitor/core";
 
-    const { App } = Plugins;
+    const { App, Toast } = Plugins;
     let mounted;
     let back = $landingIndex > 0;
+    let exitOnBack = false;
 
     const info = [
         {
@@ -32,7 +33,29 @@
         }
     ];
 
-    function onNext() {
+    async function onBackButton() {
+        if ($landingIndex > 0) {
+            prevLanding();
+            return;
+        }
+
+        if (exitOnBack) {
+            // From the landing screen, navigating back twice should exit the app
+            App.exitApp();
+            return;
+        }
+
+        exitOnBack = true;
+        await Toast.show({
+            position: "bottom",
+            duration: "short",
+            text: "Tap back again to exit"
+        });
+        await wait(2000); // 2s is same duration as "short" Toast
+        exitOnBack = false;
+    }
+
+    function nextLanding() {
         if ($landingIndex === info.length - 1) {
             navigate("/name");
         } else {
@@ -41,8 +64,8 @@
         }
     }
 
-    function onBack() {
-        if ($landingIndex !== 0) {
+    function prevLanding() {
+        if ($landingIndex > 0) {
             back = true;
             landingIndex.update(x => x - 1);
         }
@@ -63,14 +86,14 @@
     }
 
     onMount(() => {
-        const listenerHandle = App.addListener("backButton", onBack);
+        const listenerHandle = App.addListener("backButton", onBackButton);
         mounted = true;
 
         if (window.matchMedia("(pointer: coarse)").matches) {
             const hammer = new Hammer(document.getElementById("wrapper"));
             hammer.get("swipe").set({ direction: Hammer.DIRECTION_HORIZONTAL });
-            hammer.on("swipeleft", () => onNext());
-            hammer.on("swiperight", () => onBack());
+            hammer.on("swipeleft", () => nextLanding());
+            hammer.on("swiperight", () => prevLanding());
         }
 
         return listenerHandle.remove;
@@ -101,7 +124,7 @@
         {/each}
     </div>
     <footer class="footerContainer">
-        <Button label={info[$landingIndex].footer} onClick={onNext} />
+        <Button label={info[$landingIndex].footer} onClick={nextLanding} />
     </footer>
 </main>
 

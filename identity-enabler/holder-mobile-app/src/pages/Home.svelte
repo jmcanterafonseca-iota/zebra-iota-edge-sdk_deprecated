@@ -11,16 +11,17 @@
     import { ServiceFactory } from "../factories/serviceFactory";
     import { SchemaNames } from "../schemas";
     import { updateStorage, getFromStorage, account, resetAllStores } from "../lib/store";
-    import { getRandomUserData, generateRandomId } from "../lib/helpers";
+    import { getRandomUserData, generateRandomId, wait } from "../lib/helpers";
     import type { IdentityService } from "../services/identityService";
     import { showAlert } from "../lib/ui/helpers";
 
     let showTutorial = false;
 
-    const { App, Modals } = Plugins;
+    const { App, Toast, Modals } = Plugins;
 
     let loading = false;
     let localCredentials = [];
+    let exitOnBack = false;
 
     onMount(() => App.addListener("backButton", onBack).remove);
     onMount(async () => {
@@ -33,18 +34,26 @@
         }
     });
 
-    function onBack() {
+    async function onBack() {
         if (showTutorial) {
             showTutorial = false;
             return;
         }
 
-        switch (window.history.state?.prevPage) {
-            case "/name":
-                return;
-            default:
-                window.history.back();
+        if (exitOnBack) {
+            // From the home screen, navigating back twice should exit the app
+            App.exitApp();
+            return;
         }
+
+        exitOnBack = true;
+        await Toast.show({
+            position: "bottom",
+            duration: "short",
+            text: "Tap back again to exit"
+        });
+        await wait(2000); // 2s is same duration as "short" Toast
+        exitOnBack = false;
     }
 
     async function generateCredential() {

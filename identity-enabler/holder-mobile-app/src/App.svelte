@@ -83,6 +83,7 @@
             {:else if displayHome}
                 <Route path="/" component={Home} />
             {/if}
+            <Route path="/home" component={Home} />
             <Route path="/landing" component={Landing} />
             <Route path="/name" component={Name} />
             <Route path="/credential" component={Credential} />
